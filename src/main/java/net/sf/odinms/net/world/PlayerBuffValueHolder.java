@@ -32,52 +32,53 @@ import net.sf.odinms.tools.Pair;
  */
 public class PlayerBuffValueHolder implements Serializable {
 
-    private int id;
-    static final long serialVersionUID = 9179541993413738569L;
-    public long startTime;
-    public MapleStatEffect effect;
-    private List<Pair<MapleBuffStat, Integer>> stat;
+	private int id;
+	static final long serialVersionUID = 9179541993413738569L;
+	public long startTime;
+	public MapleStatEffect effect;
+	private List<Pair<MapleBuffStat, Integer>> stat;
 
-    public PlayerBuffValueHolder(long startTime, MapleStatEffect effect) {
-        this.startTime = startTime;
-        this.effect = effect;
+	public PlayerBuffValueHolder(long startTime, MapleStatEffect effect) {
+		this.startTime = startTime;
+		this.effect = effect;
 
-    }
+	}
 
-    public PlayerBuffValueHolder(long startTime, MapleStatEffect effect, List<Pair<MapleBuffStat, Integer>> stat) {
-        this.startTime = startTime;
-        this.effect = effect;
-        this.id = (int) (Math.random() * 10000);
-        this.stat = stat;
-    }
+	public PlayerBuffValueHolder(long startTime, MapleStatEffect effect,
+			List<Pair<MapleBuffStat, Integer>> stat) {
+		this.startTime = startTime;
+		this.effect = effect;
+		this.id = (int) (Math.random() * 10000);
+		this.stat = stat;
+	}
 
-    public List<Pair<MapleBuffStat, Integer>> getStat() {
-        return stat;
-    }
+	public List<Pair<MapleBuffStat, Integer>> getStat() {
+		return stat;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final PlayerBuffValueHolder other = (PlayerBuffValueHolder) obj;
-        if (id != other.id) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final PlayerBuffValueHolder other = (PlayerBuffValueHolder) obj;
+		if (id != other.id) {
+			return false;
+		}
+		return true;
+	}
 }

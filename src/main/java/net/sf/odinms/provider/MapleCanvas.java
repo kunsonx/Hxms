@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.provider;
 
@@ -25,9 +25,9 @@ import java.awt.image.BufferedImage;
 
 public interface MapleCanvas {
 
-    int getHeight();
+	int getHeight();
 
-    int getWidth();
+	int getWidth();
 
-    BufferedImage getImage();
+	BufferedImage getImage();
 }

@@ -10,14 +10,14 @@ package net.sf.odinms.net.channel.www;
  */
 public class WebControl {
 
-    public WebControl() {
-    }
+	public WebControl() {
+	}
 
-    public String getHello() {
-        return "Hello BlazeDS!";
-    }
+	public String getHello() {
+		return "Hello BlazeDS!";
+	}
 
-    public String getServerName() {
-        return WebServer.getWebServer().getServername();
-    }
+	public String getServerName() {
+		return WebServer.getWebServer().getServername();
+	}
 }

@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.server;
 
@@ -27,10 +27,10 @@ package net.sf.odinms.server;
  */
 public enum MapleSquadType {
 
-    ZAKUM(0), HORNTAIL(1), UNKNOWN(2), BOSSQUEST(3);
-    final byte type;
+	ZAKUM(0), HORNTAIL(1), UNKNOWN(2), BOSSQUEST(3);
+	final byte type;
 
-    private MapleSquadType(int type) {
-        this.type = (byte) type;
-    }
+	private MapleSquadType(int type) {
+		this.type = (byte) type;
+	}
 }

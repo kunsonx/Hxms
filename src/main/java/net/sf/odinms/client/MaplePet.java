@@ -39,184 +39,189 @@ import net.sf.odinms.tools.MaplePacketCreator;
  */
 public class MaplePet extends Item {
 
-    private String name;
-    private int closeness = 0;
-    private int level = 1;
-    private int fullness = 100;
-    private int Fh;
-    private Point pos;
-    private int stance;
-    private int slot = -1;
-    private ScheduledFuture fullnessSchedule = null;
-    private int hunger = 0;
+	private String name;
+	private int closeness = 0;
+	private int level = 1;
+	private int fullness = 100;
+	private int Fh;
+	private Point pos;
+	private int stance;
+	private int slot = -1;
+	private ScheduledFuture fullnessSchedule = null;
+	private int hunger = 0;
 
-    private MaplePet(int id, short position, long uniqueid) {
-        super(id, position, (short) 1);
-        this.uniqueid = uniqueid;
-        this.hunger = PetDataFactory.getHunger(id);
-    }
+	private MaplePet(int id, short position, long uniqueid) {
+		super(id, position, (short) 1);
+		this.uniqueid = uniqueid;
+		this.hunger = PetDataFactory.getHunger(id);
+	}
 
-    public static MaplePet loadFromDb(int itemid, short position, long uniqueid, ResultSet rs) {
-        try {
-            MaplePet ret = new MaplePet(itemid, position, uniqueid);
-            ret.setName(rs.getString("name"));
-            ret.setCloseness(rs.getInt("closeness"));
-            ret.setLevel(Math.max(rs.getInt("pet_level"), 1));
-            ret.setFullness(rs.getInt("fullness"));
-            ret.slot = rs.getInt("slot") - 1;
-            if (ret.getName() == null || ret.getName().isEmpty()) {
-                MapleItemInformationProvider.getInstance().getName(itemid);
-            }
-            return ret;
-        } catch (SQLException ex) {
-            return null;
-        }
-    }
+	public static MaplePet loadFromDb(int itemid, short position,
+			long uniqueid, ResultSet rs) {
+		try {
+			MaplePet ret = new MaplePet(itemid, position, uniqueid);
+			ret.setName(rs.getString("name"));
+			ret.setCloseness(rs.getInt("closeness"));
+			ret.setLevel(Math.max(rs.getInt("pet_level"), 1));
+			ret.setFullness(rs.getInt("fullness"));
+			ret.slot = rs.getInt("slot") - 1;
+			if (ret.getName() == null || ret.getName().isEmpty()) {
+				MapleItemInformationProvider.getInstance().getName(itemid);
+			}
+			return ret;
+		} catch (SQLException ex) {
+			return null;
+		}
+	}
 
-    public static MaplePet createPet(int itemid) {
-        return createPet(itemid, 90);
-    }
+	public static MaplePet createPet(int itemid) {
+		return createPet(itemid, 90);
+	}
 
-    public static MaplePet createPet(int itemid, int days) {
-        MaplePet pet = new MaplePet(itemid, (short) 1, MapleCharacter.getNextUniqueId());
-        pet.setName(MapleItemInformationProvider.getInstance().getName(itemid));
-        pet.setFullness(100);
-        pet.setLevel(1);
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.add(java.util.Calendar.DAY_OF_MONTH, 90);
-        pet.setExpiration(new Timestamp(calendar.getTimeInMillis()));
-        return pet;
-    }
+	public static MaplePet createPet(int itemid, int days) {
+		MaplePet pet = new MaplePet(itemid, (short) 1,
+				MapleCharacter.getNextUniqueId());
+		pet.setName(MapleItemInformationProvider.getInstance().getName(itemid));
+		pet.setFullness(100);
+		pet.setLevel(1);
+		java.util.Calendar calendar = java.util.Calendar.getInstance();
+		calendar.add(java.util.Calendar.DAY_OF_MONTH, 90);
+		pet.setExpiration(new Timestamp(calendar.getTimeInMillis()));
+		return pet;
+	}
 
-    public String getName() {
-        if (name == null || name.isEmpty()) {
-            name = MapleItemInformationProvider.getInstance().getName(getItemId());
-        }
-        return name;
-    }
+	public String getName() {
+		if (name == null || name.isEmpty()) {
+			name = MapleItemInformationProvider.getInstance().getName(
+					getItemId());
+		}
+		return name;
+	}
 
-    public void setName(String name) {
-        if (name != null && !name.isEmpty()) {
-            this.name = name;
-        }
-    }
+	public void setName(String name) {
+		if (name != null && !name.isEmpty()) {
+			this.name = name;
+		}
+	}
 
-    @Override
-    public byte getType() {
-        return IItem.PET;
-    }
+	@Override
+	public byte getType() {
+		return IItem.PET;
+	}
 
-    public int getCloseness() {
-        return closeness;
-    }
+	public int getCloseness() {
+		return closeness;
+	}
 
-    public void setCloseness(int closeness) {
-        this.closeness = closeness;
-    }
+	public void setCloseness(int closeness) {
+		this.closeness = closeness;
+	}
 
-    public int getLevel() {
-        return level;
-    }
+	public int getLevel() {
+		return level;
+	}
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
+	public void setLevel(int level) {
+		this.level = level;
+	}
 
-    public int getFullness() {
-        return fullness;
-    }
+	public int getFullness() {
+		return fullness;
+	}
 
-    public void setFullness(int fullness) {
-        this.fullness = fullness;
-    }
+	public void setFullness(int fullness) {
+		this.fullness = fullness;
+	}
 
-    public int getFh() {
-        return Fh;
-    }
+	public int getFh() {
+		return Fh;
+	}
 
-    public void setFh(int Fh) {
-        this.Fh = Fh;
-    }
+	public void setFh(int Fh) {
+		this.Fh = Fh;
+	}
 
-    public Point getPos() {
-        return pos;
-    }
+	public Point getPos() {
+		return pos;
+	}
 
-    public void setPos(Point pos) {
-        this.pos = pos;
-    }
+	public void setPos(Point pos) {
+		this.pos = pos;
+	}
 
-    public int getStance() {
-        return stance;
-    }
+	public int getStance() {
+		return stance;
+	}
 
-    public void setStance(int stance) {
-        this.stance = stance;
-    }
+	public void setStance(int stance) {
+		this.stance = stance;
+	}
 
-    public boolean canConsume(int itemId) {
-        MapleItemInformationProvider mii = MapleItemInformationProvider.getInstance();
-        for (int petId : mii.petsCanConsume(itemId)) {
-            if (petId == this.getItemId()) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public boolean canConsume(int itemId) {
+		MapleItemInformationProvider mii = MapleItemInformationProvider
+				.getInstance();
+		for (int petId : mii.petsCanConsume(itemId)) {
+			if (petId == this.getItemId()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public void updatePosition(List<LifeMovementFragment> movement) {
-        for (LifeMovementFragment move : movement) {
-            if (move instanceof LifeMovement) {
-                if (move instanceof AbsoluteLifeMovement) {
-                    Point p = ((LifeMovement) move).getPosition();
-                    this.setPos(p);
-                }
-                this.setStance(((LifeMovement) move).getNewstate());
-            }
-        }
-    }
+	public void updatePosition(List<LifeMovementFragment> movement) {
+		for (LifeMovementFragment move : movement) {
+			if (move instanceof LifeMovement) {
+				if (move instanceof AbsoluteLifeMovement) {
+					Point p = ((LifeMovement) move).getPosition();
+					this.setPos(p);
+				}
+				this.setStance(((LifeMovement) move).getNewstate());
+			}
+		}
+	}
 
-    public int getSlot() {
-        return slot;
-    }
+	public int getSlot() {
+		return slot;
+	}
 
-    public void setSlot(int slot) {
-        this.slot = slot;
-    }
+	public void setSlot(int slot) {
+		this.slot = slot;
+	}
 
-    public MaplePet getInstance() {
-        return this;
-    }
+	public MaplePet getInstance() {
+		return this;
+	}
 
-    public synchronized void StartFullnessSchedule(final MapleCharacter chr) {
-        if (fullnessSchedule != null) {
-            fullnessSchedule.cancel(false);
-            fullnessSchedule = null;
-        }
-        final MaplePet install = this;
-        fullnessSchedule = TimerManager.getInstance().register(new Runnable() {
-            @Override
-            public void run() {
-                if (install.getSlot() == -1) {//已卸载。
-                    install.CancelFullnessSchedule();
-                    return;
-                }
-                int newFullness = getFullness() - hunger;
-                if (newFullness <= 5) {
-                    setFullness(15);
-                    chr.unequipPet(install, true);
-                } else {
-                    setFullness(newFullness);
-                    chr.getClient().getSession().write(MaplePacketCreator.updatePet(getInstance()));
-                }
-            }
-        }, 60000, 60000);
-    }
+	public synchronized void StartFullnessSchedule(final MapleCharacter chr) {
+		if (fullnessSchedule != null) {
+			fullnessSchedule.cancel(false);
+			fullnessSchedule = null;
+		}
+		final MaplePet install = this;
+		fullnessSchedule = TimerManager.getInstance().register(new Runnable() {
+			@Override
+			public void run() {
+				if (install.getSlot() == -1) {// 已卸载。
+					install.CancelFullnessSchedule();
+					return;
+				}
+				int newFullness = getFullness() - hunger;
+				if (newFullness <= 5) {
+					setFullness(15);
+					chr.unequipPet(install, true);
+				} else {
+					setFullness(newFullness);
+					chr.getClient().getSession()
+							.write(MaplePacketCreator.updatePet(getInstance()));
+				}
+			}
+		}, 60000, 60000);
+	}
 
-    public void CancelFullnessSchedule() {
-        if (fullnessSchedule != null) {
-            fullnessSchedule.cancel(false);
-        }
-        fullnessSchedule = null;
-    }
+	public void CancelFullnessSchedule() {
+		if (fullnessSchedule != null) {
+			fullnessSchedule.cancel(false);
+		}
+		fullnessSchedule = null;
+	}
 }

@@ -22,55 +22,70 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class MagicDamageHandler extends DamageParseHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        ISkill theSkill = null;
-        AttackInfo attack = parseMagic(c.getPlayer(), slea);
-        MapleCharacter player = c.getPlayer();
-        int beforeMp = player.getMp();
-        /* MaplePacket packet = MaplePacketCreator.magicAttack(player.getId(), attack.skill, attack.stance, attack.numAttackedAndDamage, attack.allDamage, -1, attack.speed, attack.pos, player.getSkillLevel(attack.skill));
-        if (attack.skill == 2121001
-        || attack.skill == 2221001
-        || attack.skill == 2321001
-        || attack.skill == 龙神.冰点寒气
-        || attack.skill == 龙神.火焰喷射) {
-        packet = MaplePacketCreator.magicAttack(player.getId(), attack.skill, attack.stance, attack.numAttackedAndDamage, attack.allDamage, attack.charge, attack.speed, attack.pos, player.getSkillLevel(attack.skill));
-        }*/
-        player.getMap().broadcastMessage(player, MaplePacketCreator.magicAttack(attack, player), false, true);
-        theSkill = SkillFactory.getSkill(attack.skill);
-        MapleStatEffect effect = attack.getAttackEffect(player, theSkill);
-        int maxdamage;
-        // TODO fix magic damage calculation
-        maxdamage = 199999;
-        ISkill skill = SkillFactory.getSkill(attack.skill);
-        int skillLevel = player.getSkillLevel(skill);
-        MapleStatEffect effect_ = skill.getEffect(skillLevel);
-        if (effect_.getCooldown() > 0) {
-            if (player.skillisCooling(attack.skill)) {
-                player.getCheatTracker().registerOffense(CheatingOffense.COOLDOWN_HACK);
-                return;
-            } else {
-                c.getSession().write(MaplePacketCreator.skillCooldown(attack.skill, effect_.getCooldown()));
-                ScheduledFuture<?> timer = TimerManager.getInstance().schedule(new CancelCooldownAction(player, attack.skill), effect_.getCooldown() * 1000);
-                player.addCooldown(attack.skill, System.currentTimeMillis(), effect_.getCooldown() * 1000, timer);
-            }
-        }
-        applyAttack(attack, player, maxdamage, effect.getAttackCount());
-        if (player.getMp() - beforeMp < effect.getMpCon() && c.getPlayer().getBuffedValue(MapleBuffStat.INFINITY) == null) {
-            int remainingMp = beforeMp - effect.getMpCon();
-            c.getPlayer().setMp(remainingMp);
-            c.getPlayer().updateSingleStat(MapleStat.MP, remainingMp);
-        }
-        // MP Eater
-        for (int i = 1; i <= 3; i++) {
-            ISkill eaterSkill = SkillFactory.getSkill(2000000 + i * 100000);
-            int eaterLevel = player.getSkillLevel(eaterSkill);
-            if (eaterLevel > 0) {
-                for (Pair<Integer, List<Integer>> singleDamage : attack.allDamage) {
-                    eaterSkill.getEffect(eaterLevel).applyPassive(player, player.getMap().getMapObject(singleDamage.getLeft()), 0);
-                }
-                break;
-            }
-        }
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		ISkill theSkill = null;
+		AttackInfo attack = parseMagic(c.getPlayer(), slea);
+		MapleCharacter player = c.getPlayer();
+		int beforeMp = player.getMp();
+		/*
+		 * MaplePacket packet = MaplePacketCreator.magicAttack(player.getId(),
+		 * attack.skill, attack.stance, attack.numAttackedAndDamage,
+		 * attack.allDamage, -1, attack.speed, attack.pos,
+		 * player.getSkillLevel(attack.skill)); if (attack.skill == 2121001 ||
+		 * attack.skill == 2221001 || attack.skill == 2321001 || attack.skill ==
+		 * 龙神.冰点寒气 || attack.skill == 龙神.火焰喷射) { packet =
+		 * MaplePacketCreator.magicAttack(player.getId(), attack.skill,
+		 * attack.stance, attack.numAttackedAndDamage, attack.allDamage,
+		 * attack.charge, attack.speed, attack.pos,
+		 * player.getSkillLevel(attack.skill)); }
+		 */
+		player.getMap().broadcastMessage(player,
+				MaplePacketCreator.magicAttack(attack, player), false, true);
+		theSkill = SkillFactory.getSkill(attack.skill);
+		MapleStatEffect effect = attack.getAttackEffect(player, theSkill);
+		int maxdamage;
+		// TODO fix magic damage calculation
+		maxdamage = 199999;
+		ISkill skill = SkillFactory.getSkill(attack.skill);
+		int skillLevel = player.getSkillLevel(skill);
+		MapleStatEffect effect_ = skill.getEffect(skillLevel);
+		if (effect_.getCooldown() > 0) {
+			if (player.skillisCooling(attack.skill)) {
+				player.getCheatTracker().registerOffense(
+						CheatingOffense.COOLDOWN_HACK);
+				return;
+			} else {
+				c.getSession().write(
+						MaplePacketCreator.skillCooldown(attack.skill,
+								effect_.getCooldown()));
+				ScheduledFuture<?> timer = TimerManager.getInstance().schedule(
+						new CancelCooldownAction(player, attack.skill),
+						effect_.getCooldown() * 1000);
+				player.addCooldown(attack.skill, System.currentTimeMillis(),
+						effect_.getCooldown() * 1000, timer);
+			}
+		}
+		applyAttack(attack, player, maxdamage, effect.getAttackCount());
+		if (player.getMp() - beforeMp < effect.getMpCon()
+				&& c.getPlayer().getBuffedValue(MapleBuffStat.INFINITY) == null) {
+			int remainingMp = beforeMp - effect.getMpCon();
+			c.getPlayer().setMp(remainingMp);
+			c.getPlayer().updateSingleStat(MapleStat.MP, remainingMp);
+		}
+		// MP Eater
+		for (int i = 1; i <= 3; i++) {
+			ISkill eaterSkill = SkillFactory.getSkill(2000000 + i * 100000);
+			int eaterLevel = player.getSkillLevel(eaterSkill);
+			if (eaterLevel > 0) {
+				for (Pair<Integer, List<Integer>> singleDamage : attack.allDamage) {
+					eaterSkill.getEffect(eaterLevel).applyPassive(
+							player,
+							player.getMap()
+									.getMapObject(singleDamage.getLeft()), 0);
+				}
+				break;
+			}
+		}
+	}
 }

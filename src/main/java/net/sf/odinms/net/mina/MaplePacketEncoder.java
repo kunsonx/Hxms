@@ -15,82 +15,84 @@ import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 
 public class MaplePacketEncoder implements ProtocolEncoder {
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MaplePacketEncoder.class);
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(MaplePacketEncoder.class);
 
-    public static void getCaller() {
+	public static void getCaller() {
 
-// 堆栈跟踪中的元素，它由 Throwable.getStackTrace()
+		// 堆栈跟踪中的元素，它由 Throwable.getStackTrace()
 
-// 返回。每个元素表示单独的一个堆栈帧。所有的堆栈帧（堆栈顶部的那个堆栈帧除外）都表示一个方法调用。堆栈顶部的帧表示生成堆栈跟踪的执行点。通常，这是创建对应于堆栈跟踪的
+		// 返回。每个元素表示单独的一个堆栈帧。所有的堆栈帧（堆栈顶部的那个堆栈帧除外）都表示一个方法调用。堆栈顶部的帧表示生成堆栈跟踪的执行点。通常，这是创建对应于堆栈跟踪的
 
-// throwable 的点。
+		// throwable 的点。
 
+		StackTraceElement stack[] = (new Throwable()).getStackTrace();
 
+		for (int i = 0; i < stack.length; i++) {
 
-        StackTraceElement stack[] = (new Throwable()).getStackTrace();
+			log.info("堆栈数组的大小是：" + stack.length);
 
-        for (int i = 0; i < stack.length; i++) {
+			/*
+			 * for (StackTraceElement ste : stack) {
+			 * 
+			 * if (ste.getFileName().equals("MaplePacketCreator.java")) {
+			 * log.debug("无效包头调用地址：" + ste.getMethodName() + "\t"); WriteToFile
+			 * wt = new WriteToFile("ErrorPacketHandle.txt");
+			 * wt.WriteFile("无效包头调用地址：" + ste.getMethodName() + "\t");
+			 * wt.CloseFile(); } //log.debug(ste.getFileName()); }
+			 */
 
-            log.info("堆栈数组的大小是：" + stack.length);
+			log.info("*******************");
 
-            /*
-             * for (StackTraceElement ste : stack) {
-             *
-             * if (ste.getFileName().equals("MaplePacketCreator.java")) {
-             * log.debug("无效包头调用地址：" + ste.getMethodName() + "\t"); WriteToFile
-             * wt = new WriteToFile("ErrorPacketHandle.txt");
-             * wt.WriteFile("无效包头调用地址：" + ste.getMethodName() + "\t");
-             * wt.CloseFile(); } //log.debug(ste.getFileName()); }
-             */
+			StackTraceElement ste = stack[i];
 
-            log.info("*******************");
+			log.info(ste.getClassName() + "." + ste.getMethodName() + "(...)");
 
-            StackTraceElement ste = stack[i];
+			log.info(i + "--" + ste.getMethodName());
 
-            log.info(ste.getClassName() + "." + ste.getMethodName()
-                    + "(...)");
+			log.info(i + "--" + ste.getFileName());
 
-            log.info(i + "--" + ste.getMethodName());
+			log.info(i + "--" + ste.getLineNumber());
 
-            log.info(i + "--" + ste.getFileName());
+		}
 
-            log.info(i + "--" + ste.getLineNumber());
+	}
 
-        }
+	@Override
+	public void encode(IoSession session, Object message,
+			ProtocolEncoderOutput out) throws Exception {
+		MapleClient client = (MapleClient) session
+				.getAttribute(MapleClient.CLIENT_KEY);
+		if (client != null) {
+			byte[] input = ((MaplePacket) message).getBytes();
 
-    }
+			if (log.isDebugEnabled()) {
+				if (input.length <= 140000) {
+					// 服务端反馈
+					String inputhex = HexTool.toString(input);
+					WriteToFile re = new WriteToFile("服务端反馈.txt");
+					re.WriteFile("服务端反馈:\r\n" + inputhex + "\r\nASCII:"
+							+ HexTool.toStringFromAscii(input));
+					if (!MapleCodecFactory.isFilter(inputhex)) {
+						log.debug("服务端反馈:\r\n" + inputhex + "\r\nASCII:"
+								+ HexTool.toStringFromAscii(input));
+					}
+					re.CloseFile();
+					/*
+					 * if (inputhex.startsWith("FE FF") || inputhex.equals("26
+					 * 00")) { getCaller(); }
+					 */
+				}
+			}
 
-    @Override
-    public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
-        MapleClient client = (MapleClient) session.getAttribute(MapleClient.CLIENT_KEY);
-        if (client != null) {
-            byte[] input = ((MaplePacket) message).getBytes();
+			final MapleAESOFB send_crypto = client.getSendCrypto();
+			send_crypto.getSendBuffer(input, out, client);
+		} else {
+			out.write(IoBuffer.wrap(((MaplePacket) message).getBytes()));
+		}
+	}
 
-            if (log.isDebugEnabled()) {
-                if (input.length <= 140000) {
-                    // 服务端反馈
-                    String inputhex = HexTool.toString(input);
-                    WriteToFile re = new WriteToFile("服务端反馈.txt");
-                    re.WriteFile("服务端反馈:\r\n" + inputhex + "\r\nASCII:" + HexTool.toStringFromAscii(input));
-                    if (!MapleCodecFactory.isFilter(inputhex)) {
-                        log.debug("服务端反馈:\r\n" + inputhex + "\r\nASCII:" + HexTool.toStringFromAscii(input));
-                    }
-                    re.CloseFile();
-                    /*
-                     * if (inputhex.startsWith("FE FF") || inputhex.equals("26
-                     * 00")) { getCaller(); }
-                     */
-                }
-            }
-
-            final MapleAESOFB send_crypto = client.getSendCrypto();
-            send_crypto.getSendBuffer(input, out, client);
-        } else {
-            out.write(IoBuffer.wrap(((MaplePacket) message).getBytes()));
-        }
-    }
-
-    @Override
-    public void dispose(IoSession session) throws Exception {
-    }
+	@Override
+	public void dispose(IoSession session) throws Exception {
+	}
 }

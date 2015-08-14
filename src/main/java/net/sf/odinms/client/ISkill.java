@@ -5,35 +5,35 @@ import net.sf.odinms.server.life.Element;
 
 public interface ISkill {
 
-    int getId();
+	int getId();
 
-    MapleStatEffect getEffect(int level);
+	MapleStatEffect getEffect(int level);
 
-    int getMaxLevel();
+	int getMaxLevel();
 
-    int getAnimationTime();
+	int getAnimationTime();
 
-    public boolean canBeLearnedBy(MapleJob job);
+	public boolean canBeLearnedBy(MapleJob job);
 
-    public boolean isFourthJob();
+	public boolean isFourthJob();
 
-    public Element getElement();
+	public Element getElement();
 
-    public boolean isBeginnerSkill();
+	public boolean isBeginnerSkill();
 
-    public boolean hasCharge();
+	public boolean hasCharge();
 
-    public abstract boolean hasMastery();
+	public abstract boolean hasMastery();
 
-    public boolean getisCommon();
+	public boolean getisCommon();
 
-    public int getMasterLevel();
+	public int getMasterLevel();
 
-    public boolean isEvanFourthJob();
+	public boolean isEvanFourthJob();
 
-    public boolean isDualFourthJob();
+	public boolean isDualFourthJob();
 
-    public boolean isBigBangFourthJob();
+	public boolean isBigBangFourthJob();
 
-    public boolean NoMastery();
+	public boolean NoMastery();
 }

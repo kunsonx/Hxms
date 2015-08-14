@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.server.playerinteractions;
 
@@ -33,54 +33,54 @@ import net.sf.odinms.net.MaplePacket;
  */
 public interface IPlayerInteractionManager {
 
-    public final byte HIRED_MERCHANT = 1;
-    public final byte PLAYER_SHOP = 2;
-    public final byte MATCH_CARD = 3;
-    public final byte OMOK = 4;
+	public final byte HIRED_MERCHANT = 1;
+	public final byte PLAYER_SHOP = 2;
+	public final byte MATCH_CARD = 3;
+	public final byte OMOK = 4;
 
-    public void broadcast(MaplePacket packet, boolean toOwner);
+	public void broadcast(MaplePacket packet, boolean toOwner);
 
-    public void addVisitor(MapleCharacter visitor);
+	public void addVisitor(MapleCharacter visitor);
 
-    public void removeVisitor(MapleCharacter visitor);
+	public void removeVisitor(MapleCharacter visitor);
 
-    public int getVisitorSlot(MapleCharacter visitor);
+	public int getVisitorSlot(MapleCharacter visitor);
 
-    public void removeAllVisitors(int error, int type);
+	public void removeAllVisitors(int error, int type);
 
-    public void buy(MapleClient c, int item, short quantity);
+	public void buy(MapleClient c, int item, short quantity);
 
-    public void closeShop(boolean saveItems);
+	public void closeShop(boolean saveItems);
 
-    public String getOwnerName();
+	public String getOwnerName();
 
-    public int getOwnerId();
+	public int getOwnerId();
 
-    public String getDescription();
+	public String getDescription();
 
-    public MapleCharacter[] getVisitors();
-    
-    public int getSlot(MapleCharacter c);
+	public MapleCharacter[] getVisitors();
 
-    public List<MaplePlayerShopItem> getItems();
+	public int getSlot(MapleCharacter c);
 
-    public void addItem(MaplePlayerShopItem item);
+	public List<MaplePlayerShopItem> getItems();
 
-    public boolean removeItem(int item);
+	public void addItem(MaplePlayerShopItem item);
 
-    public void removeFromSlot(int slot);
+	public boolean removeItem(int item);
 
-    public int getFreeSlot();
-    
-    public byte getItemType();
-    
-    public int getCapacity();
+	public void removeFromSlot(int slot);
 
-    public boolean isOwner(MapleCharacter chr);
+	public int getFreeSlot();
 
-    public byte getShopType();
-    
-    public Lock getCurrentLock();
-    
-    public boolean IsClose();
+	public byte getItemType();
+
+	public int getCapacity();
+
+	public boolean isOwner(MapleCharacter chr);
+
+	public byte getShopType();
+
+	public Lock getCurrentLock();
+
+	public boolean IsClose();
 }

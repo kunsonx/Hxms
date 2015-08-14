@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.client.messages.commands;
 
@@ -30,25 +30,28 @@ import net.sf.odinms.client.messages.MessageCallback;
 
 public class ShutdownCommand implements Command {
 
-    @Override
-    public void execute(MapleClient c, MessageCallback mc, String[] splitted) throws Exception, IllegalCommandSyntaxException {
-        if (splitted.length == 1) {
-            mc.dropMessage("Please specifiy when you want the server to shut down in minutes as well.");
-        } else if (splitted[0].equals("!shutdownworld")) {
-            int time = Integer.parseInt(splitted[1]);
-            if (time < 3) {
-                mc.dropMessage("Please allow at least 3 minutes before shutting down, this ensures everything shuts down smoothly!");
-                return;
-            }
-            CommandProcessor.forcePersisting();
-            c.getChannelServer().shutdownWorld(time);
-        }
-    }
+	@Override
+	public void execute(MapleClient c, MessageCallback mc, String[] splitted)
+			throws Exception, IllegalCommandSyntaxException {
+		if (splitted.length == 1) {
+			mc.dropMessage("Please specifiy when you want the server to shut down in minutes as well.");
+		} else if (splitted[0].equals("!shutdownworld")) {
+			int time = Integer.parseInt(splitted[1]);
+			if (time < 3) {
+				mc.dropMessage("Please allow at least 3 minutes before shutting down, this ensures everything shuts down smoothly!");
+				return;
+			}
+			CommandProcessor.forcePersisting();
+			c.getChannelServer().shutdownWorld(time);
+		}
+	}
 
-    @Override
-    public CommandDefinition[] getDefinition() {
-        return new CommandDefinition[]{
-                    new CommandDefinition("shutdownworld", "[when in Minutes]", "Cleanly shuts down all channels and the loginserver of this world", 50)
-                };
-    }
+	@Override
+	public CommandDefinition[] getDefinition() {
+		return new CommandDefinition[] { new CommandDefinition(
+				"shutdownworld",
+				"[when in Minutes]",
+				"Cleanly shuts down all channels and the loginserver of this world",
+				50) };
+	}
 }

@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 /*
  * To change this template, choose Tools | Templates
@@ -42,22 +42,22 @@ import net.sf.odinms.provider.wz.MapleDataType;
  */
 public class MapleCustomQuestData implements MapleData, Serializable {
 	private static final long serialVersionUID = -8600005891655365066L;
-	
+
 	private List<MapleCustomQuestData> children = new LinkedList<MapleCustomQuestData>();
 	private String name;
 	private Object data;
 	private MapleDataEntity parent;
-	
+
 	public MapleCustomQuestData(String name, Object data, MapleDataEntity parent) {
 		this.name = name;
 		this.data = data;
 		this.parent = parent;
 	}
-	
+
 	public void addChild(MapleData child) {
 		children.add((MapleCustomQuestData) child);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -73,7 +73,8 @@ public class MapleCustomQuestData implements MapleData, Serializable {
 	}
 
 	public MapleData getChildByPath(String name) {
-		if (name.equals(this.name)) return this;
+		if (name.equals(this.name))
+			return this;
 		String lookup;
 		String nextName;
 		if (name.indexOf("/") == -1) {

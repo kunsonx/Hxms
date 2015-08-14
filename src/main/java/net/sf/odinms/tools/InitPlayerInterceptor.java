@@ -17,21 +17,21 @@ import org.hibernate.EntityMode;
  */
 public class InitPlayerInterceptor extends EmptyInterceptor {
 
-    private int id;
-    private MapleClient client;
+	private int id;
+	private MapleClient client;
 
-    public InitPlayerInterceptor(int id, MapleClient client) {
-        this.id = id;
-        this.client = client;
-    }
+	public InitPlayerInterceptor(int id, MapleClient client) {
+		this.id = id;
+		this.client = client;
+	}
 
-    @Override
-    public Object instantiate(String entityName, EntityMode entityMode, Serializable id) throws CallbackException {
-        if (entityName.equals("MainPlayer")
-                && entityMode.equals(EntityMode.POJO)
-                && id.equals(this.id)) {
-            return new MapleCharacter(client, this.id);
-        }
-        return null;
-    }
+	@Override
+	public Object instantiate(String entityName, EntityMode entityMode,
+			Serializable id) throws CallbackException {
+		if (entityName.equals("MainPlayer")
+				&& entityMode.equals(EntityMode.POJO) && id.equals(this.id)) {
+			return new MapleCharacter(client, this.id);
+		}
+		return null;
+	}
 }

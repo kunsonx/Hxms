@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -27,23 +27,22 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class InnerPortalHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-	/*slea.readByte();
-	MaplePortal portal = c.getPlayer().getMap().getPortal(slea.readMapleAsciiString());
-	int toX = slea.readShort();
-	int toY = slea.readShort();
-	slea.readShort(); // x
-	slea.readShort(); // y
-
-	if (portal == null) {
-	    c.disconnect();
-	    return;
-	} else if (portal.getPosition().distanceSq(c.getPlayer().getPosition()) > 22500) {
-	   c.getPlayer().getCheatTracker().registerOffense(CheatingOffense.USING_FARAWAY_PORTAL);
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		/*
+		 * slea.readByte(); MaplePortal portal =
+		 * c.getPlayer().getMap().getPortal(slea.readMapleAsciiString()); int
+		 * toX = slea.readShort(); int toY = slea.readShort(); slea.readShort();
+		 * // x slea.readShort(); // y
+		 * 
+		 * if (portal == null) { c.disconnect(); return; } else if
+		 * (portal.getPosition().distanceSq(c.getPlayer().getPosition()) >
+		 * 22500) {
+		 * c.getPlayer().getCheatTracker().registerOffense(CheatingOffense
+		 * .USING_FARAWAY_PORTAL); }
+		 * 
+		 * Point pos = new Point(toX, toY);
+		 * c.getPlayer().getMap().movePlayer(c.getPlayer(), pos);
+		 */
 	}
-
-	Point pos = new Point(toX, toY);
-	c.getPlayer().getMap().movePlayer(c.getPlayer(), pos);*/
-    }
 }

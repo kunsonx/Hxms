@@ -13,19 +13,19 @@ import net.sf.odinms.tools.data.output.LittleEndianWriter;
  */
 public class UnknownMovementAction implements LifeMovementFragment {
 
-    private UnknownMovementSerialize serialize;
+	private UnknownMovementSerialize serialize;
 
-    public UnknownMovementAction(UnknownMovementSerialize serialize) {
-        this.serialize = serialize;
-    }
+	public UnknownMovementAction(UnknownMovementSerialize serialize) {
+		this.serialize = serialize;
+	}
 
-    @Override
-    public void serialize(LittleEndianWriter lew) {
-        serialize.Serialize(lew);
-    }
+	@Override
+	public void serialize(LittleEndianWriter lew) {
+		serialize.Serialize(lew);
+	}
 
-    @Override
-    public Point getPosition() {
-        return new Point(0, 0);
-    }
+	@Override
+	public Point getPosition() {
+		return new Point(0, 0);
+	}
 }

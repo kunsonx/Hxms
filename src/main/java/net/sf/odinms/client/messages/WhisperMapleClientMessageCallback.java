@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.client.messages;
 
@@ -26,16 +26,19 @@ import net.sf.odinms.tools.MaplePacketCreator;
 
 public class WhisperMapleClientMessageCallback implements MessageCallback {
 
-    private MapleClient client;
-    private String whisperfrom;
+	private MapleClient client;
+	private String whisperfrom;
 
-    public WhisperMapleClientMessageCallback(String whisperfrom, MapleClient client) {
-        this.whisperfrom = whisperfrom;
-        this.client = client;
-    }
+	public WhisperMapleClientMessageCallback(String whisperfrom,
+			MapleClient client) {
+		this.whisperfrom = whisperfrom;
+		this.client = client;
+	}
 
-    @Override
-    public void dropMessage(String message) {
-        client.getSession().write(MaplePacketCreator.getWhisper(whisperfrom, client.getChannel(), message));
-    }
+	@Override
+	public void dropMessage(String message) {
+		client.getSession().write(
+				MaplePacketCreator.getWhisper(whisperfrom, client.getChannel(),
+						message));
+	}
 }

@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.client.messages.commands;
 
@@ -36,37 +36,42 @@ import net.sf.odinms.server.maps.MapleMapObjectType;
 
 public class MonsterInfoCommands implements Command {
 
-    @Override
-    public void execute(MapleClient c, MessageCallback mc, String[] splitted) throws Exception, IllegalCommandSyntaxException {
-        if (splitted[0].equals("!killall") || splitted[0].equals("!monsterdebug")) {
-            String mapMessage = "";
-            MapleMap map = c.getPlayer().getMap();
-            double range = Double.POSITIVE_INFINITY;
-            List<MapleMapObject> monsters = map.getMapObjectsInRange(c.getPlayer().getPosition(), range, Arrays.asList(MapleMapObjectType.MONSTER));
-            boolean kill = splitted[0].equals("!killall");
-            for (MapleMapObject monstermo : monsters) {
-                MapleMonster monster = (MapleMonster) monstermo;
-                if (kill) {
-                    map.killMonster(monster, c.getPlayer(), false);
-                } else {
-                    mc.dropMessage("Monster " + monster.toString());
-                }
-            }
-            if (kill) {
-                mc.dropMessage("杀死了 " + monsters.size() + " 个怪物" + mapMessage + ".");
-            }
-        } else if (splitted[0].equals("!killalldrops")) {
-            MapleMap map = c.getPlayer().getMap();
-            map.killAllMonsters();
-        }
-    }
+	@Override
+	public void execute(MapleClient c, MessageCallback mc, String[] splitted)
+			throws Exception, IllegalCommandSyntaxException {
+		if (splitted[0].equals("!killall")
+				|| splitted[0].equals("!monsterdebug")) {
+			String mapMessage = "";
+			MapleMap map = c.getPlayer().getMap();
+			double range = Double.POSITIVE_INFINITY;
+			List<MapleMapObject> monsters = map.getMapObjectsInRange(c
+					.getPlayer().getPosition(), range, Arrays
+					.asList(MapleMapObjectType.MONSTER));
+			boolean kill = splitted[0].equals("!killall");
+			for (MapleMapObject monstermo : monsters) {
+				MapleMonster monster = (MapleMonster) monstermo;
+				if (kill) {
+					map.killMonster(monster, c.getPlayer(), false);
+				} else {
+					mc.dropMessage("Monster " + monster.toString());
+				}
+			}
+			if (kill) {
+				mc.dropMessage("杀死了 " + monsters.size() + " 个怪物" + mapMessage
+						+ ".");
+			}
+		} else if (splitted[0].equals("!killalldrops")) {
+			MapleMap map = c.getPlayer().getMap();
+			map.killAllMonsters();
+		}
+	}
 
-    @Override
-    public CommandDefinition[] getDefinition() {
-        return new CommandDefinition[]{
-                    new CommandDefinition("killall", "", "Kills all monsters", 3),
-                    new CommandDefinition("killalldrops", "", "Kills all monsters with drops", 50),
-                    new CommandDefinition("monsterdebug", "", "", 50)
-                };
-    }
+	@Override
+	public CommandDefinition[] getDefinition() {
+		return new CommandDefinition[] {
+				new CommandDefinition("killall", "", "Kills all monsters", 3),
+				new CommandDefinition("killalldrops", "",
+						"Kills all monsters with drops", 50),
+				new CommandDefinition("monsterdebug", "", "", 50) };
+	}
 }

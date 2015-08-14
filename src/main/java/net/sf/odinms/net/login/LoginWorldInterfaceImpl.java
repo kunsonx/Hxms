@@ -32,31 +32,35 @@ import net.sf.odinms.net.login.remote.LoginWorldInterface;
  *
  * @author Matze
  */
-public class LoginWorldInterfaceImpl extends UnicastRemoteObject implements LoginWorldInterface {
+public class LoginWorldInterfaceImpl extends UnicastRemoteObject implements
+		LoginWorldInterface {
 
-    private static final long serialVersionUID = -3405466366539470037L;
+	private static final long serialVersionUID = -3405466366539470037L;
 
-    public LoginWorldInterfaceImpl() throws RemoteException {
-        super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
-    }
+	public LoginWorldInterfaceImpl() throws RemoteException {
+		super(0, new SslRMIClientSocketFactory(),
+				new SslRMIServerSocketFactory());
+	}
 
-    @Override
-    public void channelOnline(ChannelDescriptor channel, String ip) throws RemoteException {
-        LoginServer.getInstance().addChannel(channel, ip);
-    }
+	@Override
+	public void channelOnline(ChannelDescriptor channel, String ip)
+			throws RemoteException {
+		LoginServer.getInstance().addChannel(channel, ip);
+	}
 
-    @Override
-    public void channelOffline(ChannelDescriptor channel) throws RemoteException {
-        LoginServer.getInstance().removeChannel(channel);
-    }
+	@Override
+	public void channelOffline(ChannelDescriptor channel)
+			throws RemoteException {
+		LoginServer.getInstance().removeChannel(channel);
+	}
 
-    @Override
-    public void shutdown() throws RemoteException {
-        LoginServer.getInstance().shutdown();
-    }
+	@Override
+	public void shutdown() throws RemoteException {
+		LoginServer.getInstance().shutdown();
+	}
 
-    @Override
-    public boolean isAvailable() throws RemoteException {
-        return true;
-    }
+	@Override
+	public boolean isAvailable() throws RemoteException {
+		return true;
+	}
 }

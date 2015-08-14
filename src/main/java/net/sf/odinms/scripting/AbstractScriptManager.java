@@ -34,54 +34,54 @@ import net.sf.odinms.client.MapleClient;
  */
 public abstract class AbstractScriptManager {
 
-    protected ScriptEngine engine;
-    private ScriptEngineManager sem = new ScriptEngineManager();
-    protected static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(AbstractScriptManager.class);
+	protected ScriptEngine engine;
+	private ScriptEngineManager sem = new ScriptEngineManager();
+	protected static final org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(AbstractScriptManager.class);
 
-    protected AbstractScriptManager() {
-    }
+	protected AbstractScriptManager() {
+	}
 
-    protected Invocable getInvocable(String path, MapleClient c) {
-        try {
-            path = "scripts/" + path;
-            engine = null;
-            if (c != null) {
-                engine = c.getScriptEngine(path);
-            }
-            if (engine == null) {
-                FileScriptManager.FileData fd = FileScriptManager.getData(path);
-                Reader reader = fd.getReader();
-                if (reader == null) {
-                    return null;
-                }
-                engine = sem.getEngineByName("javascript");
-                engine.eval(reader);
-                reader.close();
+	protected Invocable getInvocable(String path, MapleClient c) {
+		try {
+			path = "scripts/" + path;
+			engine = null;
+			if (c != null) {
+				engine = c.getScriptEngine(path);
+			}
+			if (engine == null) {
+				FileScriptManager.FileData fd = FileScriptManager.getData(path);
+				Reader reader = fd.getReader();
+				if (reader == null) {
+					return null;
+				}
+				engine = sem.getEngineByName("javascript");
+				engine.eval(reader);
+				reader.close();
 
-                fd = FileScriptManager.getData("scripts/global.js");
-                reader = fd.getReader();
-                if (reader != null) {
-                    engine.eval(reader);
-                    reader.close();
-                }
-                
+				fd = FileScriptManager.getData("scripts/global.js");
+				reader = fd.getReader();
+				if (reader != null) {
+					engine.eval(reader);
+					reader.close();
+				}
 
-                if (c != null) {
-                    c.setScriptEngine(path, engine);
-                }
-            }
-            if (c != null && engine != null && c.getPlayer() != null) {
-                engine.put("player", c.getPlayer());
-            }
-            return (Invocable) engine;
-        } catch (Exception e) {
-            log.error("Error executing script. Script file: " + path + ".", e);
-            return null;
-        }
-    }
+				if (c != null) {
+					c.setScriptEngine(path, engine);
+				}
+			}
+			if (c != null && engine != null && c.getPlayer() != null) {
+				engine.put("player", c.getPlayer());
+			}
+			return (Invocable) engine;
+		} catch (Exception e) {
+			log.error("Error executing script. Script file: " + path + ".", e);
+			return null;
+		}
+	}
 
-    protected void resetContext(String path, MapleClient c) {
-        path = "scripts/" + path;
-        c.removeScriptEngine(path);
-    }
+	protected void resetContext(String path, MapleClient c) {
+		path = "scripts/" + path;
+		c.removeScriptEngine(path);
+	}
 }

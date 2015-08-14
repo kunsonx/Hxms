@@ -6,9 +6,10 @@ package net.sf.odinms.server.maps;
 
 /**
  * 地图任务计划。
+ * 
  * @author HXMS
  */
 public interface MapleMapTask {
 
-    void OnAllPlayerLevae(MapleMap map);
+	void OnAllPlayerLevae(MapleMap map);
 }

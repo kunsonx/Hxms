@@ -11,29 +11,32 @@ import net.sf.odinms.tools.MaplePacketCreator;
 import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class CharInfoRequestHandler extends AbstractMaplePacketHandler {
-//6A 00 [8B 41 94 03] [82 A1 42 00] FF
-    //99 00 7B 21 AC 00 E5 00 00 00 FF 00
+	// 6A 00 [8B 41 94 03] [82 A1 42 00] FF
+	// 99 00 7B 21 AC 00 E5 00 00 00 FF 00
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        int actionId = slea.readInt();
-        if (actionId <= c.getLastActionId()) {
-            c.getSession().write(MaplePacketCreator.enableActions());
-            return;
-        }
-        c.setLastActionId(actionId);
-        int cid = slea.readInt();
-        MapleCharacter player = (MapleCharacter) c.getPlayer().getMap().getMapObject(cid);
-        if (player != null && (!player.isGM() || (c.getPlayer().isGM() && player.isGM()))) {
-            c.getSession().write(MaplePacketCreator.charInfo(player));
-        } else {
-            MaplePacket packet = c.getPlayer().getMap().getOfflinePlayer().getPlayerInfo(cid);
-            if (packet != null) {
-                c.getSession().write(packet);
-            } else {
-                c.getSession().write(MaplePacketCreator.enableActions());
-            }
-        }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		int actionId = slea.readInt();
+		if (actionId <= c.getLastActionId()) {
+			c.getSession().write(MaplePacketCreator.enableActions());
+			return;
+		}
+		c.setLastActionId(actionId);
+		int cid = slea.readInt();
+		MapleCharacter player = (MapleCharacter) c.getPlayer().getMap()
+				.getMapObject(cid);
+		if (player != null
+				&& (!player.isGM() || (c.getPlayer().isGM() && player.isGM()))) {
+			c.getSession().write(MaplePacketCreator.charInfo(player));
+		} else {
+			MaplePacket packet = c.getPlayer().getMap().getOfflinePlayer()
+					.getPlayerInfo(cid);
+			if (packet != null) {
+				c.getSession().write(packet);
+			} else {
+				c.getSession().write(MaplePacketCreator.enableActions());
+			}
+		}
 
-    }
+	}
 }

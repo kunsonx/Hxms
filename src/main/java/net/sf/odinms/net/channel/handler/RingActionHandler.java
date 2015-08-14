@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -30,40 +30,47 @@ import net.sf.odinms.tools.MaplePacketCreator;
 
 public class RingActionHandler extends AbstractMaplePacketHandler {
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(RingActionHandler.class);
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(RingActionHandler.class);
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        byte mode = slea.readByte();
-        switch (mode) {
-            case 0: //Send
-                String partnerName = slea.readMapleAsciiString();
-                if (partnerName.equalsIgnoreCase(c.getPlayer().getName())) {
-                    c.getSession().write(MaplePacketCreator.serverNotice(1, "不能输入自己的名字"));
-                    return;
-                }
-                MapleCharacter partner = c.getChannelServer().getPlayerStorage().getCharacterByName(partnerName);
-                if (partner == null) {
-                    c.getSession().write(MaplePacketCreator.serverNotice(1, partnerName + " 在此频道没有找到"));
-                    return;
-                } else if (partner.getGender() == c.getPlayer().getGender()) {
-                    c.getSession().write(MaplePacketCreator.serverNotice(1, "性别错误"));
-                    return;
-                } else {
-                    NPCScriptManager.getInstance().start(partner.getClient(), 9201002,-1);
-                }
-                break;
-            case 1: //Cancel send
-                c.getSession().write(MaplePacketCreator.serverNotice(1, "操作已成功取消"));
-                break;
-            case 3: //Drop Ring
-                try {
-                    //MapleCharacterUtil.divorceEngagement(c.getPlayer());
-                    c.getSession().write(MaplePacketCreator.serverNotice(1, "取消?"));
-                } catch (Exception exc) {
-                    log.error("Error divorcing engagement", exc);
-                }
-                break;
-        }
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		byte mode = slea.readByte();
+		switch (mode) {
+		case 0: // Send
+			String partnerName = slea.readMapleAsciiString();
+			if (partnerName.equalsIgnoreCase(c.getPlayer().getName())) {
+				c.getSession().write(
+						MaplePacketCreator.serverNotice(1, "不能输入自己的名字"));
+				return;
+			}
+			MapleCharacter partner = c.getChannelServer().getPlayerStorage()
+					.getCharacterByName(partnerName);
+			if (partner == null) {
+				c.getSession().write(
+						MaplePacketCreator.serverNotice(1, partnerName
+								+ " 在此频道没有找到"));
+				return;
+			} else if (partner.getGender() == c.getPlayer().getGender()) {
+				c.getSession()
+						.write(MaplePacketCreator.serverNotice(1, "性别错误"));
+				return;
+			} else {
+				NPCScriptManager.getInstance().start(partner.getClient(),
+						9201002, -1);
+			}
+			break;
+		case 1: // Cancel send
+			c.getSession().write(MaplePacketCreator.serverNotice(1, "操作已成功取消"));
+			break;
+		case 3: // Drop Ring
+			try {
+				// MapleCharacterUtil.divorceEngagement(c.getPlayer());
+				c.getSession().write(MaplePacketCreator.serverNotice(1, "取消?"));
+			} catch (Exception exc) {
+				log.error("Error divorcing engagement", exc);
+			}
+			break;
+		}
+	}
 }

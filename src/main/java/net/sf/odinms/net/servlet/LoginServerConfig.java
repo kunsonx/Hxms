@@ -14,87 +14,95 @@ import org.w3c.dom.Node;
  */
 public class LoginServerConfig extends GeneralServerConfig {
 
-    private String worldHost, key, serverName, eventMessage;
-    private int userLimit, flag, maxCharacters, initMapId, port, rankingInterval;
+	private String worldHost, key, serverName, eventMessage;
+	private int userLimit, flag, maxCharacters, initMapId, port,
+			rankingInterval;
 
-    public LoginServerConfig() {
-        super(GeneralServerType.LOGIN);
-    }
+	public LoginServerConfig() {
+		super(GeneralServerType.LOGIN);
+	}
 
-    @Override
-    public void initConfig(String fileName, GeneralServer server) {
-        analyzingFile(fileName, server, "LoginServer");
-    }
+	@Override
+	public void initConfig(String fileName, GeneralServer server) {
+		analyzingFile(fileName, server, "LoginServer");
+	}
 
-    @Override
-    public void loadConfigFromXmlNode(Node node) {
-        if (node instanceof Element) {
-            worldHost = getSingleNodeValue((Element) node, "WorldHost", "");
-            key = getSingleNodeValue((Element) node, "Key", "");
-            userLimit = Integer.parseInt(getSingleNodeValue((Element) node, "UserLimit", "500"));
-            serverName = getSingleNodeValue((Element) node, "ServerName", "");
-            eventMessage = getSingleNodeValue((Element) node, "EventMessage", "");
-            flag = Integer.parseInt(getSingleNodeValue((Element) node, "Flag", "3"));
-            maxCharacters = Integer.parseInt(getSingleNodeValue((Element) node, "MaxCharacters", "3"));
-            initMapId = Integer.parseInt(getSingleNodeValue((Element) node, "InitMap", "3"));
-            port = Integer.parseInt(getSingleNodeValue((Element) node, "Port", ""));
-            rankingInterval = Integer.parseInt(getSingleNodeValue((Element) node, "RankingInterval", "3"));
-        }
-        Node _tmp = getSingleNode((Element) node, "LoginGateWay");
-        if (_tmp != null) {
-            LoginGateway.getInstance().Init(_tmp, this);
-        }
-    }
+	@Override
+	public void loadConfigFromXmlNode(Node node) {
+		if (node instanceof Element) {
+			worldHost = getSingleNodeValue((Element) node, "WorldHost", "");
+			key = getSingleNodeValue((Element) node, "Key", "");
+			userLimit = Integer.parseInt(getSingleNodeValue((Element) node,
+					"UserLimit", "500"));
+			serverName = getSingleNodeValue((Element) node, "ServerName", "");
+			eventMessage = getSingleNodeValue((Element) node, "EventMessage",
+					"");
+			flag = Integer.parseInt(getSingleNodeValue((Element) node, "Flag",
+					"3"));
+			maxCharacters = Integer.parseInt(getSingleNodeValue((Element) node,
+					"MaxCharacters", "3"));
+			initMapId = Integer.parseInt(getSingleNodeValue((Element) node,
+					"InitMap", "3"));
+			port = Integer.parseInt(getSingleNodeValue((Element) node, "Port",
+					""));
+			rankingInterval = Integer.parseInt(getSingleNodeValue(
+					(Element) node, "RankingInterval", "3"));
+		}
+		Node _tmp = getSingleNode((Element) node, "LoginGateWay");
+		if (_tmp != null) {
+			LoginGateway.getInstance().Init(_tmp, this);
+		}
+	}
 
-    public String getWorldHost() {
-        return worldHost;
-    }
+	public String getWorldHost() {
+		return worldHost;
+	}
 
-    public String getKey() {
-        return key;
-    }
+	public String getKey() {
+		return key;
+	}
 
-    public String getServerName() {
-        return serverName;
-    }
+	public String getServerName() {
+		return serverName;
+	}
 
-    public int getUserLimit() {
-        return userLimit;
-    }
+	public int getUserLimit() {
+		return userLimit;
+	}
 
-    public int getFlag() {
-        return flag;
-    }
+	public int getFlag() {
+		return flag;
+	}
 
-    public int getMaxCharacters() {
-        return maxCharacters;
-    }
+	public int getMaxCharacters() {
+		return maxCharacters;
+	}
 
-    public int getInitMapId() {
-        return initMapId;
-    }
+	public int getInitMapId() {
+		return initMapId;
+	}
 
-    public int getPort() {
-        return port;
-    }
+	public int getPort() {
+		return port;
+	}
 
-    public int getRankingInterval() {
-        return rankingInterval;
-    }
+	public int getRankingInterval() {
+		return rankingInterval;
+	}
 
-    public String getEventMessage() {
-        return eventMessage;
-    }
+	public String getEventMessage() {
+		return eventMessage;
+	}
 
-    public void setEventMessage(String eventMessage) {
-        this.eventMessage = eventMessage;
-    }
+	public void setEventMessage(String eventMessage) {
+		this.eventMessage = eventMessage;
+	}
 
-    public void setUserLimit(int userLimit) {
-        this.userLimit = userLimit;
-    }
+	public void setUserLimit(int userLimit) {
+		this.userLimit = userLimit;
+	}
 
-    public void setFlag(int flag) {
-        this.flag = flag;
-    }
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
 }

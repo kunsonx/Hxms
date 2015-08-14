@@ -17,11 +17,11 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net;
 
 public interface WritableIntValueHolder extends IntValueHolder {
 
-    public void setValue(int newval);
+	public void setValue(int newval);
 }

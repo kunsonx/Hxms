@@ -16,80 +16,80 @@ import net.sf.odinms.provider.wz.MapleDataType;
  */
 public class MapleSQLDataValue implements MapleData {
 
-    private long id;
-    private String name;
-    private String value;
+	private long id;
+	private String name;
+	private String value;
 
-    public MapleSQLDataValue(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
+	public MapleSQLDataValue(String name, String value) {
+		this.name = name;
+		this.value = value;
+	}
 
-    public MapleSQLDataValue() {
-    }
+	public MapleSQLDataValue() {
+	}
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    @Override
-    public String toString() {
-        return String.format("值类型：【%s】【%s】", name, value);
-    }
+	@Override
+	public String toString() {
+		return String.format("值类型：【%s】【%s】", name, value);
+	}
 
-    @Override
-    public MapleDataType getType() {
-        return MapleDataType.STRING;
-    }
+	@Override
+	public MapleDataType getType() {
+		return MapleDataType.STRING;
+	}
 
-    @Override
-    public List<MapleData> getChildren() {
-        return null;
-    }
+	@Override
+	public List<MapleData> getChildren() {
+		return null;
+	}
 
-    @Override
-    public MapleData getChildByPath(String path) {
-        return null;
-    }
+	@Override
+	public MapleData getChildByPath(String path) {
+		return null;
+	}
 
-    @Override
-    public Object getData() {
-        if (name.equals("lt") || name.equals("rb")) {
-            String[] str = getValue().split("/");
-            return new Point(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
-        } else {
-            return getValue();
-        }
-    }
+	@Override
+	public Object getData() {
+		if (name.equals("lt") || name.equals("rb")) {
+			String[] str = getValue().split("/");
+			return new Point(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+		} else {
+			return getValue();
+		}
+	}
 
-    @Override
-    public MapleDataEntity getParent() {
-        return null;
-    }
+	@Override
+	public MapleDataEntity getParent() {
+		return null;
+	}
 
-    @Override
-    public Iterator<MapleData> iterator() {
-        return null;
-    }
+	@Override
+	public Iterator<MapleData> iterator() {
+		return null;
+	}
 }

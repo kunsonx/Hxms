@@ -13,11 +13,11 @@ import net.sf.odinms.tools.data.output.MaplePacketLittleEndianWriter;
  */
 public class MapleForeignBuffNoStat extends MapleForeignBuffStat {
 
-    public MapleForeignBuffNoStat(MapleBuffStat stat) {
-        super(stat);
-    }
+	public MapleForeignBuffNoStat(MapleBuffStat stat) {
+		super(stat);
+	}
 
-    @Override
-    public void writePacket(MaplePacketLittleEndianWriter mplew, int value) {
-    }
+	@Override
+	public void writePacket(MaplePacketLittleEndianWriter mplew, int value) {
+	}
 }

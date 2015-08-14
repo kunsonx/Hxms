@@ -1,17 +1,17 @@
 /*
 	使用召唤袋 程序
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
-import java.util.List; 
+import java.util.List;
 import net.sf.odinms.client.IItem;
 import net.sf.odinms.client.MapleClient;
 import net.sf.odinms.client.MapleInventoryType;
 import net.sf.odinms.net.AbstractMaplePacketHandler;
 import net.sf.odinms.server.MapleInventoryManipulator;
 import net.sf.odinms.server.MapleItemInformationProvider;
-import net.sf.odinms.server.MapleItemInformationProvider.SummonEntry; 
+import net.sf.odinms.server.MapleItemInformationProvider.SummonEntry;
 import net.sf.odinms.server.life.MapleLifeFactory;
 import net.sf.odinms.server.life.MapleMonster;
 import net.sf.odinms.tools.MaplePacketCreator;
@@ -32,29 +32,40 @@ public class UseSummonBag extends AbstractMaplePacketHandler {
 			c.getSession().write(MaplePacketCreator.enableActions());
 			return;
 		}
-		MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+		MapleItemInformationProvider ii = MapleItemInformationProvider
+				.getInstance();
 		slea.readInt(); // i have no idea :) (o.o)
-		byte slot = (byte)slea.readShort();
-		int itemId = slea.readInt(); //as if we cared... ;)
-		IItem toUse = c.getPlayer().getInventory(MapleInventoryType.USE).getItem(slot);
+		byte slot = (byte) slea.readShort();
+		int itemId = slea.readInt(); // as if we cared... ;)
+		IItem toUse = c.getPlayer().getInventory(MapleInventoryType.USE)
+				.getItem(slot);
 		if (toUse != null && toUse.getQuantity() > 0) {
 			if (toUse.getItemId() != itemId) {
 				return;
 			}
-			MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.USE, slot, (short) 1, false);
+			MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.USE,
+					slot, (short) 1, false);
 			List<SummonEntry> toSpawn = ii.getSummonMobs(itemId);
-			for(int z = 0; z < toSpawn.size(); z++) {
+			for (int z = 0; z < toSpawn.size(); z++) {
 				SummonEntry se = toSpawn.get(z);
 				if ((int) Math.ceil(Math.random() * 100) <= se.getChance()) {
-					MapleMonster mob = MapleLifeFactory.getMonster(se.getMobId());
-					c.getPlayer().getMap().spawnMonsterOnGroundBelow(mob, c.getPlayer().getPosition());
+					MapleMonster mob = MapleLifeFactory.getMonster(se
+							.getMobId());
+					c.getPlayer()
+							.getMap()
+							.spawnMonsterOnGroundBelow(mob,
+									c.getPlayer().getPosition());
 					switch (se.getMobId()) {
-						case 8810024:
-						case 8810025:
-						c.getPlayer().getMap().killMonster(mob, c.getPlayer(), false);
-						c.getPlayer().getMap().mapMessage(6, "[公告] Horntail is summoned by the summoning bag.");
+					case 8810024:
+					case 8810025:
+						c.getPlayer().getMap()
+								.killMonster(mob, c.getPlayer(), false);
+						c.getPlayer()
+								.getMap()
+								.mapMessage(6,
+										"[公告] Horntail is summoned by the summoning bag.");
 						break;
-					} 
+					}
 				}
 			}
 		} else {

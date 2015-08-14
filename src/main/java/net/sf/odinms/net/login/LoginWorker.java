@@ -31,37 +31,43 @@ import net.sf.odinms.net.login.remote.ChannelLoadInfo;
  */
 public class LoginWorker implements Runnable {
 
-    private static LoginWorker instance = new LoginWorker();
-    public static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(LoginWorker.class);
+	private static LoginWorker instance = new LoginWorker();
+	public static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(LoginWorker.class);
 
-    private LoginWorker() {
-    }
+	private LoginWorker() {
+	}
 
-    public static LoginWorker getInstance() {
-        return instance;
-    }
+	public static LoginWorker getInstance() {
+		return instance;
+	}
 
-    public void updateLoad() {
-        try {
-            LoginServer.getInstance().getWorldInterface().isAvailable();
-            ChannelLoadInfo load = LoginServer.getInstance().getWorldInterface().getChannelLoad();
-            for (int world = 0; world < load.getWorldCount(); world++) {
-                //     double loadFactor = 1200 / ((double) LoginServer.getInstance().getUserLimit() / load.getChannelCount(world));
-                //  loadFactor = 24;//50个人满
-                double count = Math.min(50, LoginServer.getInstance().getUserLimit());
-                double loadFactor = 180 / count;//50个人满
-                for (int channel = 1; channel <= load.getChannelCount(world); channel++) {
-                    load.setChannelValue(world, channel, Math.min(200,
-                            ((int) Math.floor((load.getChannelValue(world, channel) * loadFactor)))));
-                }
-            }
-            LoginServer.getInstance().setLoad(load);
-        } catch (RemoteException ex) {
-            log.error("尝试刷新频道信息失败.");
-        }
-    }
+	public void updateLoad() {
+		try {
+			LoginServer.getInstance().getWorldInterface().isAvailable();
+			ChannelLoadInfo load = LoginServer.getInstance()
+					.getWorldInterface().getChannelLoad();
+			for (int world = 0; world < load.getWorldCount(); world++) {
+				// double loadFactor = 1200 / ((double)
+				// LoginServer.getInstance().getUserLimit() /
+				// load.getChannelCount(world));
+				// loadFactor = 24;//50个人满
+				double count = Math.min(50, LoginServer.getInstance()
+						.getUserLimit());
+				double loadFactor = 180 / count;// 50个人满
+				for (int channel = 1; channel <= load.getChannelCount(world); channel++) {
+					load.setChannelValue(world, channel, Math.min(200,
+							((int) Math.floor((load.getChannelValue(world,
+									channel) * loadFactor)))));
+				}
+			}
+			LoginServer.getInstance().setLoad(load);
+		} catch (RemoteException ex) {
+			log.error("尝试刷新频道信息失败.");
+		}
+	}
 
-    @Override
-    public void run() {
-    }
+	@Override
+	public void run() {
+	}
 }

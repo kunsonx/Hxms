@@ -35,129 +35,162 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class MessengerHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        String input;
-        byte mode = slea.readByte();
-        MapleCharacter player = c.getPlayer();
-        WorldChannelInterface wci = c.getChannelServer().getWorldInterface();
-        MapleMessenger messenger = player.getMessenger();
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		String input;
+		byte mode = slea.readByte();
+		MapleCharacter player = c.getPlayer();
+		WorldChannelInterface wci = c.getChannelServer().getWorldInterface();
+		MapleMessenger messenger = player.getMessenger();
 
-        switch (mode) {
-            case 0x00: // open
-                if (messenger == null) {
-                    int messengerid = slea.readInt();
-                    if (messengerid == 0) { // create
-                        try {
-                            MapleMessengerCharacter messengerplayer = new MapleMessengerCharacter(player);
-                            messenger = wci.createMessenger(messengerplayer);
-                            player.setMessenger(messenger);
-                            player.setMessengerPosition(0);
-                        } catch (RemoteException e) {
-                            ServerExceptionHandler.HandlerRemoteException(e);
-                            c.getChannelServer().reconnectWorld();
-                        }
-                    } else { // join
-                        try {
-                            messenger = wci.getMessenger(messengerid);
-                            int position = messenger.getLowestPosition();
-                            MapleMessengerCharacter messengerplayer = new MapleMessengerCharacter(player, position);
-                            if (messenger != null) {
-                                if (messenger.getMembers().size() < 3) {
-                                    player.setMessenger(messenger);
-                                    player.setMessengerPosition(position);
-                                    wci.joinMessenger(messenger.getId(), messengerplayer, player.getName(), messengerplayer.getChannel());
-                                }
-                            }
-                        } catch (RemoteException e) {
-                            ServerExceptionHandler.HandlerRemoteException(e);
-                            c.getChannelServer().reconnectWorld();
-                        }
-                    }
-                }
-                break;
-            case 0x02: // exit
-                if (messenger != null) {
-                    MapleMessengerCharacter messengerplayer = new MapleMessengerCharacter(player);
-                    try {
-                        wci.leaveMessenger(messenger.getId(), messengerplayer);
-                    } catch (RemoteException e) {
-                        ServerExceptionHandler.HandlerRemoteException(e);
-                        c.getChannelServer().reconnectWorld();
-                    }
-                    player.setMessenger(null);
-                    player.setMessengerPosition(4);
-                }
-                break;
-            case 0x03: // invite
-                if (messenger.getMembers().size() < 3) {
-                    input = slea.readMapleAsciiString();
-                    MapleCharacter target = c.getChannelServer().getPlayerStorage().getCharacterByName(input);
-                    if (target != null) {
-                        if (target.getMessenger() == null) {
-                            if (target.isGM() && !c.getPlayer().isGM()) {
-                                c.getSession().write(MaplePacketCreator.messengerNote(input, 4, 0));
-                                return;
-                            }
-                            target.getClient().getSession().write(MaplePacketCreator.messengerInvite(c.getPlayer().getName(), messenger.getId()));
-                            c.getSession().write(MaplePacketCreator.messengerNote(input, 4, 1));
-                        } else {
-                            c.getSession().write(MaplePacketCreator.messengerChat(player.getName() + " : " + input + " 正在招待状态", "[系统]"));
-                        }
-                    } else {
-                        for (ChannelServer cserv : c.getChannelServers()) {
-                            target = cserv.getPlayerStorage().getCharacterByName(input);
-                            if (target != null) {
-                                break;
-                            }
-                        }
-                        if (target != null) {
-                            if (target.isGM() && !c.getPlayer().isGM()) {
-                                c.getSession().write(MaplePacketCreator.messengerNote(input, 4, 0));
-                                return;
-                            }
-                            try {
-                                c.getChannelServer().getWorldInterface().messengerInvite(c.getPlayer().getName(), messenger.getId(), input, c.getChannel());
-                            } catch (RemoteException e) {
-                                ServerExceptionHandler.HandlerRemoteException(e);
-                                c.getChannelServer().reconnectWorld();
-                            }
-                        } else {
-                            c.getSession().write(MaplePacketCreator.messengerNote(input, 4, 0));
-                        }
-                    }
-                } else {
-                    c.getSession().write(MaplePacketCreator.messengerChat(player.getName() + " : 您不能招待超过3位玩家", "[系统]"));
-                }
-                break;
-            case 0x05: // decline
-                String targeted = slea.readMapleAsciiString();
-                MapleCharacter target = c.getChannelServer().getPlayerStorage().getCharacterByName(targeted);
-                if (target != null) {
-                    if (target.getMessenger() != null) {
-                        target.getClient().getSession().write(MaplePacketCreator.messengerNote(player.getName(), 5, 0));
-                    }
-                } else {
-                    try {
-                        wci.declineChat(targeted, player.getName());
-                    } catch (RemoteException e) {
-                        ServerExceptionHandler.HandlerRemoteException(e);
-                        c.getChannelServer().reconnectWorld();
-                    }
-                }
-                break;
-            case 0x06: // message
-                if (messenger != null) {
-                    MapleMessengerCharacter messengerplayer = new MapleMessengerCharacter(player);
-                    input = slea.readMapleAsciiString();
-                    try {
-                        wci.messengerChat(messenger.getId(), input, messengerplayer.getName(), slea.readMapleAsciiString());
-                    } catch (RemoteException e) {
-                        ServerExceptionHandler.HandlerRemoteException(e);
-                        c.getChannelServer().reconnectWorld();
-                    }
-                }
-                break;
-        }
-    }
+		switch (mode) {
+		case 0x00: // open
+			if (messenger == null) {
+				int messengerid = slea.readInt();
+				if (messengerid == 0) { // create
+					try {
+						MapleMessengerCharacter messengerplayer = new MapleMessengerCharacter(
+								player);
+						messenger = wci.createMessenger(messengerplayer);
+						player.setMessenger(messenger);
+						player.setMessengerPosition(0);
+					} catch (RemoteException e) {
+						ServerExceptionHandler.HandlerRemoteException(e);
+						c.getChannelServer().reconnectWorld();
+					}
+				} else { // join
+					try {
+						messenger = wci.getMessenger(messengerid);
+						int position = messenger.getLowestPosition();
+						MapleMessengerCharacter messengerplayer = new MapleMessengerCharacter(
+								player, position);
+						if (messenger != null) {
+							if (messenger.getMembers().size() < 3) {
+								player.setMessenger(messenger);
+								player.setMessengerPosition(position);
+								wci.joinMessenger(messenger.getId(),
+										messengerplayer, player.getName(),
+										messengerplayer.getChannel());
+							}
+						}
+					} catch (RemoteException e) {
+						ServerExceptionHandler.HandlerRemoteException(e);
+						c.getChannelServer().reconnectWorld();
+					}
+				}
+			}
+			break;
+		case 0x02: // exit
+			if (messenger != null) {
+				MapleMessengerCharacter messengerplayer = new MapleMessengerCharacter(
+						player);
+				try {
+					wci.leaveMessenger(messenger.getId(), messengerplayer);
+				} catch (RemoteException e) {
+					ServerExceptionHandler.HandlerRemoteException(e);
+					c.getChannelServer().reconnectWorld();
+				}
+				player.setMessenger(null);
+				player.setMessengerPosition(4);
+			}
+			break;
+		case 0x03: // invite
+			if (messenger.getMembers().size() < 3) {
+				input = slea.readMapleAsciiString();
+				MapleCharacter target = c.getChannelServer().getPlayerStorage()
+						.getCharacterByName(input);
+				if (target != null) {
+					if (target.getMessenger() == null) {
+						if (target.isGM() && !c.getPlayer().isGM()) {
+							c.getSession().write(
+									MaplePacketCreator.messengerNote(input, 4,
+											0));
+							return;
+						}
+						target.getClient()
+								.getSession()
+								.write(MaplePacketCreator.messengerInvite(c
+										.getPlayer().getName(), messenger
+										.getId()));
+						c.getSession().write(
+								MaplePacketCreator.messengerNote(input, 4, 1));
+					} else {
+						c.getSession().write(
+								MaplePacketCreator.messengerChat(
+										player.getName() + " : " + input
+												+ " 正在招待状态", "[系统]"));
+					}
+				} else {
+					for (ChannelServer cserv : c.getChannelServers()) {
+						target = cserv.getPlayerStorage().getCharacterByName(
+								input);
+						if (target != null) {
+							break;
+						}
+					}
+					if (target != null) {
+						if (target.isGM() && !c.getPlayer().isGM()) {
+							c.getSession().write(
+									MaplePacketCreator.messengerNote(input, 4,
+											0));
+							return;
+						}
+						try {
+							c.getChannelServer()
+									.getWorldInterface()
+									.messengerInvite(c.getPlayer().getName(),
+											messenger.getId(), input,
+											c.getChannel());
+						} catch (RemoteException e) {
+							ServerExceptionHandler.HandlerRemoteException(e);
+							c.getChannelServer().reconnectWorld();
+						}
+					} else {
+						c.getSession().write(
+								MaplePacketCreator.messengerNote(input, 4, 0));
+					}
+				}
+			} else {
+				c.getSession().write(
+						MaplePacketCreator.messengerChat(player.getName()
+								+ " : 您不能招待超过3位玩家", "[系统]"));
+			}
+			break;
+		case 0x05: // decline
+			String targeted = slea.readMapleAsciiString();
+			MapleCharacter target = c.getChannelServer().getPlayerStorage()
+					.getCharacterByName(targeted);
+			if (target != null) {
+				if (target.getMessenger() != null) {
+					target.getClient()
+							.getSession()
+							.write(MaplePacketCreator.messengerNote(
+									player.getName(), 5, 0));
+				}
+			} else {
+				try {
+					wci.declineChat(targeted, player.getName());
+				} catch (RemoteException e) {
+					ServerExceptionHandler.HandlerRemoteException(e);
+					c.getChannelServer().reconnectWorld();
+				}
+			}
+			break;
+		case 0x06: // message
+			if (messenger != null) {
+				MapleMessengerCharacter messengerplayer = new MapleMessengerCharacter(
+						player);
+				input = slea.readMapleAsciiString();
+				try {
+					wci.messengerChat(messenger.getId(), input,
+							messengerplayer.getName(),
+							slea.readMapleAsciiString());
+				} catch (RemoteException e) {
+					ServerExceptionHandler.HandlerRemoteException(e);
+					c.getChannelServer().reconnectWorld();
+				}
+			}
+			break;
+		}
+	}
 }

@@ -33,14 +33,16 @@ import net.sf.odinms.net.world.guild.MapleGuildCharacter;
  */
 public interface WorldLoginInterface extends Remote {
 
- 
-    public ChannelLoadInfo getChannelLoad() throws RemoteException;
+	public ChannelLoadInfo getChannelLoad() throws RemoteException;
 
-    public boolean isAvailable() throws RemoteException;
+	public boolean isAvailable() throws RemoteException;
 
-    public void deleteGuildCharacter(MapleGuildCharacter mgc) throws RemoteException;
+	public void deleteGuildCharacter(MapleGuildCharacter mgc)
+			throws RemoteException;
 
-    public long checkClientIvKey(byte[] ivCheck, String port) throws RemoteException;
+	public long checkClientIvKey(byte[] ivCheck, String port)
+			throws RemoteException;
 
-    public void disconnectClient(String port, long clientId) throws RemoteException;
+	public void disconnectClient(String port, long clientId)
+			throws RemoteException;
 }

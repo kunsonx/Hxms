@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.server.maps;
 
@@ -38,114 +38,127 @@ import net.sf.odinms.tools.MaplePacketCreator;
  */
 public class MapleMapItem extends AbstractMapleMapObject {
 
-    protected IItem item;
-    protected MapleMapObject dropper;
-    protected MapleCharacter owner;
-    protected int meso;
-    protected boolean pickedUp = false;
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MapleMapItem.class);
+	protected IItem item;
+	protected MapleMapObject dropper;
+	protected MapleCharacter owner;
+	protected int meso;
+	protected boolean pickedUp = false;
+	private static final org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(MapleMapItem.class);
 
-    /** Creates a new instance of MapleMapItem */
-    public MapleMapItem(IItem item, Point position, MapleMapObject dropper, MapleCharacter owner) {
-        setPosition(position);
-        this.item = item;
-        this.dropper = dropper;
-        this.owner = owner;
-        this.meso = 0;
-    }
+	/** Creates a new instance of MapleMapItem */
+	public MapleMapItem(IItem item, Point position, MapleMapObject dropper,
+			MapleCharacter owner) {
+		setPosition(position);
+		this.item = item;
+		this.dropper = dropper;
+		this.owner = owner;
+		this.meso = 0;
+	}
 
-    public MapleMapItem(int meso, Point position, MapleMapObject dropper, MapleCharacter owner) {
-        setPosition(position);
-        this.item = null;
-        this.meso = meso;
-        this.dropper = dropper;
-        this.owner = owner;
-    }
+	public MapleMapItem(int meso, Point position, MapleMapObject dropper,
+			MapleCharacter owner) {
+		setPosition(position);
+		this.item = null;
+		this.meso = meso;
+		this.dropper = dropper;
+		this.owner = owner;
+	}
 
-    public IItem getItem() {
-        return item;
-    }
+	public IItem getItem() {
+		return item;
+	}
 
-    public MapleMapObject getDropper() {
-        return dropper;
-    }
+	public MapleMapObject getDropper() {
+		return dropper;
+	}
 
-    public MapleCharacter getOwner() {
-        return owner;
-    }
+	public MapleCharacter getOwner() {
+		return owner;
+	}
 
-    public int getMeso() {
-        return meso;
-    }
+	public int getMeso() {
+		return meso;
+	}
 
-    public boolean isPickedUp() {
-        return pickedUp;
-    }
+	public boolean isPickedUp() {
+		return pickedUp;
+	}
 
-    public void setPickedUp(boolean pickedUp) {
-        this.pickedUp = pickedUp;
-    }
+	public void setPickedUp(boolean pickedUp) {
+		this.pickedUp = pickedUp;
+	}
 
-    @Override
-    public void sendDestroyData(MapleClient client) {
-        client.getSession().write(MaplePacketCreator.removeItemFromMap(getObjectId(), 1, 0));
-    }
+	@Override
+	public void sendDestroyData(MapleClient client) {
+		client.getSession().write(
+				MaplePacketCreator.removeItemFromMap(getObjectId(), 1, 0));
+	}
 
-    @Override
-    public MapleMapObjectType getType() {
-        return MapleMapObjectType.ITEM;
-    }
+	@Override
+	public MapleMapObjectType getType() {
+		return MapleMapObjectType.ITEM;
+	}
 
-    @Override
-    public void sendSpawnData(MapleClient client) {
-        if (getMeso() > 0) {
-            client.getSession().write(MaplePacketCreator.dropMesoFromMapObject(getMeso(), getObjectId(), getDropper().getObjectId(), getOwner().getId(), null, getPosition(), (byte) 2));
-        } else {
-            client.getSession().write(MaplePacketCreator.dropItemFromMapObject(getItem().getItemId(), getObjectId(), 0, getOwner().getId(), null, getPosition(), (byte) 2));
-        }
-    }
+	@Override
+	public void sendSpawnData(MapleClient client) {
+		if (getMeso() > 0) {
+			client.getSession().write(
+					MaplePacketCreator.dropMesoFromMapObject(getMeso(),
+							getObjectId(), getDropper().getObjectId(),
+							getOwner().getId(), null, getPosition(), (byte) 2));
+		} else {
+			client.getSession().write(
+					MaplePacketCreator.dropItemFromMapObject(getItem()
+							.getItemId(), getObjectId(), 0, getOwner().getId(),
+							null, getPosition(), (byte) 2));
+		}
+	}
 
-    public boolean isQuestItem(int itemid) {
-        int numrow = 0;
-        
-        try { //reading from the DB instead of XML parsing; since SQL might not be complete
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM monsterquestdrops WHERE itemid = ?");
-            ps.setInt(1, itemid);
-            ResultSet rs = ps.executeQuery();
-            rs.last();
-            numrow = rs.getRow();
-            rs.close();
-            ps.close();
-            con.close();
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-        }
+	public boolean isQuestItem(int itemid) {
+		int numrow = 0;
 
-        if (numrow > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+		try { // reading from the DB instead of XML parsing; since SQL might not
+				// be complete
+			Connection con = DatabaseConnection.getConnection();
+			PreparedStatement ps = con
+					.prepareStatement("SELECT * FROM monsterquestdrops WHERE itemid = ?");
+			ps.setInt(1, itemid);
+			ResultSet rs = ps.executeQuery();
+			rs.last();
+			numrow = rs.getRow();
+			rs.close();
+			ps.close();
+			con.close();
+		} catch (Exception e) {
+			log.error("Exception: " + e);
+		}
 
-    public int getItemQuestId(int itemid) {
-        
-        int questid = -1;
-        try {
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM monsterquestdrops WHERE itemid = ?");
-            ps.setInt(1, itemid);
-            ResultSet rs = ps.executeQuery();
-            questid = rs.getInt("questid");
-            rs.close();
-            ps.close();
-            con.close();
-        } catch (SQLException SQLe) {
-            SQLe.printStackTrace();
-        } catch (Exception e) {
-            log.error("Exception: " + e);
-        }
-        return questid;
-    }
+		if (numrow > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public int getItemQuestId(int itemid) {
+
+		int questid = -1;
+		try {
+			Connection con = DatabaseConnection.getConnection();
+			PreparedStatement ps = con
+					.prepareStatement("SELECT * FROM monsterquestdrops WHERE itemid = ?");
+			ps.setInt(1, itemid);
+			ResultSet rs = ps.executeQuery();
+			questid = rs.getInt("questid");
+			rs.close();
+			ps.close();
+			con.close();
+		} catch (SQLException SQLe) {
+			SQLe.printStackTrace();
+		} catch (Exception e) {
+			log.error("Exception: " + e);
+		}
+		return questid;
+	}
 }

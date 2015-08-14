@@ -17,51 +17,51 @@ import net.sf.odinms.database.DatabaseConnection;
  */
 public class MapleScriptedItemNpc {
 
-    private int id;
-    private int npc;
+	private int id;
+	private int npc;
 
-    public MapleScriptedItemNpc() {
-    }
+	public MapleScriptedItemNpc() {
+	}
 
-    public MapleScriptedItemNpc(int id, int npc) {
-        this.id = id;
-        this.npc = npc;
-    }
+	public MapleScriptedItemNpc(int id, int npc) {
+		this.id = id;
+		this.npc = npc;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getNpc() {
-        return npc;
-    }
+	public int getNpc() {
+		return npc;
+	}
 
-    public void setNpc(int npc) {
-        this.npc = npc;
-    }
+	public void setNpc(int npc) {
+		this.npc = npc;
+	}
 
-    public static List<MapleScriptedItemNpc> list() {
-        List<MapleScriptedItemNpc> list = new ArrayList<MapleScriptedItemNpc>();
-        try {
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("select * from wz_sin");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                MapleScriptedItemNpc i = new MapleScriptedItemNpc();
-                i.id = rs.getInt("id");
-                i.npc = rs.getInt("npc");
-                list.add(i);
-            }
-            rs.close();
-            ps.close();
-            con.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return list;
-    }
+	public static List<MapleScriptedItemNpc> list() {
+		List<MapleScriptedItemNpc> list = new ArrayList<MapleScriptedItemNpc>();
+		try {
+			Connection con = DatabaseConnection.getConnection();
+			PreparedStatement ps = con.prepareStatement("select * from wz_sin");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				MapleScriptedItemNpc i = new MapleScriptedItemNpc();
+				i.id = rs.getInt("id");
+				i.npc = rs.getInt("npc");
+				list.add(i);
+			}
+			rs.close();
+			ps.close();
+			con.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return list;
+	}
 }

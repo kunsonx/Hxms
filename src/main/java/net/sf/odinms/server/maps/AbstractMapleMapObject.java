@@ -24,64 +24,65 @@ import java.awt.Point;
 
 public abstract class AbstractMapleMapObject implements MapleMapObject {
 
-    private Point position = new Point();
-    private int objectId;
-    private MapleMap map;
+	private Point position = new Point();
+	private int objectId;
+	private MapleMap map;
 
-    @Override
-    public abstract MapleMapObjectType getType();
+	@Override
+	public abstract MapleMapObjectType getType();
 
-    @Override
-    public Point getPosition() {
-        return new Point(position);
-    }
+	@Override
+	public Point getPosition() {
+		return new Point(position);
+	}
 
-    @Override
-    public void setPosition(Point position) {
-        this.position.x = position.x;
-        this.position.y = position.y;
-    }
+	@Override
+	public void setPosition(Point position) {
+		this.position.x = position.x;
+		this.position.y = position.y;
+	}
 
-    @Override
-    public int getObjectId() {
-        return objectId;
-    }
+	@Override
+	public int getObjectId() {
+		return objectId;
+	}
 
-    @Override
-    public void setObjectId(int value) {
-        this.objectId = value;
-    }
+	@Override
+	public void setObjectId(int value) {
+		this.objectId = value;
+	}
 
-    @Override
-    public MapleMap getOwnerMap() {
-        return map;
-    }
+	@Override
+	public MapleMap getOwnerMap() {
+		return map;
+	}
 
-    @Override
-    public void setOwnerMap(MapleMap map) {
-        this.map = map;
-    }
+	@Override
+	public void setOwnerMap(MapleMap map) {
+		this.map = map;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AbstractMapleMapObject other = (AbstractMapleMapObject) obj;
-        if (this.getObjectId() != other.getObjectId()) {
-            return false;
-        }
-        return super.equals(obj);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final AbstractMapleMapObject other = (AbstractMapleMapObject) obj;
+		if (this.getObjectId() != other.getObjectId()) {
+			return false;
+		}
+		return super.equals(obj);
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 3 * hash + (this.position != null ? this.position.hashCode() : 0);
-        hash = 3 * hash + (this.map != null ? this.map.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 3 * hash
+				+ (this.position != null ? this.position.hashCode() : 0);
+		hash = 3 * hash + (this.map != null ? this.map.hashCode() : 0);
+		return hash;
+	}
 }

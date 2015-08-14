@@ -31,27 +31,32 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class CharSelectedHandler extends AbstractMaplePacketHandler {
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CharSelectedHandler.class);
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(CharSelectedHandler.class);
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        if (c.getLoginState() != MapleClient.LOGIN_LOGGEDIN) {
-            return; // Tryst
-        }
-        int charId = slea.readInt();
-        //   c.StartLoginCheck(charId);
-        //检查WZ测试封包
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		if (c.getLoginState() != MapleClient.LOGIN_LOGGEDIN) {
+			return; // Tryst
+		}
+		int charId = slea.readInt();
+		// c.StartLoginCheck(charId);
+		// 检查WZ测试封包
 
-        try {
-            if (c.getIdleTask() != null) {
-                c.getIdleTask().cancel(true);
-            }
-            c.updateLoginState(MapleClient.LOGIN_SERVER_TRANSITION);
-            String[] socket = LoginServer.getInstance().getIP(c.getChannelDescriptor()).split(":");
-            c.getSession().write(MaplePacketCreator.getServerIP(InetAddress.getByName(socket[0]), Integer.parseInt(socket[1]), charId));
-        } catch (UnknownHostException e) {
-            log.error("Host not found", e);
-        }
+		try {
+			if (c.getIdleTask() != null) {
+				c.getIdleTask().cancel(true);
+			}
+			c.updateLoginState(MapleClient.LOGIN_SERVER_TRANSITION);
+			String[] socket = LoginServer.getInstance()
+					.getIP(c.getChannelDescriptor()).split(":");
+			c.getSession().write(
+					MaplePacketCreator.getServerIP(
+							InetAddress.getByName(socket[0]),
+							Integer.parseInt(socket[1]), charId));
+		} catch (UnknownHostException e) {
+			log.error("Host not found", e);
+		}
 
-    }
+	}
 }

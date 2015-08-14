@@ -13,30 +13,36 @@ import net.sf.odinms.client.MapleCharacter;
  */
 public class ScriptManager {
 
-    private MapleCharacter player;
+	private MapleCharacter player;
 
-    public ScriptManager(MapleCharacter player) {
-        this.player = player;
-    }
+	public ScriptManager(MapleCharacter player) {
+		this.player = player;
+	}
 
-    public MapleCharacter getPlayer() {
-        return player;
-    }
+	public MapleCharacter getPlayer() {
+		return player;
+	}
 
-    public int getOnlineTime() {
-        player.reloadOnlieTime();
-        return Integer.parseInt(player.getAttribute().getAttribute().get(ConstantTable.getCurrentDay() + ConstantTable._S_ONLINE_MINUTE));
-    }
+	public int getOnlineTime() {
+		player.reloadOnlieTime();
+		return Integer.parseInt(player
+				.getAttribute()
+				.getAttribute()
+				.get(ConstantTable.getCurrentDay()
+						+ ConstantTable._S_ONLINE_MINUTE));
+	}
 
-    public String getToDayAttribute(String key) {
-        return player.getAttribute().getAttribute().get(ConstantTable.getCurrentDay() + key);
-    }
+	public String getToDayAttribute(String key) {
+		return player.getAttribute().getAttribute()
+				.get(ConstantTable.getCurrentDay() + key);
+	}
 
-    public void setToDayAttribute(String key, String v) {
-        player.getAttribute().getAttribute().put(ConstantTable.getCurrentDay() + key, v);
-    }
+	public void setToDayAttribute(String key, String v) {
+		player.getAttribute().getAttribute()
+				.put(ConstantTable.getCurrentDay() + key, v);
+	}
 
-    public void clearGameProperty(String key) {
-        player.getAttribute().getPlayerdata().remove(key);
-    }
+	public void clearGameProperty(String key) {
+		player.getAttribute().getPlayerdata().remove(key);
+	}
 }

@@ -12,30 +12,30 @@ import net.sf.odinms.client.MapleInventoryType;
  */
 public class MapleItemInventryType {
 
-    private int id;
-    private MapleInventoryType type;
-    
-    public int getId() {
-        return id;
-    }
+	private int id;
+	private MapleInventoryType type;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public MapleInventoryType getType() {
-        return type;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public byte getTypevalue() {
-        return type.getType();
-    }
+	public MapleInventoryType getType() {
+		return type;
+	}
 
-    public void setTypevalue(byte value) {
-        this.type = MapleInventoryType.getByType(value);
-    }
+	public byte getTypevalue() {
+		return type.getType();
+	}
 
-    public void setType(MapleInventoryType type) {
-        this.type = type;
-    }
+	public void setTypevalue(byte value) {
+		this.type = MapleInventoryType.getByType(value);
+	}
+
+	public void setType(MapleInventoryType type) {
+		this.type = type;
+	}
 }

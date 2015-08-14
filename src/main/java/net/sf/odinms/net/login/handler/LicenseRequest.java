@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.login.handler;
 
@@ -32,14 +32,14 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public class LicenseRequest extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        if (slea.readByte() == 1) {
-            c.getSession().write(MaplePacketCreator.licenseResult());
-            c.updateLoginState(MapleClient.LOGIN_NOTLOGGEDIN);
-        } else {
-            System.out.println(" LicenseRequest 关闭客户端");
-            c.getSession().close(false);
-        }
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		if (slea.readByte() == 1) {
+			c.getSession().write(MaplePacketCreator.licenseResult());
+			c.updateLoginState(MapleClient.LOGIN_NOTLOGGEDIN);
+		} else {
+			System.out.println(" LicenseRequest 关闭客户端");
+			c.getSession().close(false);
+		}
+	}
 }

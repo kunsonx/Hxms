@@ -35,64 +35,77 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public class TrockAddMapHandler extends AbstractMaplePacketHandler {
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(TrockAddMapHandler.class);
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(TrockAddMapHandler.class);
 
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        byte addrem = slea.readByte();
-        byte rocktype = slea.readByte();
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		byte addrem = slea.readByte();
+		byte rocktype = slea.readByte();
 
-        if (addrem == 0x00) {
-            int mapId = slea.readInt();
-            try {
-                Connection con = DatabaseConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement("DELETE FROM trocklocations WHERE characterid = ? AND mapid = ? AND type = ?");
-                ps.setInt(1, c.getPlayer().getId());
-                ps.setInt(2, mapId);
-                ps.setInt(3, rocktype);
-                ps.executeUpdate();
-                ps.close();
-                con.close();
-            } catch (SQLException se) {
-                log.error("SQL error: " + se.getLocalizedMessage(), se);
-            }
-        } else if (addrem == 0x01) {
-            int mapid = c.getPlayer().getMapId();
-            try {
-                Connection con = DatabaseConnection.getConnection();
+		if (addrem == 0x00) {
+			int mapId = slea.readInt();
+			try {
+				Connection con = DatabaseConnection.getConnection();
+				PreparedStatement ps = con
+						.prepareStatement("DELETE FROM trocklocations WHERE characterid = ? AND mapid = ? AND type = ?");
+				ps.setInt(1, c.getPlayer().getId());
+				ps.setInt(2, mapId);
+				ps.setInt(3, rocktype);
+				ps.executeUpdate();
+				ps.close();
+				con.close();
+			} catch (SQLException se) {
+				log.error("SQL error: " + se.getLocalizedMessage(), se);
+			}
+		} else if (addrem == 0x01) {
+			int mapid = c.getPlayer().getMapId();
+			try {
+				Connection con = DatabaseConnection.getConnection();
 
-                PreparedStatement ps = con.prepareStatement("DELETE FROM trocklocations WHERE characterid = ? AND mapid = ? AND type = ?");
-                ps.setInt(1, c.getPlayer().getId());
-                ps.setInt(2, mapid);
-                ps.setInt(3, rocktype);
-                ps.executeUpdate();
-                ps.close();
-                con.close();
-            } catch (SQLException se) {
-                log.error("SQL error: " + se.getLocalizedMessage(), se);
-            }
-            if (!((mapid >= 240050000 && mapid <= 240060200) || mapid < 100000000
-                    || (mapid >= 280010010 && mapid <= 280030000) || (mapid >= 670000100 && mapid <= 670011000)
-                    || mapid >= 809020000 || (mapid >= 101000100 && mapid <= 101000104) || mapid == 101000301
-                    || (mapid >= 105040310 && mapid <= 105040316) || (mapid >= 108000100 && mapid <= 109080003)
-                    || (mapid >= 190000000 && mapid <= 197010000) || (mapid >= 200090000 && mapid <= 209080000)
-                    || mapid == 240000110 || mapid == 240000111 || mapid == 260000110)) { //disallowed maps
-                try {
-                    Connection con = DatabaseConnection.getConnection();
+				PreparedStatement ps = con
+						.prepareStatement("DELETE FROM trocklocations WHERE characterid = ? AND mapid = ? AND type = ?");
+				ps.setInt(1, c.getPlayer().getId());
+				ps.setInt(2, mapid);
+				ps.setInt(3, rocktype);
+				ps.executeUpdate();
+				ps.close();
+				con.close();
+			} catch (SQLException se) {
+				log.error("SQL error: " + se.getLocalizedMessage(), se);
+			}
+			if (!((mapid >= 240050000 && mapid <= 240060200)
+					|| mapid < 100000000
+					|| (mapid >= 280010010 && mapid <= 280030000)
+					|| (mapid >= 670000100 && mapid <= 670011000)
+					|| mapid >= 809020000
+					|| (mapid >= 101000100 && mapid <= 101000104)
+					|| mapid == 101000301
+					|| (mapid >= 105040310 && mapid <= 105040316)
+					|| (mapid >= 108000100 && mapid <= 109080003)
+					|| (mapid >= 190000000 && mapid <= 197010000)
+					|| (mapid >= 200090000 && mapid <= 209080000)
+					|| mapid == 240000110 || mapid == 240000111 || mapid == 260000110)) { // disallowed
+																							// maps
+				try {
+					Connection con = DatabaseConnection.getConnection();
 
-                    PreparedStatement ps = con.prepareStatement("INSERT INTO trocklocations (characterid, mapid, type) VALUES (?, ?, ?)");
-                    ps.setInt(1, c.getPlayer().getId());
-                    ps.setInt(2, c.getPlayer().getMapId());
-                    ps.setInt(3, rocktype);
-                    ps.executeUpdate();
-                    ps.close();
-                    con.close();
-                } catch (SQLException se) {
-                    log.error("SQL error: " + se.getLocalizedMessage(), se);
-                }
-            } else {
-                c.getPlayer().dropMessage("You may not save this map.");
-            }
-        }
-        c.getSession().write(MaplePacketCreator.TrockRefreshMapList(c.getPlayer(), rocktype));
-    }
+					PreparedStatement ps = con
+							.prepareStatement("INSERT INTO trocklocations (characterid, mapid, type) VALUES (?, ?, ?)");
+					ps.setInt(1, c.getPlayer().getId());
+					ps.setInt(2, c.getPlayer().getMapId());
+					ps.setInt(3, rocktype);
+					ps.executeUpdate();
+					ps.close();
+					con.close();
+				} catch (SQLException se) {
+					log.error("SQL error: " + se.getLocalizedMessage(), se);
+				}
+			} else {
+				c.getPlayer().dropMessage("You may not save this map.");
+			}
+		}
+		c.getSession()
+				.write(MaplePacketCreator.TrockRefreshMapList(c.getPlayer(),
+						rocktype));
+	}
 }

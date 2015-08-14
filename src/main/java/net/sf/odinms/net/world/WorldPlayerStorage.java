@@ -14,22 +14,22 @@ import net.sf.odinms.net.channel.ChannelDescriptor;
  */
 public class WorldPlayerStorage {
 
-    private PlayerBuffStorage buffStorage = new PlayerBuffStorage();
-    private Map<Integer, ChannelDescriptor> offlinePlayer = new HashMap<Integer, ChannelDescriptor>();
+	private PlayerBuffStorage buffStorage = new PlayerBuffStorage();
+	private Map<Integer, ChannelDescriptor> offlinePlayer = new HashMap<Integer, ChannelDescriptor>();
 
-    public PlayerBuffStorage getBuffStorage() {
-        return buffStorage;
-    }
+	public PlayerBuffStorage getBuffStorage() {
+		return buffStorage;
+	}
 
-    public void registryOfficePlayer(int cid, ChannelDescriptor descriptor) {
-        offlinePlayer.put(cid, descriptor);
-    }
+	public void registryOfficePlayer(int cid, ChannelDescriptor descriptor) {
+		offlinePlayer.put(cid, descriptor);
+	}
 
-    public ChannelDescriptor deregisterOfficePlayer(int cid) {
-        if (offlinePlayer.containsKey(cid)) {
-            return offlinePlayer.remove(cid);
-        } else {
-            return null;
-        }
-    }
+	public ChannelDescriptor deregisterOfficePlayer(int cid) {
+		if (offlinePlayer.containsKey(cid)) {
+			return offlinePlayer.remove(cid);
+		} else {
+			return null;
+		}
+	}
 }

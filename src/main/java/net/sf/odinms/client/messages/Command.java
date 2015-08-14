@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.client.messages;
 
@@ -25,7 +25,8 @@ import net.sf.odinms.client.MapleClient;
 
 public interface Command {
 
-    CommandDefinition[] getDefinition();
+	CommandDefinition[] getDefinition();
 
-    void execute(MapleClient c, MessageCallback mc, String[] splittedLine) throws Exception, IllegalCommandSyntaxException;
+	void execute(MapleClient c, MessageCallback mc, String[] splittedLine)
+			throws Exception, IllegalCommandSyntaxException;
 }

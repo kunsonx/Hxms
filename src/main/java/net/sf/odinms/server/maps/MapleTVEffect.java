@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.server.maps;
 
@@ -36,53 +36,61 @@ import net.sf.odinms.tools.MaplePacketCreator;
 
 public class MapleTVEffect {
 
-    private List<String> message = new LinkedList<String>();
-    private MapleCharacter user;
-    private static boolean active;
-    private int type;
-    private MapleCharacter partner;
+	private List<String> message = new LinkedList<String>();
+	private MapleCharacter user;
+	private static boolean active;
+	private int type;
+	private MapleCharacter partner;
 
-    public MapleTVEffect(MapleCharacter user_, MapleCharacter partner_, List<String> msg, int type_) {
-        this.message = msg;
-        this.user = user_;
-        this.type = type_;
-        this.partner = partner_;
-        broadcastTV(true);
-    }
+	public MapleTVEffect(MapleCharacter user_, MapleCharacter partner_,
+			List<String> msg, int type_) {
+		this.message = msg;
+		this.user = user_;
+		this.type = type_;
+		this.partner = partner_;
+		broadcastTV(true);
+	}
 
-    public static boolean isActive() {
-        return active;
-    }
+	public static boolean isActive() {
+		return active;
+	}
 
-    private void setActive(boolean set) {
-        active = set;
-    }
+	private void setActive(boolean set) {
+		active = set;
+	}
 
-    private void broadcastTV(boolean active_) {
-        WorldChannelInterface wci = user.getClient().getChannelServer().getWorldInterface();
-        setActive(active_);
-        try {
-            if (active_) {
-                int delay = 15000;
-                if (type == 4) {
-                    delay = 30000;
-                } else if (type == 5) {
-                    delay = 60000;
-                }
-                wci.broadcastMessage(null, MaplePacketCreator.enableTV().getBytes());
-                wci.broadcastMessage(null, MaplePacketCreator.sendTV(user, message, type <= 2 ? type : type - 3, partner,delay).getBytes());
-                TimerManager.getInstance().schedule(new Runnable() {
+	private void broadcastTV(boolean active_) {
+		WorldChannelInterface wci = user.getClient().getChannelServer()
+				.getWorldInterface();
+		setActive(active_);
+		try {
+			if (active_) {
+				int delay = 15000;
+				if (type == 4) {
+					delay = 30000;
+				} else if (type == 5) {
+					delay = 60000;
+				}
+				wci.broadcastMessage(null, MaplePacketCreator.enableTV()
+						.getBytes());
+				wci.broadcastMessage(
+						null,
+						MaplePacketCreator.sendTV(user, message,
+								type <= 2 ? type : type - 3, partner, delay)
+								.getBytes());
+				TimerManager.getInstance().schedule(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        broadcastTV(false);
-                    }
-                }, delay);
-            } else {
-                wci.broadcastMessage(null, MaplePacketCreator.removeTV().getBytes());
-            }
-        } catch (RemoteException e) {
-            ServerExceptionHandler.HandlerRemoteException(e);
-        }
-    }
+					@Override
+					public void run() {
+						broadcastTV(false);
+					}
+				}, delay);
+			} else {
+				wci.broadcastMessage(null, MaplePacketCreator.removeTV()
+						.getBytes());
+			}
+		} catch (RemoteException e) {
+			ServerExceptionHandler.HandlerRemoteException(e);
+		}
+	}
 }

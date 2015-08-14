@@ -18,9 +18,9 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 package net.sf.odinms.server.constants;
 
 public class ServerConstants {
-    public static final byte FLAG = 0;
+	public static final byte FLAG = 0;
 }

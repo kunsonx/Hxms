@@ -16,17 +16,23 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public final class AcceptFamilyHandler extends AbstractMaplePacketHandler {
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(AcceptFamilyHandler.class);
+	private static final org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(AcceptFamilyHandler.class);
 
-    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        //log.info("111111111111111111");
-        //log.debug(slea.toString());
-        int inviterId = slea.readInt();
-//        String inviterName = slea.readMapleAsciiString();
-        MapleCharacter inviter = c.getChannelServer().getCharacterFromAllServers(inviterId);
-        if (inviter != null) {
-            inviter.getClient().getSession().write(MaplePacketCreator.sendFamilyJoinResponse(true, c.getPlayer().getName()));
-        }
-        c.getSession().write(MaplePacketCreator.sendFamilyMessage());
-    }
+	public final void handlePacket(SeekableLittleEndianAccessor slea,
+			MapleClient c) {
+		// log.info("111111111111111111");
+		// log.debug(slea.toString());
+		int inviterId = slea.readInt();
+		// String inviterName = slea.readMapleAsciiString();
+		MapleCharacter inviter = c.getChannelServer()
+				.getCharacterFromAllServers(inviterId);
+		if (inviter != null) {
+			inviter.getClient()
+					.getSession()
+					.write(MaplePacketCreator.sendFamilyJoinResponse(true, c
+							.getPlayer().getName()));
+		}
+		c.getSession().write(MaplePacketCreator.sendFamilyMessage());
+	}
 }

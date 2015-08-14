@@ -12,7 +12,7 @@ import java.util.Collection;
  */
 public interface MapleItemsNameSpace {
 
-    MapleItemsNameSpaceType GetSpaceType();
+	MapleItemsNameSpaceType GetSpaceType();
 
-    Collection<IItem> AllItems();
+	Collection<IItem> AllItems();
 }

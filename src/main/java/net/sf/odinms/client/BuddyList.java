@@ -14,126 +14,137 @@ import net.sf.odinms.tools.MaplePacketCreator;
 
 public class BuddyList {
 
-    public enum BuddyOperation {
+	public enum BuddyOperation {
 
-        ADDED, DELETED
-    }
+		ADDED, DELETED
+	}
 
-    public enum BuddyAddResult {
+	public enum BuddyAddResult {
 
-        BUDDYLIST_FULL, ALREADY_ON_LIST, OK
-    }
-    private Map<Integer, BuddylistEntry> buddies = new LinkedHashMap<Integer, BuddylistEntry>();
-    private int capacity;
-    private Deque<CharacterNameAndId> pendingRequests = new LinkedList<CharacterNameAndId>();
+		BUDDYLIST_FULL, ALREADY_ON_LIST, OK
+	}
 
-    public BuddyList(int capacity) {
-        super();
-        this.capacity = capacity;
-    }
+	private Map<Integer, BuddylistEntry> buddies = new LinkedHashMap<Integer, BuddylistEntry>();
+	private int capacity;
+	private Deque<CharacterNameAndId> pendingRequests = new LinkedList<CharacterNameAndId>();
 
-    public boolean contains(int characterId) {
-        return buddies.containsKey(Integer.valueOf(characterId));
-    }
+	public BuddyList(int capacity) {
+		super();
+		this.capacity = capacity;
+	}
 
-    public boolean containsVisible(int characterId) {
-        BuddylistEntry ble = buddies.get(characterId);
-        if (ble == null) {
-            return false;
-        }
-        return ble.isVisible();
-    }
+	public boolean contains(int characterId) {
+		return buddies.containsKey(Integer.valueOf(characterId));
+	}
 
-    public int getCapacity() {
-        return capacity;
-    }
+	public boolean containsVisible(int characterId) {
+		BuddylistEntry ble = buddies.get(characterId);
+		if (ble == null) {
+			return false;
+		}
+		return ble.isVisible();
+	}
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
+	public int getCapacity() {
+		return capacity;
+	}
 
-    public BuddylistEntry get(int characterId) {
-        return buddies.get(Integer.valueOf(characterId));
-    }
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
 
-    public BuddylistEntry get(String characterName) {
-        String lowerCaseName = characterName.toLowerCase();
-        for (BuddylistEntry ble : buddies.values()) {
-            if (ble.getName().toLowerCase().equals(lowerCaseName)) {
-                return ble;
-            }
-        }
-        return null;
-    }
+	public BuddylistEntry get(int characterId) {
+		return buddies.get(Integer.valueOf(characterId));
+	}
 
-    public void put(BuddylistEntry entry) {
-        buddies.put(Integer.valueOf(entry.getCharacterId()), entry);
-    }
+	public BuddylistEntry get(String characterName) {
+		String lowerCaseName = characterName.toLowerCase();
+		for (BuddylistEntry ble : buddies.values()) {
+			if (ble.getName().toLowerCase().equals(lowerCaseName)) {
+				return ble;
+			}
+		}
+		return null;
+	}
 
-    public void remove(int characterId) {
-        buddies.remove(Integer.valueOf(characterId));
-    }
+	public void put(BuddylistEntry entry) {
+		buddies.put(Integer.valueOf(entry.getCharacterId()), entry);
+	}
 
-    public Collection<BuddylistEntry> getBuddies() {
-        return buddies.values();
-    }
+	public void remove(int characterId) {
+		buddies.remove(Integer.valueOf(characterId));
+	}
 
-    public boolean isFull() {
-        return buddies.size() >= capacity;
-    }
+	public Collection<BuddylistEntry> getBuddies() {
+		return buddies.values();
+	}
 
-    public int[] getBuddyIds() {
-        int buddyIds[] = new int[buddies.size()];
-        int i = 0;
-        for (BuddylistEntry ble : buddies.values()) {
-            buddyIds[i++] = ble.getCharacterId();
-        }
-        return buddyIds;
-    }
+	public boolean isFull() {
+		return buddies.size() >= capacity;
+	}
 
-    public void loadFromDb(int characterId, Connection connection){
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT b.buddyid, b.group, b.pending, c.name as buddyname FROM buddies as b, characters as c WHERE c.id = b.buddyid AND b.characterid = ?");
-            ps.setInt(1, characterId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                if (rs.getInt("pending") == 1) { //未处理的好友请求 
-                    pendingRequests.push(new CharacterNameAndId(rs.getInt("buddyid"), rs.getString("buddyname"), rs.getInt("level")));
-                } else {
-                    put(new BuddylistEntry(rs.getString("buddyname"), rs.getString("group"), rs.getInt("buddyid"), -1, true));
-                }
-            }
-            rs.close();
-            ps.close();
+	public int[] getBuddyIds() {
+		int buddyIds[] = new int[buddies.size()];
+		int i = 0;
+		for (BuddylistEntry ble : buddies.values()) {
+			buddyIds[i++] = ble.getCharacterId();
+		}
+		return buddyIds;
+	}
 
-            ps = connection.prepareStatement("DELETE FROM buddies WHERE pending = 1 AND characterid = ?");
-            ps.setInt(1, characterId);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	public void loadFromDb(int characterId, Connection connection) {
+		try {
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT b.buddyid, b.group, b.pending, c.name as buddyname FROM buddies as b, characters as c WHERE c.id = b.buddyid AND b.characterid = ?");
+			ps.setInt(1, characterId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				if (rs.getInt("pending") == 1) { // 未处理的好友请求
+					pendingRequests.push(new CharacterNameAndId(rs
+							.getInt("buddyid"), rs.getString("buddyname"), rs
+							.getInt("level")));
+				} else {
+					put(new BuddylistEntry(rs.getString("buddyname"),
+							rs.getString("group"), rs.getInt("buddyid"), -1,
+							true));
+				}
+			}
+			rs.close();
+			ps.close();
 
-    public CharacterNameAndId pollPendingRequest() {
-        return pendingRequests.pollLast();
-    }
+			ps = connection
+					.prepareStatement("DELETE FROM buddies WHERE pending = 1 AND characterid = ?");
+			ps.setInt(1, characterId);
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public boolean hasPendingRequestFrom(String name) {
-        for (CharacterNameAndId cnai : this.pendingRequests) {
-            if (cnai.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public CharacterNameAndId pollPendingRequest() {
+		return pendingRequests.pollLast();
+	}
 
-    public void addBuddyRequest(MapleClient c, int cidFrom, String nameFrom, int channelFrom, int charlevel, int FromJobid) {
-        put(new BuddylistEntry(nameFrom, cidFrom, channelFrom, false));
-        if (pendingRequests.isEmpty()) {
-            c.getSession().write(MaplePacketCreator.requestBuddylistAdd(cidFrom, nameFrom, charlevel, channelFrom, FromJobid));
-        } else {
-            pendingRequests.push(new CharacterNameAndId(cidFrom, nameFrom, charlevel));
-        }
-    }
+	public boolean hasPendingRequestFrom(String name) {
+		for (CharacterNameAndId cnai : this.pendingRequests) {
+			if (cnai.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void addBuddyRequest(MapleClient c, int cidFrom, String nameFrom,
+			int channelFrom, int charlevel, int FromJobid) {
+		put(new BuddylistEntry(nameFrom, cidFrom, channelFrom, false));
+		if (pendingRequests.isEmpty()) {
+			c.getSession().write(
+					MaplePacketCreator.requestBuddylistAdd(cidFrom, nameFrom,
+							charlevel, channelFrom, FromJobid));
+		} else {
+			pendingRequests.push(new CharacterNameAndId(cidFrom, nameFrom,
+					charlevel));
+		}
+	}
 }

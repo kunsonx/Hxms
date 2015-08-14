@@ -13,31 +13,31 @@ import java.util.List;
  */
 public class MapleAndroidInfo {
 
-    private int id;
-    private List<MapleAndroidInfoFace> faces = new ArrayList<MapleAndroidInfoFace>();
-    private List<MapleAndroidInfoHair> hairs = new ArrayList<MapleAndroidInfoHair>();
+	private int id;
+	private List<MapleAndroidInfoFace> faces = new ArrayList<MapleAndroidInfoFace>();
+	private List<MapleAndroidInfoHair> hairs = new ArrayList<MapleAndroidInfoHair>();
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public List<MapleAndroidInfoFace> getFaces() {
-        return faces;
-    }
+	public List<MapleAndroidInfoFace> getFaces() {
+		return faces;
+	}
 
-    public void setFaces(List<MapleAndroidInfoFace> faces) {
-        this.faces = faces;
-    }
+	public void setFaces(List<MapleAndroidInfoFace> faces) {
+		this.faces = faces;
+	}
 
-    public List<MapleAndroidInfoHair> getHairs() {
-        return hairs;
-    }
+	public List<MapleAndroidInfoHair> getHairs() {
+		return hairs;
+	}
 
-    public void setHairs(List<MapleAndroidInfoHair> hairs) {
-        this.hairs = hairs;
-    }
+	public void setHairs(List<MapleAndroidInfoHair> hairs) {
+		this.hairs = hairs;
+	}
 }

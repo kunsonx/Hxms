@@ -12,9 +12,9 @@ import net.sf.odinms.client.MapleCharacter;
  */
 public interface MapleInteractionRoom {
 
-    MapleCharacter getChr();
+	MapleCharacter getChr();
 
-    MapleInteractionRoom getPartner();
+	MapleInteractionRoom getPartner();
 
-    void cancel();
+	void cancel();
 }

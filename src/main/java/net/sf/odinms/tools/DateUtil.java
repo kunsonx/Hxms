@@ -26,74 +26,80 @@ import net.sf.odinms.tools.data.output.MaplePacketLittleEndianWriter;
 
 public class DateUtil {
 
-    private final static long FT_UT_OFFSET = 116444520000000000L;
-    private final static long FINAL_TIME = 3439785600000L;
+	private final static long FT_UT_OFFSET = 116444520000000000L;
+	private final static long FINAL_TIME = 3439785600000L;
 
-    public static boolean isDST() {
-        return SimpleTimeZone.getDefault().useDaylightTime();
-    }
+	public static boolean isDST() {
+		return SimpleTimeZone.getDefault().useDaylightTime();
+	}
 
-    /**
-     * Converts a Unix Timestamp into File Time
-     * 
-     * @param timeStampinMillis 
-     * @return A 64-bit long giving a filetime timestamp
-     */
-    public static long getFileTimestamp(long timeStampinMillis) {
-        return getFileTimestamp(timeStampinMillis, false);
-    }
+	/**
+	 * Converts a Unix Timestamp into File Time
+	 * 
+	 * @param timeStampinMillis
+	 * @return A 64-bit long giving a filetime timestamp
+	 */
+	public static long getFileTimestamp(long timeStampinMillis) {
+		return getFileTimestamp(timeStampinMillis, false);
+	}
 
-    public static long getFileTimestamp(long timeStampinMillis, boolean roundToMinutes) {
-        if (isDST()) {
-            timeStampinMillis -= 3600000L; //60 * 60 * 1000
-        }
-        timeStampinMillis += 14 * 60 * 60 * 1000;
-        long time;
-        if (roundToMinutes) {
-            time = (timeStampinMillis / 1000 / 60) * 600000000;
-        } else {
-            time = timeStampinMillis * 10000;
-        }
-        return time + FT_UT_OFFSET;
-    }
+	public static long getFileTimestamp(long timeStampinMillis,
+			boolean roundToMinutes) {
+		if (isDST()) {
+			timeStampinMillis -= 3600000L; // 60 * 60 * 1000
+		}
+		timeStampinMillis += 14 * 60 * 60 * 1000;
+		long time;
+		if (roundToMinutes) {
+			time = (timeStampinMillis / 1000 / 60) * 600000000;
+		} else {
+			time = timeStampinMillis * 10000;
+		}
+		return time + FT_UT_OFFSET;
+	}
 
-    public static long getTimeMillis(long FileTimestamp) {
-        FileTimestamp -= FT_UT_OFFSET;
-        FileTimestamp /= 10000;
-        FileTimestamp -= 14 * 60 * 60 * 1000;
-        return FileTimestamp;
-    }
+	public static long getTimeMillis(long FileTimestamp) {
+		FileTimestamp -= FT_UT_OFFSET;
+		FileTimestamp /= 10000;
+		FileTimestamp -= 14 * 60 * 60 * 1000;
+		return FileTimestamp;
+	}
 
-    public static void addExpirationTime(MaplePacketLittleEndianWriter mplew) {
-        addExpirationTime(mplew, null);
-    }
+	public static void addExpirationTime(MaplePacketLittleEndianWriter mplew) {
+		addExpirationTime(mplew, null);
+	}
 
-    public static void addExpirationTime(MaplePacketLittleEndianWriter mplew, Timestamp time) {
-        if (time != null) {
-            mplew.writeLong(getFileTimestamp(time.getTime()));
-        } else {
-            mplew.writeLong(getFileTimestamp(FINAL_TIME));
-        }
-    }
+	public static void addExpirationTime(MaplePacketLittleEndianWriter mplew,
+			Timestamp time) {
+		if (time != null) {
+			mplew.writeLong(getFileTimestamp(time.getTime()));
+		} else {
+			mplew.writeLong(getFileTimestamp(FINAL_TIME));
+		}
+	}
 
-    /**
-     * 添加技能限制时间。
-     * @param mplew 
-     */
-    public static void addSkillExpirationTime(MaplePacketLittleEndianWriter mplew) {
-        mplew.writeLong(getFileTimestamp(MaplePacketCreator.FINAL_LOCKITEMTIME));
-    }
+	/**
+	 * 添加技能限制时间。
+	 * 
+	 * @param mplew
+	 */
+	public static void addSkillExpirationTime(
+			MaplePacketLittleEndianWriter mplew) {
+		mplew.writeLong(getFileTimestamp(MaplePacketCreator.FINAL_LOCKITEMTIME));
+	}
 
-    /**
-     * 添加技能限制时间。
-     * @param mplew
-     * @param time 
-     */
-    public static void addSkillExpirationTime(MaplePacketLittleEndianWriter mplew, Timestamp time) {
-        if (time != null) {
-            mplew.writeLong(getFileTimestamp(time.getTime()));
-        } else {
-            addSkillExpirationTime(mplew);
-        }
-    }
+	/**
+	 * 添加技能限制时间。
+	 * 
+	 * @param mplew
+	 * @param time
+	 */
+	public static void addSkillExpirationTime(
+			MaplePacketLittleEndianWriter mplew, Timestamp time) {
+		if (time != null) {
+			mplew.writeLong(getFileTimestamp(time.getTime()));
+		} else {
+			addSkillExpirationTime(mplew);
+		}
+	}
 }

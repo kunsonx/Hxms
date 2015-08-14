@@ -7,11 +7,11 @@ import net.sf.odinms.net.AbstractMaplePacketHandler;
 import net.sf.odinms.tools.MaplePacketCreator;
 import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
-
 public class TouchingCashShopupHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        c.getSession().write(MaplePacketCreator.showNXMapleTokens(c.getPlayer()));
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		c.getSession().write(
+				MaplePacketCreator.showNXMapleTokens(c.getPlayer()));
+	}
 }

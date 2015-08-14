@@ -34,32 +34,34 @@ import net.sf.odinms.database.DatabaseConnection;
  */
 public class MapleFamily {
 
-    private static Map<Integer, MapleFamilyEntry> members = new HashMap<Integer, MapleFamilyEntry>();
+	private static Map<Integer, MapleFamilyEntry> members = new HashMap<Integer, MapleFamilyEntry>();
 
-    public static MapleFamilyEntry getMapleFamily(MapleCharacter chr) {
-        if (members.containsKey(chr.getId())) {
-            return members.get(chr.getId());
-        }
-        MapleFamilyEntry ret = new MapleFamilyEntry();
-        ret.setPlayer(chr);
-        ret.setFamilyId(ret.getFamilyId());
-        try {
-            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement("SELECT * FROM family_character WHERE cid = ?");
-            ps.setInt(1, chr.getId());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                ret.setRank(rs.getInt("rank"));
-                ret.setReputation(rs.getInt("reputation"));
-                ret.setTotalJuniors(rs.getInt("totaljuniors"));
-                ret.setFamilyName(rs.getString("name"));
-                ret.setJuniors(rs.getInt("juniorsadded"));
-                ret.setTodaysRep(rs.getInt("todaysrep"));
-            }
-            rs.close();
-            ps.getConnection().close();
-            ps.close();
-        } catch (SQLException sqle) {
-        }
-        return ret;
-    }
+	public static MapleFamilyEntry getMapleFamily(MapleCharacter chr) {
+		if (members.containsKey(chr.getId())) {
+			return members.get(chr.getId());
+		}
+		MapleFamilyEntry ret = new MapleFamilyEntry();
+		ret.setPlayer(chr);
+		ret.setFamilyId(ret.getFamilyId());
+		try {
+			PreparedStatement ps = DatabaseConnection.getConnection()
+					.prepareStatement(
+							"SELECT * FROM family_character WHERE cid = ?");
+			ps.setInt(1, chr.getId());
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				ret.setRank(rs.getInt("rank"));
+				ret.setReputation(rs.getInt("reputation"));
+				ret.setTotalJuniors(rs.getInt("totaljuniors"));
+				ret.setFamilyName(rs.getString("name"));
+				ret.setJuniors(rs.getInt("juniorsadded"));
+				ret.setTodaysRep(rs.getInt("todaysrep"));
+			}
+			rs.close();
+			ps.getConnection().close();
+			ps.close();
+		} catch (SQLException sqle) {
+		}
+		return ret;
+	}
 }

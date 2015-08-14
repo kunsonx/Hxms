@@ -10,37 +10,37 @@ package net.sf.odinms.net.channel.www.info;
  */
 public class WebRanking {
 
-    private int no;
-    private String name;
-    private int count;
+	private int no;
+	private String name;
+	private int count;
 
-    public WebRanking(int no, String name, int count) {
-        this.no = no;
-        this.name = name;
-        this.count = count;
-    }
+	public WebRanking(int no, String name, int count) {
+		this.no = no;
+		this.name = name;
+		this.count = count;
+	}
 
-    public int getNo() {
-        return no;
-    }
+	public int getNo() {
+		return no;
+	}
 
-    public void setNo(int no) {
-        this.no = no;
-    }
+	public void setNo(int no) {
+		this.no = no;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public int getCount() {
-        return count;
-    }
+	public int getCount() {
+		return count;
+	}
 
-    public void setCount(int count) {
-        this.count = count;
-    }
+	public void setCount(int count) {
+		this.count = count;
+	}
 }

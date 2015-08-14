@@ -11,23 +11,37 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class FaceExpressionHandler extends AbstractMaplePacketHandler {
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(FaceExpressionHandler.class);
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(FaceExpressionHandler.class);
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        int emote = slea.readInt();
-        if (emote < 0) {
-            return;
-        }
-        if (emote > 7) {
-            int emoteid = 5159992 + emote;
-            if (c.getPlayer().getInventory(MapleItemInformationProvider.getInstance().getInventoryType(emoteid)).findById(emoteid) == null) {
-                return;
-            }
-        }
-        if (c.getPlayer().getAndroid() != null) {
-            c.getPlayer().getMap().broadcastMessage(MaplePacketCreator.showAndroidEmotion(c.getPlayer().getId(), emote));
-        }
-        c.getPlayer().getMap().broadcastMessage(c.getPlayer(), MaplePacketCreator.facialExpression(c.getPlayer(), emote), false);
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		int emote = slea.readInt();
+		if (emote < 0) {
+			return;
+		}
+		if (emote > 7) {
+			int emoteid = 5159992 + emote;
+			if (c.getPlayer()
+					.getInventory(
+							MapleItemInformationProvider.getInstance()
+									.getInventoryType(emoteid))
+					.findById(emoteid) == null) {
+				return;
+			}
+		}
+		if (c.getPlayer().getAndroid() != null) {
+			c.getPlayer()
+					.getMap()
+					.broadcastMessage(
+							MaplePacketCreator.showAndroidEmotion(c.getPlayer()
+									.getId(), emote));
+		}
+		c.getPlayer()
+				.getMap()
+				.broadcastMessage(
+						c.getPlayer(),
+						MaplePacketCreator.facialExpression(c.getPlayer(),
+								emote), false);
+	}
 }

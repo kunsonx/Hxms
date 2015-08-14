@@ -16,12 +16,14 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public class AndroidEmotionHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        int emote = slea.readInt();
-        MapleCharacter chr = c.getPlayer();
-        if (emote > 0 && chr != null && chr.getMap() != null && !chr.isHidden() && emote <= 17 && chr.getAndroid() != null) { //O_o
-            chr.getMap().broadcastMessage(MaplePacketCreator.showAndroidEmotion(chr.getId(), emote));
-        }
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		int emote = slea.readInt();
+		MapleCharacter chr = c.getPlayer();
+		if (emote > 0 && chr != null && chr.getMap() != null && !chr.isHidden()
+				&& emote <= 17 && chr.getAndroid() != null) { // O_o
+			chr.getMap().broadcastMessage(
+					MaplePacketCreator.showAndroidEmotion(chr.getId(), emote));
+		}
+	}
 }

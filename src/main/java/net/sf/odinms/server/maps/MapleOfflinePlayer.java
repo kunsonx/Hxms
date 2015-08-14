@@ -16,72 +16,74 @@ import net.sf.odinms.tools.MaplePacketCreator;
  */
 public class MapleOfflinePlayer {
 
-    public static class PlayerData {
+	public static class PlayerData {
 
-        private int cid;
-        private MaplePacket spawn;
-        private MaplePacket delete;
-        private MaplePacket info;
+		private int cid;
+		private MaplePacket spawn;
+		private MaplePacket delete;
+		private MaplePacket info;
 
-        public PlayerData(int cid, MaplePacket spawn, MaplePacket delete, MaplePacket _info) {
-            this.cid = cid;
-            this.spawn = spawn;
-            this.delete = delete;
-            this.info = _info;
-        }
-    }
-    private MapleMap map;
-    private final Map<Integer, PlayerData> data = new HashMap<Integer, PlayerData>();
+		public PlayerData(int cid, MaplePacket spawn, MaplePacket delete,
+				MaplePacket _info) {
+			this.cid = cid;
+			this.spawn = spawn;
+			this.delete = delete;
+			this.info = _info;
+		}
+	}
 
-    public MapleOfflinePlayer(MapleMap map) {
-        this.map = map;
-    }
+	private MapleMap map;
+	private final Map<Integer, PlayerData> data = new HashMap<Integer, PlayerData>();
 
-    public MaplePacket getPlayerInfo(int cid) {
-        synchronized (data) {
-            for (PlayerData playerData : data.values()) {
-                if (playerData.cid == cid) {
-                    return playerData.info;
-                }
-            }
-            return null;
-        }
-    }
+	public MapleOfflinePlayer(MapleMap map) {
+		this.map = map;
+	}
 
-    public void onAddPlayer(MapleCharacter chr) {
-        synchronized (data) {
-            for (PlayerData playerData : data.values()) {
-                chr.getClient().getSession().write(playerData.spawn);
-            }
-        }
-    }
+	public MaplePacket getPlayerInfo(int cid) {
+		synchronized (data) {
+			for (PlayerData playerData : data.values()) {
+				if (playerData.cid == cid) {
+					return playerData.info;
+				}
+			}
+			return null;
+		}
+	}
 
-    public void deregisterPlayer(int aid) {
-        synchronized (data) {
-            if (data.containsKey(aid)) {
-                PlayerData d = data.remove(aid);
-                map.broadcastMessage(d.delete);
-                map.getChannelServer().removeOfflinePlayer();
-            }
-        }
-    }
+	public void onAddPlayer(MapleCharacter chr) {
+		synchronized (data) {
+			for (PlayerData playerData : data.values()) {
+				chr.getClient().getSession().write(playerData.spawn);
+			}
+		}
+	}
 
-    public void registryPlayer(MapleCharacter chr) {
-        synchronized (data) {
-            data.put(chr.getClient().getAccID(), new PlayerData(chr.getId(),
-                    MaplePacketCreator.spawnPlayerMapobject(chr),
-                    MaplePacketCreator.removePlayerFromMap(chr.getId()),
-                    MaplePacketCreator.charInfo(chr)));
-            map.broadcastMessage(data.get(chr.getClient().getAccID()).spawn);
-            map.getChannelServer().addOfflinePlayer();
-        }
-    }
+	public void deregisterPlayer(int aid) {
+		synchronized (data) {
+			if (data.containsKey(aid)) {
+				PlayerData d = data.remove(aid);
+				map.broadcastMessage(d.delete);
+				map.getChannelServer().removeOfflinePlayer();
+			}
+		}
+	}
 
-    public MapleMap getMap() {
-        return map;
-    }
+	public void registryPlayer(MapleCharacter chr) {
+		synchronized (data) {
+			data.put(chr.getClient().getAccID(), new PlayerData(chr.getId(),
+					MaplePacketCreator.spawnPlayerMapobject(chr),
+					MaplePacketCreator.removePlayerFromMap(chr.getId()),
+					MaplePacketCreator.charInfo(chr)));
+			map.broadcastMessage(data.get(chr.getClient().getAccID()).spawn);
+			map.getChannelServer().addOfflinePlayer();
+		}
+	}
 
-    public void setMap(MapleMap map) {
-        this.map = map;
-    }
+	public MapleMap getMap() {
+		return map;
+	}
+
+	public void setMap(MapleMap map) {
+		this.map = map;
+	}
 }

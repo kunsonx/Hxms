@@ -32,40 +32,42 @@ import java.io.IOException;
  */
 public class BAOSByteOutputStream implements ByteOutputStream {
 
-    private ByteArrayOutputStream baos;
+	private ByteArrayOutputStream baos;
 
-    /**
-     * Class constructor - Wraps the stream around a Java BAOS.
-     * 
-     * @param baos <code>The ByteArrayOutputStream</code> to wrap this around.
-     */
-    public BAOSByteOutputStream(ByteArrayOutputStream baos) {
-        super();
-        this.baos = baos;
-    }
+	/**
+	 * Class constructor - Wraps the stream around a Java BAOS.
+	 * 
+	 * @param baos
+	 *            <code>The ByteArrayOutputStream</code> to wrap this around.
+	 */
+	public BAOSByteOutputStream(ByteArrayOutputStream baos) {
+		super();
+		this.baos = baos;
+	}
 
-    /**
-     * Writes a byte to the stream.
-     * 
-     * @param b The byte to write to the stream.
-     * @see net.sf.odinms.tools.data.output.ByteOutputStream#writeByte(byte)
-     */
-    @Override
-    public void writeByte(byte b) {
-        baos.write(b);
-    }
+	/**
+	 * Writes a byte to the stream.
+	 * 
+	 * @param b
+	 *            The byte to write to the stream.
+	 * @see net.sf.odinms.tools.data.output.ByteOutputStream#writeByte(byte)
+	 */
+	@Override
+	public void writeByte(byte b) {
+		baos.write(b);
+	}
 
-    @Override
-    public byte[] ToArray() {
-        return baos.toByteArray();
-    }
+	@Override
+	public byte[] ToArray() {
+		return baos.toByteArray();
+	}
 
-    @Override
-    public void write(byte[] data) {
-        try {
-            baos.write(data);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
+	@Override
+	public void write(byte[] data) {
+		try {
+			baos.write(data);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
 }

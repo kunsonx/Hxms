@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.provider;
 
@@ -28,33 +28,34 @@ import net.sf.odinms.provider.xmlwz.XMLWZFile;
 
 public class MapleDataProviderFactory {
 
-    private final static String wzPath = System.getProperty("net.sf.odinms.wzpath");
+	private final static String wzPath = System
+			.getProperty("net.sf.odinms.wzpath");
 
-    private static MapleDataProvider getWZ(Object in, boolean provideImages) {
-        if (in instanceof File) {
-            File fileIn = (File) in;
-            if (fileIn.getName().endsWith("wz") && !fileIn.isDirectory()) {
-                try {
-                    return new WZFile(fileIn, provideImages);
-                } catch (IOException e) {
-                    throw new RuntimeException("加载WZ数据文件失败", e);
-                }
-            } else {
-                return new XMLWZFile(fileIn);
-            }
-        }
-        throw new IllegalArgumentException("无法创建数据输入input " + in);
-    }
+	private static MapleDataProvider getWZ(Object in, boolean provideImages) {
+		if (in instanceof File) {
+			File fileIn = (File) in;
+			if (fileIn.getName().endsWith("wz") && !fileIn.isDirectory()) {
+				try {
+					return new WZFile(fileIn, provideImages);
+				} catch (IOException e) {
+					throw new RuntimeException("加载WZ数据文件失败", e);
+				}
+			} else {
+				return new XMLWZFile(fileIn);
+			}
+		}
+		throw new IllegalArgumentException("无法创建数据输入input " + in);
+	}
 
-    public static MapleDataProvider getDataProvider(Object in) {
-        return getWZ(in, false);
-    }
+	public static MapleDataProvider getDataProvider(Object in) {
+		return getWZ(in, false);
+	}
 
-    public static MapleDataProvider getImageProvidingDataProvider(Object in) {
-        return getWZ(in, true);
-    }
+	public static MapleDataProvider getImageProvidingDataProvider(Object in) {
+		return getWZ(in, true);
+	}
 
-    public static File fileInWZPath(String filename) {
-        return new File(wzPath, filename);
-    }
+	public static File fileInWZPath(String filename) {
+		return new File(wzPath, filename);
+	}
 }

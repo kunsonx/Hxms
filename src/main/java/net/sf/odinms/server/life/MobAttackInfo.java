@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.server.life;
 
@@ -27,56 +27,56 @@ package net.sf.odinms.server.life;
  */
 public class MobAttackInfo {
 
-    private int mobId;
-    private int attackId;
-    private boolean isDeadlyAttack;
-    private int mpBurn;
-    private int diseaseSkill;
-    private int diseaseLevel;
-    private int mpCon;
+	private int mobId;
+	private int attackId;
+	private boolean isDeadlyAttack;
+	private int mpBurn;
+	private int diseaseSkill;
+	private int diseaseLevel;
+	private int mpCon;
 
-    public MobAttackInfo(int mobId, int attackId) {
-        this.mobId = mobId;
-        this.attackId = attackId;
-    }
+	public MobAttackInfo(int mobId, int attackId) {
+		this.mobId = mobId;
+		this.attackId = attackId;
+	}
 
-    public void setDeadlyAttack(boolean isDeadlyAttack) {
-        this.isDeadlyAttack = isDeadlyAttack;
-    }
+	public void setDeadlyAttack(boolean isDeadlyAttack) {
+		this.isDeadlyAttack = isDeadlyAttack;
+	}
 
-    public boolean isDeadlyAttack() {
-        return isDeadlyAttack;
-    }
+	public boolean isDeadlyAttack() {
+		return isDeadlyAttack;
+	}
 
-    public void setMpBurn(int mpBurn) {
-        this.mpBurn = mpBurn;
-    }
+	public void setMpBurn(int mpBurn) {
+		this.mpBurn = mpBurn;
+	}
 
-    public int getMpBurn() {
-        return mpBurn;
-    }
+	public int getMpBurn() {
+		return mpBurn;
+	}
 
-    public void setDiseaseSkill(int diseaseSkill) {
-        this.diseaseSkill = diseaseSkill;
-    }
+	public void setDiseaseSkill(int diseaseSkill) {
+		this.diseaseSkill = diseaseSkill;
+	}
 
-    public int getDiseaseSkill() {
-        return diseaseSkill;
-    }
+	public int getDiseaseSkill() {
+		return diseaseSkill;
+	}
 
-    public void setDiseaseLevel(int diseaseLevel) {
-        this.diseaseLevel = diseaseLevel;
-    }
+	public void setDiseaseLevel(int diseaseLevel) {
+		this.diseaseLevel = diseaseLevel;
+	}
 
-    public int getDiseaseLevel() {
-        return diseaseLevel;
-    }
+	public int getDiseaseLevel() {
+		return diseaseLevel;
+	}
 
-    public void setMpCon(int mpCon) {
-        this.mpCon = mpCon;
-    }
+	public void setMpCon(int mpCon) {
+		this.mpCon = mpCon;
+	}
 
-    public int getMpCon() {
-        return mpCon;
-    }
+	public int getMpCon() {
+		return mpCon;
+	}
 }

@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.scripting.npc;
 
@@ -26,15 +26,15 @@ import net.sf.odinms.client.MapleCharacter;
 import net.sf.odinms.net.world.MaplePartyCharacter;
 
 /**
-@author Matze
+ * @author Matze
  */
 public interface NPCScript {
 
-    public void start();
+	public void start();
 
-    public void start(MapleCharacter chr);
+	public void start(MapleCharacter chr);
 
-    public void start(List<MaplePartyCharacter> chrs);
+	public void start(List<MaplePartyCharacter> chrs);
 
-    public void action(byte mode, byte type, int selection);
+	public void action(byte mode, byte type, int selection);
 }

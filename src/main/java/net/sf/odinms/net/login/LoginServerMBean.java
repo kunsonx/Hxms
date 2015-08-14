@@ -22,19 +22,19 @@ package net.sf.odinms.net.login;
 
 public interface LoginServerMBean {
 
-    int getNumberOfSessions();
+	int getNumberOfSessions();
 
-    int getPossibleLogins();
+	int getPossibleLogins();
 
-    String getEventMessage();
+	String getEventMessage();
 
-    int getFlag();
+	int getFlag();
 
-    void setEventMessage(String newMessage);
+	void setEventMessage(String newMessage);
 
-    void setFlag(int flag);
+	void setFlag(int flag);
 
-    int getUserLimit();
+	int getUserLimit();
 
-    void setUserLimit(int newLimit);
+	void setUserLimit(int newLimit);
 }

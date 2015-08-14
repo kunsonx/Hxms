@@ -40,51 +40,52 @@ import net.sf.odinms.server.ServerExceptionHandler;
  */
 public class WorldServer extends GeneralServer {
 
-    //日志
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(WorldServer.class);
-    //单一实例
-    private static WorldServer instance = null;
+	// 日志
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(WorldServer.class);
+	// 单一实例
+	private static WorldServer instance = null;
 
-    private WorldServer() {
-        super(new WorldServerConfig());
-        try {
-            DatabaseConnection.getConnection().close();
-        } catch (Exception e) {
-            log.error("Could not configuration", e);
-        }
-    }
+	private WorldServer() {
+		super(new WorldServerConfig());
+		try {
+			DatabaseConnection.getConnection().close();
+		} catch (Exception e) {
+			log.error("Could not configuration", e);
+		}
+	}
 
-    public synchronized static WorldServer getInstance() {
-        if (instance == null) {
-            instance = new WorldServer();
-        }
-        return instance;
-    }
+	public synchronized static WorldServer getInstance() {
+		if (instance == null) {
+			instance = new WorldServer();
+		}
+		return instance;
+	}
 
+	public static void main(String[] args) {
+		try {
+			if (CheckFilePermit()) {
+				return;
+			}
+			System.setProperty("java.rmi.server.hostname", "127.0.0.1");
+			Registry registry = LocateRegistry.createRegistry(
+					Registry.REGISTRY_PORT, new SslRMIClientSocketFactory(),
+					new SslRMIServerSocketFactory());
+			registry.rebind("WorldRegistry", WorldRegistryImpl.getInstance());
+			log.info("世界服务器 已上线.");
+		} catch (RemoteException ex) {
+			ServerExceptionHandler.HandlerRemoteException(ex);
+			log.error("不能初始化 RMI 系统", ex);
+		}
+	}
 
-    public static void main(String[] args) {
-        try {
-            if (CheckFilePermit()) {
-                return;
-            }
-            System.setProperty("java.rmi.server.hostname", "127.0.0.1");
-            Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT,
-                    new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
-            registry.rebind("WorldRegistry", WorldRegistryImpl.getInstance());
-            log.info("世界服务器 已上线.");
-        } catch (RemoteException ex) {
-            ServerExceptionHandler.HandlerRemoteException(ex);
-            log.error("不能初始化 RMI 系统", ex);
-        }
-    }
+	@Override
+	public GeneralServerType getServerType() {
+		return GeneralServerType.WORLD;
+	}
 
-    @Override
-    public GeneralServerType getServerType() {
-        return GeneralServerType.WORLD;
-    }
-
-    @Override
-    public final WorldServerConfig getConfig() {
-        return (WorldServerConfig) _Config;
-    }
+	@Override
+	public final WorldServerConfig getConfig() {
+		return (WorldServerConfig) _Config;
+	}
 }

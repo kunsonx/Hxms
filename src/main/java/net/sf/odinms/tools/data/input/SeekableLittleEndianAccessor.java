@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.tools.data.input;
 
@@ -32,18 +32,18 @@ package net.sf.odinms.tools.data.input;
  */
 public interface SeekableLittleEndianAccessor extends LittleEndianAccessor {
 
-    /**
-     * Seeks the stream by <code>offset</code>
-     * 
-     * @param offset
-     *            Number of bytes to seek ahead.
-     */
-    void seek(long offset);
+	/**
+	 * Seeks the stream by <code>offset</code>
+	 * 
+	 * @param offset
+	 *            Number of bytes to seek ahead.
+	 */
+	void seek(long offset);
 
-    /**
-     * Gets the current position of the stream pointer.
-     * 
-     * @return The current position in the stream as a long integer.
-     */
-    long getPosition();
+	/**
+	 * Gets the current position of the stream pointer.
+	 * 
+	 * @return The current position in the stream as a long integer.
+	 */
+	long getPosition();
 }

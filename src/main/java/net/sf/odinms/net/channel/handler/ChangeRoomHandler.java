@@ -16,17 +16,17 @@ import org.apache.log4j.Logger;
  */
 public class ChangeRoomHandler extends AbstractMaplePacketHandler {
 
-    private static Logger log = Logger.getLogger(ChangeRoomHandler.class);
+	private static Logger log = Logger.getLogger(ChangeRoomHandler.class);
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        int channel = slea.readByte() + 1;
-        int room = (slea.readByte() & 0xFF) - 0x80;
-        if (log.isDebugEnabled()) {
-            log.debug("切换房间：" + channel + "线." + room + "洞.");
-        }
-        c.getPlayer().saveToDB();
-        c.getSession().write(MaplePacketCreator.enableActions());
-        c.getPlayer().弹窗("不支持该功能。");
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		int channel = slea.readByte() + 1;
+		int room = (slea.readByte() & 0xFF) - 0x80;
+		if (log.isDebugEnabled()) {
+			log.debug("切换房间：" + channel + "线." + room + "洞.");
+		}
+		c.getPlayer().saveToDB();
+		c.getSession().write(MaplePacketCreator.enableActions());
+		c.getPlayer().弹窗("不支持该功能。");
+	}
 }

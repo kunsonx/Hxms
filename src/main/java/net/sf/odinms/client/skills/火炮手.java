@@ -9,5 +9,5 @@ package net.sf.odinms.client.skills;
  * @author Administrator
  */
 public class 火炮手 {
-    
+
 }

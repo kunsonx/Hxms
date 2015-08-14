@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.scripting.map;
 
@@ -39,61 +39,62 @@ import net.sf.odinms.client.MapleClient;
 
 public class MapScriptManager {
 
-    private static MapScriptManager instance = new MapScriptManager();
-    private Map<String, MapScript> scripts = new HashMap<String, MapScript>();
-    private ScriptEngineFactory sef;
+	private static MapScriptManager instance = new MapScriptManager();
+	private Map<String, MapScript> scripts = new HashMap<String, MapScript>();
+	private ScriptEngineFactory sef;
 
-    private MapScriptManager() {
-        ScriptEngineManager sem = new ScriptEngineManager();
-        sef = sem.getEngineByName("javascript").getFactory();
-    }
+	private MapScriptManager() {
+		ScriptEngineManager sem = new ScriptEngineManager();
+		sef = sem.getEngineByName("javascript").getFactory();
+	}
 
-    public static MapScriptManager getInstance() {
-	return instance;
-    }
+	public static MapScriptManager getInstance() {
+		return instance;
+	}
 
-    public void getMapScript(MapleClient c, String scriptName, boolean firstUser) {
-        //System.out.println(scriptName);
-        if (scripts.containsKey(scriptName)) {
-            scripts.get(scriptName).start(new MapScriptMethods(c));
-            return;
-        }
+	public void getMapScript(MapleClient c, String scriptName, boolean firstUser) {
+		// System.out.println(scriptName);
+		if (scripts.containsKey(scriptName)) {
+			scripts.get(scriptName).start(new MapScriptMethods(c));
+			return;
+		}
 
-        String type;
-        if (firstUser) {
-            type = "onFirstUserEnter";
-        } else {
-            type = "onUserEnter";
-        }
+		String type;
+		if (firstUser) {
+			type = "onFirstUserEnter";
+		} else {
+			type = "onUserEnter";
+		}
 
-        File scriptFile = new File("scripts/map/" + type + "/" + scriptName + ".js");
-        if (!scriptFile.exists()) {
-            return;
-        }
-        FileReader fr = null;
-        ScriptEngine portal = sef.getScriptEngine();
-        try {
-            fr = new FileReader(scriptFile);
-            CompiledScript compiled = ((Compilable) portal).compile(fr);
-            compiled.eval();
-        } catch (ScriptException e) {
-            System.err.println("THROW" + e);
-        } catch (IOException e) {
-            System.err.println("THROW" + e);
-        } finally {
-            if (fr != null)
-                try {
-                    fr.close();
-                } catch (IOException e) {
-                    System.err.println("ERROR CLOSING" + e);
-                }
-        }
-        MapScript script = ((Invocable) portal).getInterface(MapScript.class);
-        scripts.put(scriptName, script);
-        script.start(new MapScriptMethods(c));
-    }
+		File scriptFile = new File("scripts/map/" + type + "/" + scriptName
+				+ ".js");
+		if (!scriptFile.exists()) {
+			return;
+		}
+		FileReader fr = null;
+		ScriptEngine portal = sef.getScriptEngine();
+		try {
+			fr = new FileReader(scriptFile);
+			CompiledScript compiled = ((Compilable) portal).compile(fr);
+			compiled.eval();
+		} catch (ScriptException e) {
+			System.err.println("THROW" + e);
+		} catch (IOException e) {
+			System.err.println("THROW" + e);
+		} finally {
+			if (fr != null)
+				try {
+					fr.close();
+				} catch (IOException e) {
+					System.err.println("ERROR CLOSING" + e);
+				}
+		}
+		MapScript script = ((Invocable) portal).getInterface(MapScript.class);
+		scripts.put(scriptName, script);
+		script.start(new MapScriptMethods(c));
+	}
 
-    public void clearScripts() {
-        scripts.clear();
-    }
+	public void clearScripts() {
+		scripts.clear();
+	}
 }

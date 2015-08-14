@@ -27,15 +27,15 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class CharlistRequestHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        if (c.getLoginState() == MapleClient.LOGIN_LOGGEDIN) {
-            slea.skip(1);
-            int server = slea.readByte();
-            int channel = slea.readByte() + 1;
-            c.setChannel(new ChannelDescriptor(channel, server));
-            //c.getSession().write(MaplePacketCreator.testPacket("22 00 03 00 00 00"));
-            c.sendCharList(server);
-        }
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		if (c.getLoginState() == MapleClient.LOGIN_LOGGEDIN) {
+			slea.skip(1);
+			int server = slea.readByte();
+			int channel = slea.readByte() + 1;
+			c.setChannel(new ChannelDescriptor(channel, server));
+			// c.getSession().write(MaplePacketCreator.testPacket("22 00 03 00 00 00"));
+			c.sendCharList(server);
+		}
+	}
 }

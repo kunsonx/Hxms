@@ -31,71 +31,77 @@ import net.sf.odinms.server.MaplePortal;
 
 public class PortalScriptManager {
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(PortalScriptManager.class);
-    private static PortalScriptManager instance = new PortalScriptManager();
-    private Map<String, PortalScript> scripts = new HashMap<String, PortalScript>();
-    private ScriptEngineFactory sef;
+	private static final org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(PortalScriptManager.class);
+	private static PortalScriptManager instance = new PortalScriptManager();
+	private Map<String, PortalScript> scripts = new HashMap<String, PortalScript>();
+	private ScriptEngineFactory sef;
 
-    private PortalScriptManager() {
-        ScriptEngineManager sem = new ScriptEngineManager();
-        sef = sem.getEngineByName("javascript").getFactory();
-    }
+	private PortalScriptManager() {
+		ScriptEngineManager sem = new ScriptEngineManager();
+		sef = sem.getEngineByName("javascript").getFactory();
+	}
 
-    public static PortalScriptManager getInstance() {
-        return instance;
-    }
+	public static PortalScriptManager getInstance() {
+		return instance;
+	}
 
-    private PortalScript getPortalScript(MapleClient c, String scriptName) {
-        if (scripts.containsKey(scriptName)) {
-            return scripts.get(scriptName);
-        }
-        File scriptFile = new File("scripts/portal/" + scriptName + ".js");
-        if (!scriptFile.exists()) {
-            log.info("" + scriptName + ".js 未找到~请到服务端Portal内添加.");
-            //scripts.put(scriptName, null);
-            return null;
-        }
-        FileReader fr = null;
-        ScriptEngine portal = sef.getScriptEngine();
-        try {
-            log.info("Portal:" + scriptName + ".js 已执行");
-            fr = new FileReader(scriptFile);
-            CompiledScript compiled = ((Compilable) portal).compile(fr);
-            compiled.eval();
-        } catch (ScriptException e) {
-            log.error("THROW", e);
-        } catch (IOException e) {
-            log.error("THROW", e);
-        } finally {
-            if (fr != null) {
-                try {
-                    fr.close();
-                } catch (IOException e) {
-                    log.error("ERROR CLOSING", e);
-                }
-            }
-        }
-        PortalScript script = ((Invocable) portal).getInterface(PortalScript.class);
-        scripts.put(scriptName, script);
-        return script;
-    }
-    // rhino is thread safe so this should be fine without synchronisation
+	private PortalScript getPortalScript(MapleClient c, String scriptName) {
+		if (scripts.containsKey(scriptName)) {
+			return scripts.get(scriptName);
+		}
+		File scriptFile = new File("scripts/portal/" + scriptName + ".js");
+		if (!scriptFile.exists()) {
+			log.info("" + scriptName + ".js 未找到~请到服务端Portal内添加.");
+			// scripts.put(scriptName, null);
+			return null;
+		}
+		FileReader fr = null;
+		ScriptEngine portal = sef.getScriptEngine();
+		try {
+			log.info("Portal:" + scriptName + ".js 已执行");
+			fr = new FileReader(scriptFile);
+			CompiledScript compiled = ((Compilable) portal).compile(fr);
+			compiled.eval();
+		} catch (ScriptException e) {
+			log.error("THROW", e);
+		} catch (IOException e) {
+			log.error("THROW", e);
+		} finally {
+			if (fr != null) {
+				try {
+					fr.close();
+				} catch (IOException e) {
+					log.error("ERROR CLOSING", e);
+				}
+			}
+		}
+		PortalScript script = ((Invocable) portal)
+				.getInterface(PortalScript.class);
+		scripts.put(scriptName, script);
+		return script;
+	}
 
-    public boolean executePortalScript(MaplePortal portal, MapleClient c) {
-        PortalScript script = getPortalScript(c, portal.getScriptName());
-        try {
-            if (script != null && !c.getPlayer().getBlockedPortals().contains(portal.getScriptName())) {
-                return script.enter(new PortalPlayerInteraction(c, portal));
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            log.error("门脚本计算错误：" + portal.getScriptName() + ".js  错误内容是：" + e.getMessage());
-            return false;
-        }
-    }
+	// rhino is thread safe so this should be fine without synchronisation
 
-    public void clearScripts() {
-        scripts.clear();
-    }
+	public boolean executePortalScript(MaplePortal portal, MapleClient c) {
+		PortalScript script = getPortalScript(c, portal.getScriptName());
+		try {
+			if (script != null
+					&& !c.getPlayer().getBlockedPortals()
+							.contains(portal.getScriptName())) {
+				return script.enter(new PortalPlayerInteraction(c, portal));
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			log.error("门脚本计算错误：" + portal.getScriptName() + ".js  错误内容是："
+					+ e.getMessage());
+			return false;
+		}
+	}
+
+	public void clearScripts() {
+		scripts.clear();
+	}
 }

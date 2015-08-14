@@ -12,24 +12,25 @@ import java.util.Calendar;
  */
 public class ConstantTable {
 
-    public static final String _S_ONLINE_MINUTE = "_ONLINE_MINUTE";
-    public static final String _PLAYER_DATA_LOGINTIME = "_LoginTime";
-    private static String CURRENT_DAY;
-    private static Calendar now = Calendar.getInstance();
+	public static final String _S_ONLINE_MINUTE = "_ONLINE_MINUTE";
+	public static final String _PLAYER_DATA_LOGINTIME = "_LoginTime";
+	private static String CURRENT_DAY;
+	private static Calendar now = Calendar.getInstance();
 
-    static {
-        refCurrentDay();
-    }
+	static {
+		refCurrentDay();
+	}
 
-    private static void refCurrentDay() {
-        CURRENT_DAY = ((Integer) now.get(Calendar.DAY_OF_YEAR)).toString();
-    }
+	private static void refCurrentDay() {
+		CURRENT_DAY = ((Integer) now.get(Calendar.DAY_OF_YEAR)).toString();
+	}
 
-    public static String getCurrentDay() {
-        if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != now.get(Calendar.DAY_OF_YEAR)) {
-            now = Calendar.getInstance();
-            refCurrentDay();
-        }
-        return CURRENT_DAY;
-    }
+	public static String getCurrentDay() {
+		if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != now
+				.get(Calendar.DAY_OF_YEAR)) {
+			now = Calendar.getInstance();
+			refCurrentDay();
+		}
+		return CURRENT_DAY;
+	}
 }

@@ -43,61 +43,62 @@ import org.logicalcobwebs.proxool.ProxoolFacade;
  */
 public class DatabaseConnection {
 
-    private final static org.apache.log4j.Logger log = org.apache.log4j.Logger
-            .getLogger(DatabaseConnection.class);
-    private final static java.util.concurrent.ConcurrentHashMap<Integer, ReentrantLock> locks = new ConcurrentHashMap<Integer, ReentrantLock>();
-    private static SessionFactory sessionFactory;
-    private static Field declaredField;
+	private final static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(DatabaseConnection.class);
+	private final static java.util.concurrent.ConcurrentHashMap<Integer, ReentrantLock> locks = new ConcurrentHashMap<Integer, ReentrantLock>();
+	private static SessionFactory sessionFactory;
+	private static Field declaredField;
 
-    static {
-        try {
-            sessionFactory = new Configuration().configure()
-                    .buildSessionFactory();
-            //JAXPConfigurator.configure("db.xml", false);
-            ProxoolFacade.disableShutdownHook();
-            declaredField = SessionImpl.class.getDeclaredField("interceptor");
-            declaredField.setAccessible(true);
-        } catch (Exception ex) {
-            log.error("连接池初始化错误。");
-            ex.printStackTrace();
-        }
-    }
+	static {
+		try {
+			sessionFactory = new Configuration().configure()
+					.buildSessionFactory();
+			// JAXPConfigurator.configure("db.xml", false);
+			ProxoolFacade.disableShutdownHook();
+			declaredField = SessionImpl.class.getDeclaredField("interceptor");
+			declaredField.setAccessible(true);
+		} catch (Exception ex) {
+			log.error("连接池初始化错误。");
+			ex.printStackTrace();
+		}
+	}
 
-    private DatabaseConnection() {
-    }
+	private DatabaseConnection() {
+	}
 
-    public static ReentrantLock GetLock(int accountidString) {
-        synchronized (locks) {
-            if (!locks.containsKey(accountidString)) {
-                locks.put(accountidString, new ReentrantLock());
-            }
-        }
-        return locks.get(accountidString);
-    }
+	public static ReentrantLock GetLock(int accountidString) {
+		synchronized (locks) {
+			if (!locks.containsKey(accountidString)) {
+				locks.put(accountidString, new ReentrantLock());
+			}
+		}
+		return locks.get(accountidString);
+	}
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("proxool.odinms");
-    }
+	public static Connection getConnection() throws SQLException {
+		return DriverManager.getConnection("proxool.odinms");
+	}
 
-    public static Connection getConnection(String s) throws SQLException {
-        return DriverManager.getConnection(s);
-    }
+	public static Connection getConnection(String s) throws SQLException {
+		return DriverManager.getConnection(s);
+	}
 
-    public static Session getSession() {
-        return sessionFactory.openSession();
-    }
+	public static Session getSession() {
+		return sessionFactory.openSession();
+	}
 
-    public static Session getSession(EmptyInterceptor emptyinterceptor) throws Exception {
-        Session session = getSession();
-        declaredField.set(session, emptyinterceptor);
-        return session;
-    }
+	public static Session getSession(EmptyInterceptor emptyinterceptor)
+			throws Exception {
+		Session session = getSession();
+		declaredField.set(session, emptyinterceptor);
+		return session;
+	}
 
-    public static void getDebugInfo() {
-        log.info(sessionFactory.getStatistics().getSecondLevelCacheHitCount());
-    }
+	public static void getDebugInfo() {
+		log.info(sessionFactory.getStatistics().getSecondLevelCacheHitCount());
+	}
 
-    public static Statistics getStatistics() {
-        return sessionFactory.getStatistics();
-    }
+	public static Statistics getStatistics() {
+		return sessionFactory.getStatistics();
+	}
 }

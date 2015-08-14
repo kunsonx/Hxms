@@ -13,30 +13,30 @@ import org.w3c.dom.Node;
  */
 public class WorldServerConfig extends GeneralServerConfig {
 
-    private int worldId;
+	private int worldId;
 
-    public WorldServerConfig() {
-        super(GeneralServerType.WORLD);
-    }
+	public WorldServerConfig() {
+		super(GeneralServerType.WORLD);
+	}
 
-    public int getWorldId() {
-        return worldId;
-    }
+	public int getWorldId() {
+		return worldId;
+	}
 
-    public void setWorldId(int worldId) {
-        this.worldId = worldId;
-    }
+	public void setWorldId(int worldId) {
+		this.worldId = worldId;
+	}
 
-    @Override
-    public void initConfig(String fileName, GeneralServer server) {
-        analyzingFile(fileName, server, "WorldServer");
-    }
+	@Override
+	public void initConfig(String fileName, GeneralServer server) {
+		analyzingFile(fileName, server, "WorldServer");
+	}
 
-    @Override
-    public void loadConfigFromXmlNode(Node node) {
-        try {
-        } catch (Exception e) {
-            log.error("读取配置错误！", e);
-        }
-    }
+	@Override
+	public void loadConfigFromXmlNode(Node node) {
+		try {
+		} catch (Exception e) {
+			log.error("读取配置错误！", e);
+		}
+	}
 }

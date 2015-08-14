@@ -35,91 +35,91 @@ import org.apache.mina.core.buffer.IoBuffer;
  */
 public class MaplePacketLittleEndianWriter extends GenericLittleEndianWriter {
 
-    private static Charset UTF8Charset = Charset.forName("utf-8");
-    //private ByteArrayOutputStream baos;
-    private IoBufferOutputStream baos;
+	private static Charset UTF8Charset = Charset.forName("utf-8");
+	// private ByteArrayOutputStream baos;
+	private IoBufferOutputStream baos;
 
-    /**
-     * Constructor - initializes this stream with a default size.
-     */
-    public MaplePacketLittleEndianWriter() {
-        //this(32);
-        this(8);
-    }
+	/**
+	 * Constructor - initializes this stream with a default size.
+	 */
+	public MaplePacketLittleEndianWriter() {
+		// this(32);
+		this(8);
+	}
 
-    /**
-     * Constructor - initializes this stream with size
-     * <code>size</code>.
-     *
-     * @param size The size of the underlying stream.
-     */
-    public MaplePacketLittleEndianWriter(int size) {
-        //this.baos = new ByteArrayOutputStream(size);
-        //setByteOutputStream(new BAOSByteOutputStream(baos));
-        this.baos = new IoBufferOutputStream(size);
-        setByteOutputStream(baos);
-    }
+	/**
+	 * Constructor - initializes this stream with size <code>size</code>.
+	 *
+	 * @param size
+	 *            The size of the underlying stream.
+	 */
+	public MaplePacketLittleEndianWriter(int size) {
+		// this.baos = new ByteArrayOutputStream(size);
+		// setByteOutputStream(new BAOSByteOutputStream(baos));
+		this.baos = new IoBufferOutputStream(size);
+		setByteOutputStream(baos);
+	}
 
-    /**
-     * Gets a
-     * <code>MaplePacket</code> instance representing this sequence of bytes.
-     *
-     * @return A <code>MaplePacket</code> with the bytes in this stream.
-     */
-    public MaplePacket getPacket() {
-        //return new ByteArrayMaplePacket(baos.toByteArray());
-        return new ByteArrayMaplePacket(baos.ToArray());
-    }
+	/**
+	 * Gets a <code>MaplePacket</code> instance representing this sequence of
+	 * bytes.
+	 *
+	 * @return A <code>MaplePacket</code> with the bytes in this stream.
+	 */
+	public MaplePacket getPacket() {
+		// return new ByteArrayMaplePacket(baos.toByteArray());
+		return new ByteArrayMaplePacket(baos.ToArray());
+	}
 
-    public IoBuffer getBuffer() {
-        return IoBuffer.wrap(baos.ToArray());
-    }
+	public IoBuffer getBuffer() {
+		return IoBuffer.wrap(baos.ToArray());
+	}
 
-    /**
-     * Changes this packet into a human-readable hexadecimal stream of bytes.
-     *
-     * @return This packet as hex digits.
-     */
-    @Override
-    public String toString() {
-        //return HexTool.toString(baos.toByteArray());
-        return baos.toString();
-    }
+	/**
+	 * Changes this packet into a human-readable hexadecimal stream of bytes.
+	 *
+	 * @return This packet as hex digits.
+	 */
+	@Override
+	public String toString() {
+		// return HexTool.toString(baos.toByteArray());
+		return baos.toString();
+	}
 
-    public int size() {
-        return baos.size();
-    }
+	public int size() {
+		return baos.size();
+	}
 
-    public void writeHex(String hex) {
-        write(HexTool.getByteArrayFromHexString(hex));
-    }
+	public void writeHex(String hex) {
+		write(HexTool.getByteArrayFromHexString(hex));
+	}
 
-    public void writeZero(int quantrty) {
-        for (int i = 0; i < quantrty; i++) {
-            write();
-        }
-    }
+	public void writeZero(int quantrty) {
+		for (int i = 0; i < quantrty; i++) {
+			write();
+		}
+	}
 
-    public void write(boolean bol) {
-        write(bol ? 1 : 0);
-    }
+	public void write(boolean bol) {
+		write(bol ? 1 : 0);
+	}
 
-    /*
-     * 隐式填充.
-     */
-    public void write() {
-        write(0);
-    }
+	/*
+	 * 隐式填充.
+	 */
+	public void write() {
+		write(0);
+	}
 
-    public void writeSome(int... bytes) {
-        for (int b : bytes) {
-            write(b);
-        }
-    }
+	public void writeSome(int... bytes) {
+		for (int b : bytes) {
+			write(b);
+		}
+	}
 
-    public void writeUTF8String(String str) {
-        byte[] data = str.getBytes(UTF8Charset);
-        writeShort(data.length);
-        write(data);
-    }
+	public void writeUTF8String(String str) {
+		byte[] data = str.getBytes(UTF8Charset);
+		writeShort(data.length);
+		write(data);
+	}
 }

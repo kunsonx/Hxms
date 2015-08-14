@@ -25,41 +25,53 @@ import java.util.List;
 
 public interface WorldChannelCommonOperations {
 
-    public boolean isConnected(int chrId) throws RemoteException;
+	public boolean isConnected(int chrId) throws RemoteException;
 
-    public boolean isConnected(String chrName) throws RemoteException;
+	public boolean isConnected(String chrName) throws RemoteException;
 
-    public void broadcastMessage(String sender, byte[] message) throws RemoteException;
+	public void broadcastMessage(String sender, byte[] message)
+			throws RemoteException;
 
-    /**
-     * 发送悄悄话
-     *
-     * @param sender 发送者角色名
-     * @param target 接收者角色
-     * @param channel 频道
-     * @param message 消息
-     * @return 0 - 失败 1 - 成功
-     * @throws RemoteException
-     */
-    public int whisper(String sender, String target, int channel, String message, boolean gm) throws RemoteException;
+	/**
+	 * 发送悄悄话
+	 *
+	 * @param sender
+	 *            发送者角色名
+	 * @param target
+	 *            接收者角色
+	 * @param channel
+	 *            频道
+	 * @param message
+	 *            消息
+	 * @return 0 - 失败 1 - 成功
+	 * @throws RemoteException
+	 */
+	public int whisper(String sender, String target, int channel,
+			String message, boolean gm) throws RemoteException;
 
-    public void shutdown(int time) throws RemoteException;
+	public void shutdown(int time) throws RemoteException;
 
-    public void broadcastWorldMessage(String message) throws RemoteException;
+	public void broadcastWorldMessage(String message) throws RemoteException;
 
-    public void loggedOn(String name, int characterId, int channel, int[] buddies) throws RemoteException;
+	public void loggedOn(String name, int characterId, int channel,
+			int[] buddies) throws RemoteException;
 
-    public void loggedOff(String name, int characterId, int channel, int[] buddies) throws RemoteException;
+	public void loggedOff(String name, int characterId, int channel,
+			int[] buddies) throws RemoteException;
 
-    public List<CheaterData> getCheaters() throws RemoteException;
+	public List<CheaterData> getCheaters() throws RemoteException;
 
-    public void buddyChat(int[] recipientCharacterIds, int cidFrom, String nameFrom, String chattext) throws RemoteException;
+	public void buddyChat(int[] recipientCharacterIds, int cidFrom,
+			String nameFrom, String chattext) throws RemoteException;
 
-    public void messengerInvite(String sender, int messengerid, String target, int fromchannel) throws RemoteException;
+	public void messengerInvite(String sender, int messengerid, String target,
+			int fromchannel) throws RemoteException;
 
-    public void spouseChat(String sender, String target, String message) throws RemoteException;
+	public void spouseChat(String sender, String target, String message)
+			throws RemoteException;
 
-    public void broadcastGMMessage(String sender, byte[] message) throws RemoteException;
+	public void broadcastGMMessage(String sender, byte[] message)
+			throws RemoteException;
 
-    public void deregisterOfflinePlayer(int cid) throws RemoteException;
+	public void deregisterOfflinePlayer(int cid) throws RemoteException;
 }

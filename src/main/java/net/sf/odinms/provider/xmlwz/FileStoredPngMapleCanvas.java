@@ -9,42 +9,42 @@ import net.sf.odinms.provider.MapleCanvas;
 
 public class FileStoredPngMapleCanvas implements MapleCanvas {
 
-    private File file;
-    private int width;
-    private int height;
-    private BufferedImage image;
+	private File file;
+	private int width;
+	private int height;
+	private BufferedImage image;
 
-    public FileStoredPngMapleCanvas(int width, int height, File fileIn) {
-        this.width = width;
-        this.height = height;
-        this.file = fileIn;
-    }
+	public FileStoredPngMapleCanvas(int width, int height, File fileIn) {
+		this.width = width;
+		this.height = height;
+		this.file = fileIn;
+	}
 
-    @Override
-    public int getHeight() {
-        return height;
-    }
+	@Override
+	public int getHeight() {
+		return height;
+	}
 
-    @Override
-    public int getWidth() {
-        return width;
-    }
+	@Override
+	public int getWidth() {
+		return width;
+	}
 
-    @Override
-    public BufferedImage getImage() {
-        loadImageIfNecessary();
-        return image;
-    }
+	@Override
+	public BufferedImage getImage() {
+		loadImageIfNecessary();
+		return image;
+	}
 
-    private void loadImageIfNecessary() {
-        if (image == null) {
-            try {
-                image = ImageIO.read(file);
-                width = image.getWidth();
-                height = image.getHeight();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
+	private void loadImageIfNecessary() {
+		if (image == null) {
+			try {
+				image = ImageIO.read(file);
+				width = image.getWidth();
+				height = image.getHeight();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 }

@@ -33,11 +33,15 @@ import net.sf.odinms.net.login.remote.LoginWorldInterface;
  */
 public interface WorldRegistry extends Remote {
 
-    public WorldChannelInterface registerChannelServer(String authKey, ChannelWorldInterface cb) throws RemoteException;
+	public WorldChannelInterface registerChannelServer(String authKey,
+			ChannelWorldInterface cb) throws RemoteException;
 
-    public void deregisterChannelServer(ChannelDescriptor channelDescriptor) throws RemoteException;
+	public void deregisterChannelServer(ChannelDescriptor channelDescriptor)
+			throws RemoteException;
 
-    public WorldLoginInterface registerLoginServer(String authKey, LoginWorldInterface cb) throws RemoteException;
+	public WorldLoginInterface registerLoginServer(String authKey,
+			LoginWorldInterface cb) throws RemoteException;
 
-    public void deregisterLoginServer(LoginWorldInterface cb) throws RemoteException;
+	public void deregisterLoginServer(LoginWorldInterface cb)
+			throws RemoteException;
 }

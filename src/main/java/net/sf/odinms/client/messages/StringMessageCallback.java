@@ -17,22 +17,22 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.client.messages;
 
 public class StringMessageCallback implements MessageCallback {
 
-    StringBuilder ret = new StringBuilder();
+	StringBuilder ret = new StringBuilder();
 
-    @Override
-    public void dropMessage(String message) {
-        ret.append(message);
-        ret.append("\n");
-    }
+	@Override
+	public void dropMessage(String message) {
+		ret.append(message);
+		ret.append("\n");
+	}
 
-    @Override
-    public String toString() {
-        return ret.toString();
-    }
+	@Override
+	public String toString() {
+		return ret.toString();
+	}
 }

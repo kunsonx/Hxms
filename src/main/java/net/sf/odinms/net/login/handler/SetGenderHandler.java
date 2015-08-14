@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.login.handler;
 
@@ -28,17 +28,17 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class SetGenderHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        byte gender = slea.readByte();
-        String username = slea.readMapleAsciiString();
-        if (c.getAccountName().equals(username)) {
-            c.setGender(gender);
-            c.updateGenderandPin();
-            c.getSession().write(MaplePacketCreator.genderChanged(c));
-            c.getSession().write(MaplePacketCreator.licenseRequest());
-        } else {
-            c.getSession().close(false);
-        }
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		byte gender = slea.readByte();
+		String username = slea.readMapleAsciiString();
+		if (c.getAccountName().equals(username)) {
+			c.setGender(gender);
+			c.updateGenderandPin();
+			c.getSession().write(MaplePacketCreator.genderChanged(c));
+			c.getSession().write(MaplePacketCreator.licenseRequest());
+		} else {
+			c.getSession().close(false);
+		}
+	}
 }

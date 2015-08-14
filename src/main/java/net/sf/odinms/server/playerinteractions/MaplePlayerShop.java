@@ -37,102 +37,109 @@ import net.sf.odinms.tools.MaplePacketCreator;
  */
 public class MaplePlayerShop extends PlayerInteractionManager {
 
-    private MapleCharacter owner;
-    private int boughtnumber = 0;
+	private MapleCharacter owner;
+	private int boughtnumber = 0;
 
-    public MaplePlayerShop(MapleCharacter owner, int itemId, String desc) {
-        super(owner, itemId % 10, desc, 3);//3
-        this.owner = owner;
-    }
+	public MaplePlayerShop(MapleCharacter owner, int itemId, String desc) {
+		super(owner, itemId % 10, desc, 3);// 3
+		this.owner = owner;
+	}
 
-    @Override
-    public void buy(MapleClient c, int item, short quantity) {
-        MaplePlayerShopItem pItem = items.get(item);
-        if (pItem.getBundles() > 0) {
-            synchronized (items) {
-                IItem newItem = pItem.getItem().copy();
-                newItem.setQuantity(quantity);
-                if (c.getPlayer().getMeso() >= pItem.getPrice() * quantity) {
-                    if (this.owner.getMeso() + pItem.getPrice() * quantity < 2147483647) {
-                        if (MapleInventoryManipulator.addFromDrop(c, newItem)) {
-                            c.getPlayer().gainMeso(-pItem.getPrice() * quantity, false);
-                            pItem.setBundles((short) (pItem.getBundles() - quantity));
-                            owner.gainMeso(pItem.getPrice() * quantity, false);
-                            if (pItem.getBundles() == 0) {
-                                boughtnumber++;
-                                if (boughtnumber == items.size()) {
-                                    removeAllVisitors(10, 1);
-                                    owner.getClient().getSession().write(MaplePacketCreator.shopErrorMessage(10, 1));
-                                    closeShop(false);
-                                }
-                            }
-                        } else {
-                            c.getPlayer().dropMessage(1, "你的背包已满");
-                        }
-                    } else {
-                        c.getPlayer().dropMessage(1, "卖家钱已满,购买失败.");
-                    }
-                } else {
-                    c.getPlayer().dropMessage(1, "金币不足.");
-                }
-            }
-            owner.getClient().getSession().write(MaplePacketCreator.shopItemUpdate(this));
-        }
-    }
+	@Override
+	public void buy(MapleClient c, int item, short quantity) {
+		MaplePlayerShopItem pItem = items.get(item);
+		if (pItem.getBundles() > 0) {
+			synchronized (items) {
+				IItem newItem = pItem.getItem().copy();
+				newItem.setQuantity(quantity);
+				if (c.getPlayer().getMeso() >= pItem.getPrice() * quantity) {
+					if (this.owner.getMeso() + pItem.getPrice() * quantity < 2147483647) {
+						if (MapleInventoryManipulator.addFromDrop(c, newItem)) {
+							c.getPlayer().gainMeso(
+									-pItem.getPrice() * quantity, false);
+							pItem.setBundles((short) (pItem.getBundles() - quantity));
+							owner.gainMeso(pItem.getPrice() * quantity, false);
+							if (pItem.getBundles() == 0) {
+								boughtnumber++;
+								if (boughtnumber == items.size()) {
+									removeAllVisitors(10, 1);
+									owner.getClient()
+											.getSession()
+											.write(MaplePacketCreator
+													.shopErrorMessage(10, 1));
+									closeShop(false);
+								}
+							}
+						} else {
+							c.getPlayer().dropMessage(1, "你的背包已满");
+						}
+					} else {
+						c.getPlayer().dropMessage(1, "卖家钱已满,购买失败.");
+					}
+				} else {
+					c.getPlayer().dropMessage(1, "金币不足.");
+				}
+			}
+			owner.getClient().getSession()
+					.write(MaplePacketCreator.shopItemUpdate(this));
+		}
+	}
 
-    @Override
-    public byte getShopType() {
-        return IPlayerInteractionManager.PLAYER_SHOP;
-    }
+	@Override
+	public byte getShopType() {
+		return IPlayerInteractionManager.PLAYER_SHOP;
+	}
 
-    @Override
-    public void closeShop(boolean saveItems) {
-        owner.getMap().broadcastMessage(MaplePacketCreator.removeCharBox(owner));
-        owner.getMap().removeMapObject(this);
-        try {
-            tempItems(saveItems);
-            if (saveItems) {
-                items.clear();
-            }
-            isClose = true;
-            ChannelServer.getInstance(channel).getCim().remove(getOwnerId());
-        } catch (Exception se) {
-            se.printStackTrace();
-        }
-        owner.setInteraction(null);
-    }
+	@Override
+	public void closeShop(boolean saveItems) {
+		owner.getMap()
+				.broadcastMessage(MaplePacketCreator.removeCharBox(owner));
+		owner.getMap().removeMapObject(this);
+		try {
+			tempItems(saveItems);
+			if (saveItems) {
+				items.clear();
+			}
+			isClose = true;
+			ChannelServer.getInstance(channel).getCim().remove(getOwnerId());
+		} catch (Exception se) {
+			se.printStackTrace();
+		}
+		owner.setInteraction(null);
+	}
 
-    public void banPlayer(String name) {
-        if (!name.isEmpty()) {
-            if (!bannedList.contains(name)) {
-                bannedList.add(name);
-            }
-            for (int i = 0; i < 3; i++) {//3
-                if (visitors[i].getName().equals(name)) {
-                    visitors[i].getClient().getSession().write(MaplePacketCreator.shopErrorMessage(5, 1));
-                    visitors[i].setInteraction(null);
-                    removeVisitor(visitors[i]);
-                }
-            }
-        }
-    }
+	public void banPlayer(String name) {
+		if (!name.isEmpty()) {
+			if (!bannedList.contains(name)) {
+				bannedList.add(name);
+			}
+			for (int i = 0; i < 3; i++) {// 3
+				if (visitors[i].getName().equals(name)) {
+					visitors[i].getClient().getSession()
+							.write(MaplePacketCreator.shopErrorMessage(5, 1));
+					visitors[i].setInteraction(null);
+					removeVisitor(visitors[i]);
+				}
+			}
+		}
+	}
 
-    public MapleCharacter getMCOwner() {
-        return owner;
-    }
+	public MapleCharacter getMCOwner() {
+		return owner;
+	}
 
-    @Override
-    public void sendDestroyData(MapleClient client) {
-        throw new UnsupportedOperationException();
-    }
+	@Override
+	public void sendDestroyData(MapleClient client) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public void sendSpawnData(MapleClient client) {
-        throw new UnsupportedOperationException();
-    }
+	@Override
+	public void sendSpawnData(MapleClient client) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public MapleMapObjectType getType() {
-        return MapleMapObjectType.SHOP;
-    }
+	@Override
+	public MapleMapObjectType getType() {
+		return MapleMapObjectType.SHOP;
+	}
 }

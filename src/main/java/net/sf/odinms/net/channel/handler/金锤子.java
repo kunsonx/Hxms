@@ -1,6 +1,6 @@
 /*
  *        金锤子
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -17,10 +17,10 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public class 金锤子 extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        //System.out.println("金锤子："+slea.toString());
-        c.getSession().write(MaplePacketCreator.sendHammerData(0));
-        c.getSession().write(MaplePacketCreator.enableActions());
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		// System.out.println("金锤子："+slea.toString());
+		c.getSession().write(MaplePacketCreator.sendHammerData(0));
+		c.getSession().write(MaplePacketCreator.enableActions());
+	}
 }

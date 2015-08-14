@@ -32,47 +32,49 @@ import org.apache.log4j.Logger;
  */
 public class ShutdownServer implements Runnable {
 
-    private static Logger log = Logger.getLogger(ShutdownServer.class);
-    private ChannelDescriptor myChannel;
+	private static Logger log = Logger.getLogger(ShutdownServer.class);
+	private ChannelDescriptor myChannel;
 
-    public ShutdownServer(ChannelDescriptor channel) {
-        myChannel = channel;
-    }
+	public ShutdownServer(ChannelDescriptor channel) {
+		myChannel = channel;
+	}
 
-    @Override
-    public void run() {
-        try {
-            ChannelServer.getInstance(myChannel).shutdown();
-        } catch (Throwable t) {
-            log.error("SHUTDOWN ERROR", t);
-        }
+	@Override
+	public void run() {
+		try {
+			ChannelServer.getInstance(myChannel).shutdown();
+		} catch (Throwable t) {
+			log.error("SHUTDOWN ERROR", t);
+		}
 
-        int c = 200;
-        while (ChannelServer.getInstance(myChannel).getConnectedClients() > 0 && c > 0) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                log.error("ERROR", e);
-            }
-            c--;
-        }
-        try {
-            ChannelServer.getWorldRegistry().deregisterChannelServer(myChannel);
-        } catch (RemoteException e) {
-            ServerExceptionHandler.HandlerRemoteException(e);
-            // we are shutting down
-        }
-        try {
-            ChannelServer.getInstance(myChannel).unbind();
-        } catch (Throwable t) {
-            log.error("SHUTDOWN ERROR", t);
-        }
+		int c = 200;
+		while (ChannelServer.getInstance(myChannel).getConnectedClients() > 0
+				&& c > 0) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				log.error("ERROR", e);
+			}
+			c--;
+		}
+		try {
+			ChannelServer.getWorldRegistry().deregisterChannelServer(myChannel);
+		} catch (RemoteException e) {
+			ServerExceptionHandler.HandlerRemoteException(e);
+			// we are shutting down
+		}
+		try {
+			ChannelServer.getInstance(myChannel).unbind();
+		} catch (Throwable t) {
+			log.error("SHUTDOWN ERROR", t);
+		}
 
-        boolean allShutdownFinished = true;
-        for (ChannelServer cserv : ChannelManager.getChannelServers(myChannel.getWorld())) {
-            if (!cserv.hasFinishedShutdown()) {
-                allShutdownFinished = false;
-            }
-        }
-    }
+		boolean allShutdownFinished = true;
+		for (ChannelServer cserv : ChannelManager.getChannelServers(myChannel
+				.getWorld())) {
+			if (!cserv.hasFinishedShutdown()) {
+				allShutdownFinished = false;
+			}
+		}
+	}
 }

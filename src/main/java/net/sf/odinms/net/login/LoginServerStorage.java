@@ -18,41 +18,41 @@ import net.sf.odinms.net.login.remote.ChannelLoadInfo;
  */
 public class LoginServerStorage {
 
-    private Map<ChannelDescriptor, String> channels = new ConcurrentHashMap<ChannelDescriptor, String>();
-    private ChannelLoadInfo loads = new ChannelLoadInfo();
-    private Lock lock = new ReentrantLock(true);
+	private Map<ChannelDescriptor, String> channels = new ConcurrentHashMap<ChannelDescriptor, String>();
+	private ChannelLoadInfo loads = new ChannelLoadInfo();
+	private Lock lock = new ReentrantLock(true);
 
-    public void addChannel(ChannelDescriptor channel, String ip) {
-        try {
-            lock.lock();
-            channels.put(channel, ip);
-            loads.addChannel(channel);
-        } finally {
-            lock.unlock();
-        }
-    }
+	public void addChannel(ChannelDescriptor channel, String ip) {
+		try {
+			lock.lock();
+			channels.put(channel, ip);
+			loads.addChannel(channel);
+		} finally {
+			lock.unlock();
+		}
+	}
 
-    public void removeChannel(ChannelDescriptor channel) {
-        try {
-            lock.lock();
-            if (channels.containsKey(channel)) {
-                channels.remove(channel);
-            }
-            loads.removeChannel(channel);
-        } finally {
-            lock.unlock();
-        }
-    }
+	public void removeChannel(ChannelDescriptor channel) {
+		try {
+			lock.lock();
+			if (channels.containsKey(channel)) {
+				channels.remove(channel);
+			}
+			loads.removeChannel(channel);
+		} finally {
+			lock.unlock();
+		}
+	}
 
-    public String getIP(ChannelDescriptor channel) {
-        return channels.get(channel);
-    }
+	public String getIP(ChannelDescriptor channel) {
+		return channels.get(channel);
+	}
 
-    public ChannelLoadInfo getLoads() {
-        return loads;
-    }
+	public ChannelLoadInfo getLoads() {
+		return loads;
+	}
 
-    public void setLoads(ChannelLoadInfo loads) {
-        this.loads = loads;
-    }
+	public void setLoads(ChannelLoadInfo loads) {
+		this.loads = loads;
+	}
 }

@@ -1,6 +1,6 @@
 /*
 	
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -10,8 +10,8 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class CancelDebuffHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        //why do we even have this?
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		// why do we even have this?
+	}
 }

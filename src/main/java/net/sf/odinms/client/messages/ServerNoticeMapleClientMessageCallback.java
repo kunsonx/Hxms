@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.client.messages;
 
@@ -26,20 +26,21 @@ import net.sf.odinms.tools.MaplePacketCreator;
 
 public class ServerNoticeMapleClientMessageCallback implements MessageCallback {
 
-    private MapleClient client;
-    private int mode;
+	private MapleClient client;
+	private int mode;
 
-    public ServerNoticeMapleClientMessageCallback(MapleClient c) {
-        this(c.getPlayer().isGM() ? 6 : 5, c);
-    }
+	public ServerNoticeMapleClientMessageCallback(MapleClient c) {
+		this(c.getPlayer().isGM() ? 6 : 5, c);
+	}
 
-    public ServerNoticeMapleClientMessageCallback(int mode, MapleClient client) {
-        this.client = client;
-        this.mode = mode;
-    }
+	public ServerNoticeMapleClientMessageCallback(int mode, MapleClient client) {
+		this.client = client;
+		this.mode = mode;
+	}
 
-    @Override
-    public void dropMessage(String message) {
-        client.getSession().write(MaplePacketCreator.serverNotice(mode, message));
-    }
+	@Override
+	public void dropMessage(String message) {
+		client.getSession().write(
+				MaplePacketCreator.serverNotice(mode, message));
+	}
 }

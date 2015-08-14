@@ -12,37 +12,37 @@ import net.sf.odinms.tools.Pair;
  */
 public class MobsToSpawn extends Pair<Integer, Integer> {
 
-    private long id;
+	private long id;
 
-    private MobsToSpawn() {
-        super(0, 0);
-    }
+	private MobsToSpawn() {
+		super(0, 0);
+	}
 
-    public MobsToSpawn(Integer key, Integer value) {
-        super(key, value);
-    }
+	public MobsToSpawn(Integer key, Integer value) {
+		super(key, value);
+	}
 
-    public Integer getLeft_() {
-        return super.getLeft();
-    }
+	public Integer getLeft_() {
+		return super.getLeft();
+	}
 
-    public Integer getRight_() {
-        return super.getRight();
-    }
+	public Integer getRight_() {
+		return super.getRight();
+	}
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public void setLeft_(Integer left) {
-        this.left = left;
-    }
+	public void setLeft_(Integer left) {
+		this.left = left;
+	}
 
-    public void setRight_(Integer right) {
-        this.right = right;
-    }
+	public void setRight_(Integer right) {
+		this.right = right;
+	}
 }

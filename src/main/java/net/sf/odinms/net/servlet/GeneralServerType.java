@@ -11,19 +11,17 @@ package net.sf.odinms.net.servlet;
  */
 public enum GeneralServerType {
 
-    WORLD,
-    LOGIN,
-    CHANNEL;
+	WORLD, LOGIN, CHANNEL;
 
-    public boolean IsWorld() {
-        return this == WORLD;
-    }
+	public boolean IsWorld() {
+		return this == WORLD;
+	}
 
-    public boolean IsLogin() {
-        return this == LOGIN;
-    }
+	public boolean IsLogin() {
+		return this == LOGIN;
+	}
 
-    public boolean IsChannel() {
-        return this == CHANNEL;
-    }
+	public boolean IsChannel() {
+		return this == CHANNEL;
+	}
 }

@@ -23,563 +23,792 @@ import net.sf.odinms.tools.MaplePacketCreator;
  */
 public class ServerContent extends javax.swing.JFrame {
 
-    public class FlushInfo implements Runnable {
+	public class FlushInfo implements Runnable {
 
-        @Override
-        public void run() {
-            flush();
-        }
-    }
+		@Override
+		public void run() {
+			flush();
+		}
+	}
 
-    public class FlushTime implements Runnable {
+	public class FlushTime implements Runnable {
 
-        @Override
-        public void run() {
-            try {
-                table_lock.lock();
-                lable_timer.setText(String.format(formatTime, GameConstants.getFormatter().format(new Date()), count));
-            } finally {
-                table_lock.unlock();
-            }
-        }
-    }
-    private DefaultTableModel model;
-    private Lock table_lock = new ReentrantLock(true);
-    private String formatTime;
-    private int count = 0;
+		@Override
+		public void run() {
+			try {
+				table_lock.lock();
+				lable_timer.setText(String.format(formatTime, GameConstants
+						.getFormatter().format(new Date()), count));
+			} finally {
+				table_lock.unlock();
+			}
+		}
+	}
 
-    /**
-     * Creates new form ServerCon
-     */
-    public ServerContent() {
-        initComponents();
-        setTitle("HXMS 服务端控制台");
-        setResizable(false);
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ServerContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ServerContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ServerContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ServerContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        model = (DefaultTableModel) table_servers.getModel();
-        table_servers.setSelectionMode(0);
-        formatTime = lable_timer.getText();
-    }
+	private DefaultTableModel model;
+	private Lock table_lock = new ReentrantLock(true);
+	private String formatTime;
+	private int count = 0;
 
-    @Override
-    public void show() {
-        setTitle(getTitle() + "：服务端版本 V:" + MapleServerHandler.MAPLE_VERSION + ":" + MapleServerHandler.MAPLE_SECONDARY_VERSION);
-        super.show();
-        requestFocusInWindow();
-    }
+	/**
+	 * Creates new form ServerCon
+	 */
+	public ServerContent() {
+		initComponents();
+		setTitle("HXMS 服务端控制台");
+		setResizable(false);
+		// <editor-fold defaultstate="collapsed"
+		// desc=" Look and feel setting code (optional) ">
+		/*
+		 * If Nimbus (introduced in Java SE 6) is not available, stay with the
+		 * default look and feel. For details see
+		 * http://download.oracle.com/javase
+		 * /tutorial/uiswing/lookandfeel/plaf.html
+		 */
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+					.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(ServerContent.class.getName())
+					.log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(ServerContent.class.getName())
+					.log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(ServerContent.class.getName())
+					.log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(ServerContent.class.getName())
+					.log(java.util.logging.Level.SEVERE, null, ex);
+		}
+		// </editor-fold>
+		model = (DefaultTableModel) table_servers.getModel();
+		table_servers.setSelectionMode(0);
+		formatTime = lable_timer.getText();
+	}
 
-    public void flush() {
-        try {
-            table_lock.lock();
-            count = 0;
-            for (int i = 0; i < model.getRowCount(); i++) {
-                model.removeRow(i);
-            }
-            for (ChannelServer channelServer : ChannelManager.getAllChannelServers()) {
-                count += channelServer.getConnectedClients();
-                model.addRow(new Object[]{channelServer.getDescriptor().toString(), channelServer.getConnectedClients()});
-            }
-        } finally {
-            table_lock.unlock();
-        }
-    }
+	@Override
+	public void show() {
+		setTitle(getTitle() + "：服务端版本 V:" + MapleServerHandler.MAPLE_VERSION
+				+ ":" + MapleServerHandler.MAPLE_SECONDARY_VERSION);
+		super.show();
+		requestFocusInWindow();
+	}
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+	public void flush() {
+		try {
+			table_lock.lock();
+			count = 0;
+			for (int i = 0; i < model.getRowCount(); i++) {
+				model.removeRow(i);
+			}
+			for (ChannelServer channelServer : ChannelManager
+					.getAllChannelServers()) {
+				count += channelServer.getConnectedClients();
+				model.addRow(new Object[] {
+						channelServer.getDescriptor().toString(),
+						channelServer.getConnectedClients() });
+			}
+		} finally {
+			table_lock.unlock();
+		}
+	}
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table_servers = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        text_exprate = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        list_servers = new javax.swing.JList();
-        jLabel2 = new javax.swing.JLabel();
-        text_mesorate = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        text_droprate = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        text_bossrate = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        text_serverMessage = new javax.swing.JTextArea();
-        button_change = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel6 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        text_serverMessage1 = new javax.swing.JTextArea();
-        button_channelMessage = new javax.swing.JButton();
-        button_worldMessage = new javax.swing.JButton();
-        lable_timer = new javax.swing.JLabel();
-        button_worldMessage1 = new javax.swing.JButton();
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
+	// <editor-fold defaultstate="collapsed"
+	// desc="Generated Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
+		jScrollPane1 = new javax.swing.JScrollPane();
+		table_servers = new javax.swing.JTable();
+		jLabel1 = new javax.swing.JLabel();
+		text_exprate = new javax.swing.JTextField();
+		jScrollPane2 = new javax.swing.JScrollPane();
+		list_servers = new javax.swing.JList();
+		jLabel2 = new javax.swing.JLabel();
+		text_mesorate = new javax.swing.JTextField();
+		jLabel3 = new javax.swing.JLabel();
+		text_droprate = new javax.swing.JTextField();
+		jLabel4 = new javax.swing.JLabel();
+		text_bossrate = new javax.swing.JTextField();
+		jLabel5 = new javax.swing.JLabel();
+		jScrollPane3 = new javax.swing.JScrollPane();
+		text_serverMessage = new javax.swing.JTextArea();
+		button_change = new javax.swing.JButton();
+		jSeparator1 = new javax.swing.JSeparator();
+		jLabel6 = new javax.swing.JLabel();
+		jScrollPane4 = new javax.swing.JScrollPane();
+		text_serverMessage1 = new javax.swing.JTextArea();
+		button_channelMessage = new javax.swing.JButton();
+		button_worldMessage = new javax.swing.JButton();
+		lable_timer = new javax.swing.JLabel();
+		button_worldMessage1 = new javax.swing.JButton();
 
-        table_servers.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowOpened(java.awt.event.WindowEvent evt) {
+				formWindowOpened(evt);
+			}
+		});
 
-            },
-            new String [] {
-                "服务器", "人数"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
+		table_servers.setModel(new javax.swing.table.DefaultTableModel(
+				new Object[][] {
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+				}, new String[] { "服务器", "人数" }) {
+			Class[] types = new Class[] { java.lang.String.class,
+					java.lang.Object.class };
+			boolean[] canEdit = new boolean[] { false, false };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(table_servers);
+			public Class getColumnClass(int columnIndex) {
+				return types[columnIndex];
+			}
 
-        jLabel1.setText("经验倍数：");
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit[columnIndex];
+			}
+		});
+		jScrollPane1.setViewportView(table_servers);
 
-        text_exprate.setText("0");
-        text_exprate.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                text_exprateKeyTyped(evt);
-            }
-        });
+		jLabel1.setText("经验倍数：");
 
-        list_servers.setModel(new javax.swing.DefaultListModel());
-        list_servers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        list_servers.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                list_serversValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(list_servers);
+		text_exprate.setText("0");
+		text_exprate.addKeyListener(new java.awt.event.KeyAdapter() {
+			public void keyTyped(java.awt.event.KeyEvent evt) {
+				text_exprateKeyTyped(evt);
+			}
+		});
 
-        jLabel2.setText("金币倍数：");
+		list_servers.setModel(new javax.swing.DefaultListModel());
+		list_servers
+				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list_servers
+				.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+					public void valueChanged(
+							javax.swing.event.ListSelectionEvent evt) {
+						list_serversValueChanged(evt);
+					}
+				});
+		jScrollPane2.setViewportView(list_servers);
 
-        text_mesorate.setText("0");
-        text_mesorate.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                text_mesorateKeyTyped(evt);
-            }
-        });
+		jLabel2.setText("金币倍数：");
 
-        jLabel3.setText("爆率倍数：");
+		text_mesorate.setText("0");
+		text_mesorate.addKeyListener(new java.awt.event.KeyAdapter() {
+			public void keyTyped(java.awt.event.KeyEvent evt) {
+				text_mesorateKeyTyped(evt);
+			}
+		});
 
-        text_droprate.setText("0");
-        text_droprate.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                text_droprateKeyTyped(evt);
-            }
-        });
+		jLabel3.setText("爆率倍数：");
 
-        jLabel4.setText("BOSS爆率：");
+		text_droprate.setText("0");
+		text_droprate.addKeyListener(new java.awt.event.KeyAdapter() {
+			public void keyTyped(java.awt.event.KeyEvent evt) {
+				text_droprateKeyTyped(evt);
+			}
+		});
 
-        text_bossrate.setText("0");
-        text_bossrate.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                text_bossrateKeyTyped(evt);
-            }
-        });
+		jLabel4.setText("BOSS爆率：");
 
-        jLabel5.setText("服务器公告：");
+		text_bossrate.setText("0");
+		text_bossrate.addKeyListener(new java.awt.event.KeyAdapter() {
+			public void keyTyped(java.awt.event.KeyEvent evt) {
+				text_bossrateKeyTyped(evt);
+			}
+		});
 
-        text_serverMessage.setColumns(20);
-        text_serverMessage.setLineWrap(true);
-        text_serverMessage.setRows(5);
-        jScrollPane3.setViewportView(text_serverMessage);
+		jLabel5.setText("服务器公告：");
 
-        button_change.setText("确定修改");
-        button_change.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_changeActionPerformed(evt);
-            }
-        });
+		text_serverMessage.setColumns(20);
+		text_serverMessage.setLineWrap(true);
+		text_serverMessage.setRows(5);
+		jScrollPane3.setViewportView(text_serverMessage);
 
-        jLabel6.setText("发送公告：");
+		button_change.setText("确定修改");
+		button_change.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				button_changeActionPerformed(evt);
+			}
+		});
 
-        text_serverMessage1.setColumns(20);
-        text_serverMessage1.setLineWrap(true);
-        text_serverMessage1.setRows(5);
-        jScrollPane4.setViewportView(text_serverMessage1);
+		jLabel6.setText("发送公告：");
 
-        button_channelMessage.setText("频道");
-        button_channelMessage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_channelMessageActionPerformed(evt);
-            }
-        });
+		text_serverMessage1.setColumns(20);
+		text_serverMessage1.setLineWrap(true);
+		text_serverMessage1.setRows(5);
+		jScrollPane4.setViewportView(text_serverMessage1);
 
-        button_worldMessage.setText("世界频道");
-        button_worldMessage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_worldMessageActionPerformed(evt);
-            }
-        });
+		button_channelMessage.setText("频道");
+		button_channelMessage
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						button_channelMessageActionPerformed(evt);
+					}
+				});
 
-        lable_timer.setFont(new java.awt.Font("黑体", 1, 14)); // NOI18N
-        lable_timer.setText("现在时间是：%s  服务器总人数：%d");
+		button_worldMessage.setText("世界频道");
+		button_worldMessage
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						button_worldMessageActionPerformed(evt);
+					}
+				});
 
-        button_worldMessage1.setText("所有");
-        button_worldMessage1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_worldMessage1ActionPerformed(evt);
-            }
-        });
+		lable_timer.setFont(new java.awt.Font("黑体", 1, 14)); // NOI18N
+		lable_timer.setText("现在时间是：%s  服务器总人数：%d");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lable_timer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3)
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jScrollPane4)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(text_exprate, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(text_mesorate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel6)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(text_droprate, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(10, 10, 10)
-                                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(text_bossrate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(button_change)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(button_channelMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(button_worldMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(button_worldMessage1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(text_exprate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(text_mesorate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(text_droprate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(text_bossrate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_change)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(button_worldMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button_worldMessage1)
-                            .addComponent(button_channelMessage))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lable_timer)
-                .addGap(6, 6, 6))
-        );
+		button_worldMessage1.setText("所有");
+		button_worldMessage1
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						button_worldMessage1ActionPerformed(evt);
+					}
+				});
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
+				getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addComponent(
+														lable_timer,
+														javax.swing.GroupLayout.DEFAULT_SIZE,
+														javax.swing.GroupLayout.DEFAULT_SIZE,
+														Short.MAX_VALUE)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addComponent(
+																		jScrollPane2,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		111,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addPreferredGap(
+																										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																								.addGroup(
+																										layout.createParallelGroup(
+																												javax.swing.GroupLayout.Alignment.LEADING)
+																												.addComponent(
+																														jScrollPane3)
+																												.addComponent(
+																														jSeparator1,
+																														javax.swing.GroupLayout.Alignment.TRAILING)
+																												.addComponent(
+																														jScrollPane4)
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addGroup(
+																																		layout.createParallelGroup(
+																																				javax.swing.GroupLayout.Alignment.LEADING)
+																																				.addGroup(
+																																						layout.createSequentialGroup()
+																																								.addComponent(
+																																										jLabel1,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																																										69,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE)
+																																								.addPreferredGap(
+																																										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																																								.addComponent(
+																																										text_exprate,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																																										60,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE)
+																																								.addPreferredGap(
+																																										javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																																								.addComponent(
+																																										jLabel2,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																																										83,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE)
+																																								.addPreferredGap(
+																																										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																																								.addComponent(
+																																										text_mesorate,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																																										63,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE))
+																																				.addComponent(
+																																						jLabel5)
+																																				.addComponent(
+																																						jLabel6)
+																																				.addGroup(
+																																						layout.createSequentialGroup()
+																																								.addComponent(
+																																										jLabel3,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																																										69,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE)
+																																								.addPreferredGap(
+																																										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																																								.addComponent(
+																																										text_droprate,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																																										60,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE)
+																																								.addGap(10,
+																																										10,
+																																										10)
+																																								.addComponent(
+																																										jLabel4,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																																										77,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE)
+																																								.addPreferredGap(
+																																										javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																																								.addComponent(
+																																										text_bossrate,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																																										63,
+																																										javax.swing.GroupLayout.PREFERRED_SIZE)))
+																																.addGap(0,
+																																		0,
+																																		Short.MAX_VALUE))))
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(10,
+																										10,
+																										10)
+																								.addGroup(
+																										layout.createParallelGroup(
+																												javax.swing.GroupLayout.Alignment.TRAILING)
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addComponent(
+																																		button_change)
+																																.addGap(0,
+																																		0,
+																																		Short.MAX_VALUE))
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addComponent(
+																																		button_channelMessage,
+																																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																																		81,
+																																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																																.addPreferredGap(
+																																		javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																																.addComponent(
+																																		button_worldMessage,
+																																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																																		119,
+																																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																																.addPreferredGap(
+																																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																																.addComponent(
+																																		button_worldMessage1,
+																																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																																		Short.MAX_VALUE))))))
+												.addComponent(
+														jScrollPane1,
+														javax.swing.GroupLayout.PREFERRED_SIZE,
+														0, Short.MAX_VALUE))
+								.addContainerGap()));
+		layout.setVerticalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addComponent(jScrollPane2)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																				.addComponent(
+																						jLabel1,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						25,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						text_exprate,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						jLabel2,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						25,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						text_mesorate,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.PREFERRED_SIZE))
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																				.addComponent(
+																						jLabel3,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						25,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						text_droprate,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						jLabel4,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						25,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						text_bossrate,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						javax.swing.GroupLayout.DEFAULT_SIZE,
+																						javax.swing.GroupLayout.PREFERRED_SIZE))
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																.addComponent(
+																		jLabel5,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		25,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		jScrollPane3,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		69,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		button_change)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		jSeparator1,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		10,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addGap(1, 1, 1)
+																.addComponent(
+																		jLabel6,
+																		javax.swing.GroupLayout.PREFERRED_SIZE,
+																		25,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addComponent(
+																		jScrollPane4,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		75,
+																		Short.MAX_VALUE)
+																.addPreferredGap(
+																		javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																				.addComponent(
+																						button_worldMessage,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						23,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addComponent(
+																						button_worldMessage1)
+																				.addComponent(
+																						button_channelMessage))))
+								.addPreferredGap(
+										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(jScrollPane1,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										169,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(
+										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(lable_timer).addGap(6, 6, 6)));
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
+		pack();
+	}// </editor-fold>//GEN-END:initComponents
 
-        DefaultListModel model = (DefaultListModel) list_servers.getModel();
-        for (ChannelServer cs : ChannelManager.getAllChannelServers()) {
-            model.addElement(cs.getDescriptor());
-        }
-        if (!TimerManager.getInstance().isstart()) {
-            TimerManager.getInstance().start();
-        }
-        TimerManager.getInstance().register(new FlushInfo(), 60000);
-        flush();
-        TimerManager.getInstance().register(new FlushTime(), 1000);
-    }//GEN-LAST:event_formWindowOpened
+	private void formWindowOpened(java.awt.event.WindowEvent evt) {// GEN-FIRST:event_formWindowOpened
+		// TODO add your handling code here:
 
-    private void button_changeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_changeActionPerformed
-        // TODO add your handling code here:
-        int index = list_servers.getSelectedIndex();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "请选中要操作的频道。", "错误.", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        int exp = 0, meso = 0, drop = 0, boss = 0;
-        String message = "";
-        boolean ok;
-        try {
-            exp = Integer.parseInt(text_exprate.getText());
-            meso = Integer.parseInt(text_mesorate.getText());
-            drop = Integer.parseInt(text_droprate.getText());
-            boss = Integer.parseInt(text_bossrate.getText());
-            ok = !text_serverMessage.getText().isEmpty();
-            message = text_serverMessage.getText();
-        } catch (Exception e) {
-            ok = false;
-        }
-        if (!ok) {
-            JOptionPane.showMessageDialog(this, "您输入的数据有误,或者为空,请检查.", "错误.", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+		DefaultListModel model = (DefaultListModel) list_servers.getModel();
+		for (ChannelServer cs : ChannelManager.getAllChannelServers()) {
+			model.addElement(cs.getDescriptor());
+		}
+		if (!TimerManager.getInstance().isstart()) {
+			TimerManager.getInstance().start();
+		}
+		TimerManager.getInstance().register(new FlushInfo(), 60000);
+		flush();
+		TimerManager.getInstance().register(new FlushTime(), 1000);
+	}// GEN-LAST:event_formWindowOpened
 
-        ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers.getModel()).getElementAt(index);
-        ChannelServer cs = ChannelManager.getChannelServer(descriptor);
-        if (cs != null) {
-            cs.setExpRate(exp);
-            cs.setMesoRate(meso);
-            cs.setDropRate(drop);
-            cs.setBossDropRate(boss);
-            cs.setServerMessage(message);
-            JOptionPane.showMessageDialog(this, "修改成功!");
-        } else {
-            JOptionPane.showMessageDialog(this, "无法获得频道服务.", "错误.", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_button_changeActionPerformed
+	private void button_changeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_changeActionPerformed
+		// TODO add your handling code here:
+		int index = list_servers.getSelectedIndex();
+		if (index == -1) {
+			JOptionPane.showMessageDialog(this, "请选中要操作的频道。", "错误.",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		int exp = 0, meso = 0, drop = 0, boss = 0;
+		String message = "";
+		boolean ok;
+		try {
+			exp = Integer.parseInt(text_exprate.getText());
+			meso = Integer.parseInt(text_mesorate.getText());
+			drop = Integer.parseInt(text_droprate.getText());
+			boss = Integer.parseInt(text_bossrate.getText());
+			ok = !text_serverMessage.getText().isEmpty();
+			message = text_serverMessage.getText();
+		} catch (Exception e) {
+			ok = false;
+		}
+		if (!ok) {
+			JOptionPane.showMessageDialog(this, "您输入的数据有误,或者为空,请检查.", "错误.",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 
-    private void button_channelMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_channelMessageActionPerformed
-        // TODO add your handling code here:
-        int index = list_servers.getSelectedIndex();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "请选中要操作的频道。", "错误.", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        String message = text_serverMessage1.getText();
-        if (message.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "请输入广播内容。", "错误.", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers.getModel()).getElementAt(index);
-        ChannelServer cs = ChannelManager.getChannelServer(descriptor);
-        if (cs != null) {
-            cs.broadcastPacket(MaplePacketCreator.serverNotice(1, ":" + message));
-            text_serverMessage1.setText("");
-            JOptionPane.showMessageDialog(this, "操作成功!");
-        } else {
-            JOptionPane.showMessageDialog(this, "无法获得频道服务.", "错误.", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_button_channelMessageActionPerformed
+		ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers
+				.getModel()).getElementAt(index);
+		ChannelServer cs = ChannelManager.getChannelServer(descriptor);
+		if (cs != null) {
+			cs.setExpRate(exp);
+			cs.setMesoRate(meso);
+			cs.setDropRate(drop);
+			cs.setBossDropRate(boss);
+			cs.setServerMessage(message);
+			JOptionPane.showMessageDialog(this, "修改成功!");
+		} else {
+			JOptionPane.showMessageDialog(this, "无法获得频道服务.", "错误.",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}// GEN-LAST:event_button_changeActionPerformed
 
-    private void button_worldMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_worldMessageActionPerformed
-        // TODO add your handling code here:
-        int index = list_servers.getSelectedIndex();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "请选中要操作的频道,(注:会广播选中频道的世界).", "错误.", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        String message = text_serverMessage1.getText();
-        if (message.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "请输入广播内容。", "错误.", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers.getModel()).getElementAt(index);
-        ChannelServer cs = ChannelManager.getChannelServer(descriptor);
-        if (cs != null) {
-            try {
-                cs.getWorldInterface().broadcastMessage("", MaplePacketCreator.serverNotice(1, ":" + message).getBytes());
-                text_serverMessage1.setText("");
-                JOptionPane.showMessageDialog(this, "操作成功!");
-            } catch (RemoteException ex) {
-                JOptionPane.showMessageDialog(this, "无法获得频道服务.", "错误.", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "无法获得频道服务.", "错误.", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_button_worldMessageActionPerformed
+	private void button_channelMessageActionPerformed(
+			java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_channelMessageActionPerformed
+		// TODO add your handling code here:
+		int index = list_servers.getSelectedIndex();
+		if (index == -1) {
+			JOptionPane.showMessageDialog(this, "请选中要操作的频道。", "错误.",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		String message = text_serverMessage1.getText();
+		if (message.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "请输入广播内容。", "错误.",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers
+				.getModel()).getElementAt(index);
+		ChannelServer cs = ChannelManager.getChannelServer(descriptor);
+		if (cs != null) {
+			cs.broadcastPacket(MaplePacketCreator
+					.serverNotice(1, ":" + message));
+			text_serverMessage1.setText("");
+			JOptionPane.showMessageDialog(this, "操作成功!");
+		} else {
+			JOptionPane.showMessageDialog(this, "无法获得频道服务.", "错误.",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}// GEN-LAST:event_button_channelMessageActionPerformed
 
-    private void list_serversValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_list_serversValueChanged
-        // TODO add your handling code here:
-        int index = list_servers.getSelectedIndex();
-        if (index != -1) {
-            ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers.getModel()).getElementAt(index);
-            ChannelServer cs = ChannelManager.getChannelServer(descriptor);
-            text_exprate.setText(new Integer(cs.getExpRate()).toString());
-            text_mesorate.setText(new Integer(cs.getMesoRate()).toString());
-            text_droprate.setText(new Integer(cs.getDropRate()).toString());
-            text_bossrate.setText(new Integer(cs.getBossDropRate()).toString());
-            text_serverMessage.setText(cs.getServerMessage());
-        }
-    }//GEN-LAST:event_list_serversValueChanged
+	private void button_worldMessageActionPerformed(
+			java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_worldMessageActionPerformed
+		// TODO add your handling code here:
+		int index = list_servers.getSelectedIndex();
+		if (index == -1) {
+			JOptionPane.showMessageDialog(this, "请选中要操作的频道,(注:会广播选中频道的世界).",
+					"错误.", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		String message = text_serverMessage1.getText();
+		if (message.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "请输入广播内容。", "错误.",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers
+				.getModel()).getElementAt(index);
+		ChannelServer cs = ChannelManager.getChannelServer(descriptor);
+		if (cs != null) {
+			try {
+				cs.getWorldInterface().broadcastMessage(
+						"",
+						MaplePacketCreator.serverNotice(1, ":" + message)
+								.getBytes());
+				text_serverMessage1.setText("");
+				JOptionPane.showMessageDialog(this, "操作成功!");
+			} catch (RemoteException ex) {
+				JOptionPane.showMessageDialog(this, "无法获得频道服务.", "错误.",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "无法获得频道服务.", "错误.",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}// GEN-LAST:event_button_worldMessageActionPerformed
 
-    public void Number(java.awt.event.KeyEvent e) {
-        if ((e.getKeyChar() >= KeyEvent.VK_0 && e.getKeyChar() <= KeyEvent.VK_9)
-                || e.getKeyChar() == KeyEvent.VK_ENTER || e.getKeyChar() == KeyEvent.VK_TAB
-                || e.getKeyChar() == KeyEvent.VK_BACK_SPACE || e.getKeyChar() == KeyEvent.VK_DELETE
-                || e.getKeyChar() == KeyEvent.VK_LEFT || e.getKeyChar() == KeyEvent.VK_RIGHT
-                || e.getKeyChar() == KeyEvent.VK_ESCAPE) {
-            return;
-        }
-        e.consume();
-    }
+	private void list_serversValueChanged(
+			javax.swing.event.ListSelectionEvent evt) {// GEN-FIRST:event_list_serversValueChanged
+		// TODO add your handling code here:
+		int index = list_servers.getSelectedIndex();
+		if (index != -1) {
+			ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers
+					.getModel()).getElementAt(index);
+			ChannelServer cs = ChannelManager.getChannelServer(descriptor);
+			text_exprate.setText(new Integer(cs.getExpRate()).toString());
+			text_mesorate.setText(new Integer(cs.getMesoRate()).toString());
+			text_droprate.setText(new Integer(cs.getDropRate()).toString());
+			text_bossrate.setText(new Integer(cs.getBossDropRate()).toString());
+			text_serverMessage.setText(cs.getServerMessage());
+		}
+	}// GEN-LAST:event_list_serversValueChanged
 
-    private void text_exprateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_text_exprateKeyTyped
-        // TODO add your handling code here:
-        Number(evt);
-    }//GEN-LAST:event_text_exprateKeyTyped
+	public void Number(java.awt.event.KeyEvent e) {
+		if ((e.getKeyChar() >= KeyEvent.VK_0 && e.getKeyChar() <= KeyEvent.VK_9)
+				|| e.getKeyChar() == KeyEvent.VK_ENTER
+				|| e.getKeyChar() == KeyEvent.VK_TAB
+				|| e.getKeyChar() == KeyEvent.VK_BACK_SPACE
+				|| e.getKeyChar() == KeyEvent.VK_DELETE
+				|| e.getKeyChar() == KeyEvent.VK_LEFT
+				|| e.getKeyChar() == KeyEvent.VK_RIGHT
+				|| e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+			return;
+		}
+		e.consume();
+	}
 
-    private void text_mesorateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_text_mesorateKeyTyped
-        // TODO add your handling code here:
-        Number(evt);
-    }//GEN-LAST:event_text_mesorateKeyTyped
+	private void text_exprateKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_text_exprateKeyTyped
+		// TODO add your handling code here:
+		Number(evt);
+	}// GEN-LAST:event_text_exprateKeyTyped
 
-    private void text_droprateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_text_droprateKeyTyped
-        // TODO add your handling code here:
-        Number(evt);
-    }//GEN-LAST:event_text_droprateKeyTyped
+	private void text_mesorateKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_text_mesorateKeyTyped
+		// TODO add your handling code here:
+		Number(evt);
+	}// GEN-LAST:event_text_mesorateKeyTyped
 
-    private void text_bossrateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_text_bossrateKeyTyped
-        // TODO add your handling code here:
-        Number(evt);
-    }//GEN-LAST:event_text_bossrateKeyTyped
+	private void text_droprateKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_text_droprateKeyTyped
+		// TODO add your handling code here:
+		Number(evt);
+	}// GEN-LAST:event_text_droprateKeyTyped
 
-    private void button_worldMessage1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_worldMessage1ActionPerformed
-        // TODO add your handling code here:
-        String message = text_serverMessage1.getText();
-        if (message.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "请输入广播内容。", "错误.", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        for (ChannelServer cs : ChannelManager.getAllChannelServers()) {
-            cs.broadcastPacket(MaplePacketCreator.serverNotice(1, ":" + message));
-        }
-        text_serverMessage1.setText("");
-        JOptionPane.showMessageDialog(this, "操作成功!");
-    }//GEN-LAST:event_button_worldMessage1ActionPerformed
+	private void text_bossrateKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_text_bossrateKeyTyped
+		// TODO add your handling code here:
+		Number(evt);
+	}// GEN-LAST:event_text_bossrateKeyTyped
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ServerContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ServerContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ServerContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ServerContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+	private void button_worldMessage1ActionPerformed(
+			java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button_worldMessage1ActionPerformed
+		// TODO add your handling code here:
+		String message = text_serverMessage1.getText();
+		if (message.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "请输入广播内容。", "错误.",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		for (ChannelServer cs : ChannelManager.getAllChannelServers()) {
+			cs.broadcastPacket(MaplePacketCreator
+					.serverNotice(1, ":" + message));
+		}
+		text_serverMessage1.setText("");
+		JOptionPane.showMessageDialog(this, "操作成功!");
+	}// GEN-LAST:event_button_worldMessage1ActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ServerContent().setVisible(true);
-            }
-        });
-    }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton button_change;
-    private javax.swing.JButton button_channelMessage;
-    private javax.swing.JButton button_worldMessage;
-    private javax.swing.JButton button_worldMessage1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lable_timer;
-    private javax.swing.JList list_servers;
-    private javax.swing.JTable table_servers;
-    private javax.swing.JTextField text_bossrate;
-    private javax.swing.JTextField text_droprate;
-    private javax.swing.JTextField text_exprate;
-    private javax.swing.JTextField text_mesorate;
-    private javax.swing.JTextArea text_serverMessage;
-    private javax.swing.JTextArea text_serverMessage1;
-    // End of variables declaration//GEN-END:variables
+	/**
+	 * @param args
+	 *            the command line arguments
+	 */
+	public static void main(String args[]) {
+		/* Set the Nimbus look and feel */
+		// <editor-fold defaultstate="collapsed"
+		// desc=" Look and feel setting code (optional) ">
+		/*
+		 * If Nimbus (introduced in Java SE 6) is not available, stay with the
+		 * default look and feel. For details see
+		 * http://download.oracle.com/javase
+		 * /tutorial/uiswing/lookandfeel/plaf.html
+		 */
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+					.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(ServerContent.class.getName())
+					.log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(ServerContent.class.getName())
+					.log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(ServerContent.class.getName())
+					.log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(ServerContent.class.getName())
+					.log(java.util.logging.Level.SEVERE, null, ex);
+		}
+		// </editor-fold>
+
+		/* Create and display the form */
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new ServerContent().setVisible(true);
+			}
+		});
+	}
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JButton button_change;
+	private javax.swing.JButton button_channelMessage;
+	private javax.swing.JButton button_worldMessage;
+	private javax.swing.JButton button_worldMessage1;
+	private javax.swing.JLabel jLabel1;
+	private javax.swing.JLabel jLabel2;
+	private javax.swing.JLabel jLabel3;
+	private javax.swing.JLabel jLabel4;
+	private javax.swing.JLabel jLabel5;
+	private javax.swing.JLabel jLabel6;
+	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JScrollPane jScrollPane2;
+	private javax.swing.JScrollPane jScrollPane3;
+	private javax.swing.JScrollPane jScrollPane4;
+	private javax.swing.JSeparator jSeparator1;
+	private javax.swing.JLabel lable_timer;
+	private javax.swing.JList list_servers;
+	private javax.swing.JTable table_servers;
+	private javax.swing.JTextField text_bossrate;
+	private javax.swing.JTextField text_droprate;
+	private javax.swing.JTextField text_exprate;
+	private javax.swing.JTextField text_mesorate;
+	private javax.swing.JTextArea text_serverMessage;
+	private javax.swing.JTextArea text_serverMessage1;
+	// End of variables declaration//GEN-END:variables
 }

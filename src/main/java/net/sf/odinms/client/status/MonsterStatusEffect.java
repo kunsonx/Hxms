@@ -28,59 +28,61 @@ import net.sf.odinms.client.ISkill;
 
 public class MonsterStatusEffect {
 
-    private Map<MapleMonsterStat, Integer> stati;
-    private ISkill skill;
-    private boolean monsterSkill;
-    private ScheduledFuture<?> cancelTask;
-    private ScheduledFuture<?> poisonSchedule;
+	private Map<MapleMonsterStat, Integer> stati;
+	private ISkill skill;
+	private boolean monsterSkill;
+	private ScheduledFuture<?> cancelTask;
+	private ScheduledFuture<?> poisonSchedule;
 
-    public MonsterStatusEffect(Map<MapleMonsterStat, Integer> stati, ISkill skillId, boolean monsterSkill) {
-        this.stati = Collections.synchronizedMap(new EnumMap<MapleMonsterStat, Integer>(stati));
-        this.skill = skillId;
-        this.monsterSkill = monsterSkill;
-    }
+	public MonsterStatusEffect(Map<MapleMonsterStat, Integer> stati,
+			ISkill skillId, boolean monsterSkill) {
+		this.stati = Collections
+				.synchronizedMap(new EnumMap<MapleMonsterStat, Integer>(stati));
+		this.skill = skillId;
+		this.monsterSkill = monsterSkill;
+	}
 
-    public synchronized Map<MapleMonsterStat, Integer> getStati() {
-        return stati;
-    }
+	public synchronized Map<MapleMonsterStat, Integer> getStati() {
+		return stati;
+	}
 
-    public synchronized Integer setValue(MapleMonsterStat status, Integer newVal) {
-        return stati.put(status, newVal);
-    }
+	public synchronized Integer setValue(MapleMonsterStat status, Integer newVal) {
+		return stati.put(status, newVal);
+	}
 
-    public ISkill getSkill() {
-        return skill;
-    }
+	public ISkill getSkill() {
+		return skill;
+	}
 
-    public boolean isMonsterSkill() {
-        return monsterSkill;
-    }
+	public boolean isMonsterSkill() {
+		return monsterSkill;
+	}
 
-    public ScheduledFuture<?> getCancelTask() {
-        return cancelTask;
-    }
+	public ScheduledFuture<?> getCancelTask() {
+		return cancelTask;
+	}
 
-    public void CancelCancelTask() {
-        if (cancelTask != null) {
-            cancelTask.cancel(false);
-        }
-    }
+	public void CancelCancelTask() {
+		if (cancelTask != null) {
+			cancelTask.cancel(false);
+		}
+	}
 
-    public void setCancelTask(ScheduledFuture<?> cancelTask) {
-        this.cancelTask = cancelTask;
-    }
+	public void setCancelTask(ScheduledFuture<?> cancelTask) {
+		this.cancelTask = cancelTask;
+	}
 
-    public synchronized void removeActiveStatus(MapleMonsterStat stat) {
-        stati.remove(stat);
-    }
+	public synchronized void removeActiveStatus(MapleMonsterStat stat) {
+		stati.remove(stat);
+	}
 
-    public void setPoisonSchedule(ScheduledFuture<?> poisonSchedule) {
-        this.poisonSchedule = poisonSchedule;
-    }
+	public void setPoisonSchedule(ScheduledFuture<?> poisonSchedule) {
+		this.poisonSchedule = poisonSchedule;
+	}
 
-    public void cancelPoisonSchedule() {
-        if (poisonSchedule != null) {
-            poisonSchedule.cancel(false);
-        }
-    }
+	public void cancelPoisonSchedule() {
+		if (poisonSchedule != null) {
+			poisonSchedule.cancel(false);
+		}
+	}
 }

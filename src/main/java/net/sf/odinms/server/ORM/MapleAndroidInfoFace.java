@@ -10,24 +10,23 @@ package net.sf.odinms.server.ORM;
  */
 public class MapleAndroidInfoFace {
 
-    private long id;
-    private int value;
+	private long id;
+	private int value;
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public int getValue() {
-        return value;
-    }
+	public int getValue() {
+		return value;
+	}
 
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    
+	public void setValue(int value) {
+		this.value = value;
+	}
+
 }

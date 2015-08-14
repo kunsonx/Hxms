@@ -22,23 +22,24 @@ package net.sf.odinms.client;
 
 public enum MapleSkinColor {
 
-    NORMAL(0), DARK(1), BLACK(2), PALE(3), BLUE(4), PINK(5), YELLOW(6), GRAY(7), YELLOWBROWN(8), WHITE(9), GREEN(10), ARAN(11), 双弩精灵(12), 恶魔猎手(13);
-    final int id;
+	NORMAL(0), DARK(1), BLACK(2), PALE(3), BLUE(4), PINK(5), YELLOW(6), GRAY(7), YELLOWBROWN(
+			8), WHITE(9), GREEN(10), ARAN(11), 双弩精灵(12), 恶魔猎手(13);
+	final int id;
 
-    private MapleSkinColor(int id) {
-        this.id = id;
-    }
+	private MapleSkinColor(int id) {
+		this.id = id;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public static MapleSkinColor getById(int id) {
-        for (MapleSkinColor l : MapleSkinColor.values()) {
-            if (l.getId() == id) {
-                return l;
-            }
-        }
-        return null;
-    }
+	public static MapleSkinColor getById(int id) {
+		for (MapleSkinColor l : MapleSkinColor.values()) {
+			if (l.getId() == id) {
+				return l;
+			}
+		}
+		return null;
+	}
 }

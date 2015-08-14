@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.scripting.quest;
 
@@ -31,33 +31,33 @@ import net.sf.odinms.server.quest.MapleQuest;
  */
 public class QuestActionManager extends NPCConversationManager {
 
-    private boolean start;
-    private int quest;
+	private boolean start;
+	private int quest;
 
-    public QuestActionManager(MapleClient c, int npc, int quest, boolean start) {
-        super(c, npc);
-        this.quest = quest;
-        this.start = start;
-    }
+	public QuestActionManager(MapleClient c, int npc, int quest, boolean start) {
+		super(c, npc);
+		this.quest = quest;
+		this.start = start;
+	}
 
-    public int getQuest() {
-        return quest;
-    }
+	public int getQuest() {
+		return quest;
+	}
 
-    public boolean isStart() {
-        return start;
-    }
+	public boolean isStart() {
+		return start;
+	}
 
-    @Override
-    public void dispose() {
-        QuestScriptManager.getInstance().dispose(this, getClient());
-    }
+	@Override
+	public void dispose() {
+		QuestScriptManager.getInstance().dispose(this, getClient());
+	}
 
-    public void startQuest() {
-        MapleQuest.getInstance(quest).start(getPlayer(), getNpc(), true);
-    }
+	public void startQuest() {
+		MapleQuest.getInstance(quest).start(getPlayer(), getNpc(), true);
+	}
 
-    public void completeQuest() {
-        MapleQuest.getInstance(quest).complete(getPlayer(), getNpc(), true);
-    }
+	public void completeQuest() {
+		MapleQuest.getInstance(quest).complete(getPlayer(), getNpc(), true);
+	}
 }

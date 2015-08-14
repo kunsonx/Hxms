@@ -23,89 +23,90 @@ package net.sf.odinms.client;
 
 public class MapleFamilyEntry {
 
-    private int familyId;
-    private MapleCharacter chr;
-    private int rank, reputation, totalReputation, todaysRep, totalJuniors, juniors;
-    private String familyName;
+	private int familyId;
+	private MapleCharacter chr;
+	private int rank, reputation, totalReputation, todaysRep, totalJuniors,
+			juniors;
+	private String familyName;
 
-    public int getId() {
-        return familyId;
-    }
+	public int getId() {
+		return familyId;
+	}
 
-    public void setFamilyId(int familyId) {
-        this.familyId = familyId;
-    }
+	public void setFamilyId(int familyId) {
+		this.familyId = familyId;
+	}
 
-    public int getRank() {
-        return rank;
-    }
+	public int getRank() {
+		return rank;
+	}
 
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
 
-    public MapleCharacter getPlayer() {
-        return chr;
-    }
+	public MapleCharacter getPlayer() {
+		return chr;
+	}
 
-    public void setPlayer(MapleCharacter chr) {
-        this.chr = chr;
-    }
+	public void setPlayer(MapleCharacter chr) {
+		this.chr = chr;
+	}
 
-    public int getReputation() {
-        return reputation;
-    }
+	public int getReputation() {
+		return reputation;
+	}
 
-    public int getTodaysRep() {
-        return todaysRep;
-    }
+	public int getTodaysRep() {
+		return todaysRep;
+	}
 
-    public void setReputation(int reputation) {
-        this.reputation = reputation;
-    }
+	public void setReputation(int reputation) {
+		this.reputation = reputation;
+	}
 
-    public void setTodaysRep(int today) {
-        this.todaysRep = today;
-    }
+	public void setTodaysRep(int today) {
+		this.todaysRep = today;
+	}
 
-    public void gainReputation(int gain) {
-        this.reputation += gain;
-        this.totalReputation += gain;
-    }
+	public void gainReputation(int gain) {
+		this.reputation += gain;
+		this.totalReputation += gain;
+	}
 
-    public int getTotalJuniors() {
-        return totalJuniors;
-    }
+	public int getTotalJuniors() {
+		return totalJuniors;
+	}
 
-    public void setTotalJuniors(int totalJuniors) {
-        this.totalJuniors = totalJuniors;
-    }
+	public void setTotalJuniors(int totalJuniors) {
+		this.totalJuniors = totalJuniors;
+	}
 
-    public int getJuniors() {
-        return juniors;
-    }
+	public int getJuniors() {
+		return juniors;
+	}
 
-    public void setJuniors(int juniors) {
-        this.juniors = juniors;
-    }
+	public void setJuniors(int juniors) {
+		this.juniors = juniors;
+	}
 
-    public int getFamilyId() {
-        return familyId;
-    }
+	public int getFamilyId() {
+		return familyId;
+	}
 
-    public void setFamilyName(String familyName) {
-        this.familyName = familyName;
-    }
+	public void setFamilyName(String familyName) {
+		this.familyName = familyName;
+	}
 
-    public String getFamilyName() {
-        return familyName;
-    }
+	public String getFamilyName() {
+		return familyName;
+	}
 
-    public int getTotalReputation() {
-        return totalReputation;
-    }
+	public int getTotalReputation() {
+		return totalReputation;
+	}
 
-    public void setTotalReputation(int totalReputation) {
-        this.totalReputation = totalReputation;
-    }
+	public void setTotalReputation(int totalReputation) {
+		this.totalReputation = totalReputation;
+	}
 }

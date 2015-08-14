@@ -5,57 +5,57 @@ import net.sf.odinms.server.constants.InventoryConstants;
 
 public interface IItem extends Comparable<IItem> {
 
-    public final int PET = 3;
-    public final int ITEM = 2;
-    public final int EQUIP = 1;
+	public final int PET = 3;
+	public final int ITEM = 2;
+	public final int EQUIP = 1;
 
-    byte getType();
+	byte getType();
 
-    short getPosition();
+	short getPosition();
 
-    void setPosition(short position);
+	void setPosition(short position);
 
-    void setFlag(int i);
+	void setFlag(int i);
 
-    int getFlag();
+	int getFlag();
 
-    int getItemId();
+	int getItemId();
 
-    short getQuantity();
+	short getQuantity();
 
-    String getOwner();
+	String getOwner();
 
-    IItem copy();
+	IItem copy();
 
-    void setOwner(String owner);
+	void setOwner(String owner);
 
-    void setQuantity(short quantity);
+	void setQuantity(short quantity);
 
-    StringBuffer getLog();
+	StringBuffer getLog();
 
-    void log(String str, boolean fromdrop);
+	void log(String str, boolean fromdrop);
 
-    Timestamp getExpiration();
+	Timestamp getExpiration();
 
-    void setExpiration(Timestamp expire);
+	void setExpiration(Timestamp expire);
 
-    int getSN();
+	int getSN();
 
-    long getUniqueid();
+	long getUniqueid();
 
-    void setUniqueId(long id);
+	void setUniqueId(long id);
 
-    void setSN(int sn);
+	void setSN(int sn);
 
-    void AddFlag(InventoryConstants.Items.Flags flag);
+	void AddFlag(InventoryConstants.Items.Flags flag);
 
-    void CanceFlag(InventoryConstants.Items.Flags flag);
+	void CanceFlag(InventoryConstants.Items.Flags flag);
 
-    boolean HasFlag(InventoryConstants.Items.Flags flag);
+	boolean HasFlag(InventoryConstants.Items.Flags flag);
 
-    boolean 友谊戒指();
+	boolean 友谊戒指();
 
-    boolean 恋人戒指();
+	boolean 恋人戒指();
 
-    boolean 结婚戒指();
+	boolean 结婚戒指();
 }

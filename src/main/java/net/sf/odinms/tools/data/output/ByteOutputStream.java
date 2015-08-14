@@ -29,18 +29,20 @@ package net.sf.odinms.tools.data.output;
  */
 public interface ByteOutputStream {
 
-    /**
-     * Writes a byte to the stream.
-     * 
-     * @param b The byte to write.
-     */
-    void writeByte(byte b);
+	/**
+	 * Writes a byte to the stream.
+	 * 
+	 * @param b
+	 *            The byte to write.
+	 */
+	void writeByte(byte b);
 
-    void write(byte[] data);
+	void write(byte[] data);
 
-    /**
-     * 获得有效字节数组。
-     * @return 
-     */
-    byte[] ToArray();
+	/**
+	 * 获得有效字节数组。
+	 * 
+	 * @return
+	 */
+	byte[] ToArray();
 }

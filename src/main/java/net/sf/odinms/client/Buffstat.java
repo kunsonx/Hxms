@@ -10,9 +10,9 @@ package net.sf.odinms.client;
  */
 public interface Buffstat {
 
-    public int getValue(boolean foreign, boolean give);
+	public int getValue(boolean foreign, boolean give);
 
-    public int getPosition();
+	public int getPosition();
 
-    public int getMask();
+	public int getMask();
 }

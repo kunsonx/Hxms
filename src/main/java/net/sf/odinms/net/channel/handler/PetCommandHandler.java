@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -37,33 +37,49 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class PetCommandHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        MapleCharacter chr = c.getPlayer();
-        int petSlot = slea.readInt();
-        MaplePet pet = c.getPlayer().getPet(petSlot);
-        slea.readByte();
-        byte command = slea.readByte();
-        PetCommand petCommand = PetDataFactory.getPetCommand(pet.getItemId(), (int) command);
-        if (petCommand == null) {
-            return;
-        }
-        boolean success = false;
-        if (Randomizer.getInstance().nextInt(101) <= petCommand.getProbability()) {
-            success = true;
-            if (pet.getCloseness() < 30000) {
-                int newCloseness = pet.getCloseness() + (petCommand.getIncrease() * c.getChannelServer().getPetExpRate());
-                if (newCloseness > 30000) {
-                    newCloseness = 30000;
-                }
-                pet.setCloseness(newCloseness);
-                if (newCloseness >= ExpTable.getClosenessNeededForLevel(pet.getLevel() + 1)) {
-                    pet.setLevel(pet.getLevel() + 1);
-                    c.getPlayer().getMap().broadcastMessage(MaplePacketCreator.showPetLevelUp(c.getPlayer(), c.getPlayer().getPetSlot(pet)));
-                }
-                c.getSession().write(MaplePacketCreator.updatePet(pet));
-            }
-        }
-        c.getPlayer().getMap().broadcastMessage(c.getPlayer(), MaplePacketCreator.commandResponse(c.getPlayer().getId(), petSlot, command, success), true);
-    }
+	@Override
+	public final void handlePacket(SeekableLittleEndianAccessor slea,
+			MapleClient c) {
+		MapleCharacter chr = c.getPlayer();
+		int petSlot = slea.readInt();
+		MaplePet pet = c.getPlayer().getPet(petSlot);
+		slea.readByte();
+		byte command = slea.readByte();
+		PetCommand petCommand = PetDataFactory.getPetCommand(pet.getItemId(),
+				(int) command);
+		if (petCommand == null) {
+			return;
+		}
+		boolean success = false;
+		if (Randomizer.getInstance().nextInt(101) <= petCommand
+				.getProbability()) {
+			success = true;
+			if (pet.getCloseness() < 30000) {
+				int newCloseness = pet.getCloseness()
+						+ (petCommand.getIncrease() * c.getChannelServer()
+								.getPetExpRate());
+				if (newCloseness > 30000) {
+					newCloseness = 30000;
+				}
+				pet.setCloseness(newCloseness);
+				if (newCloseness >= ExpTable.getClosenessNeededForLevel(pet
+						.getLevel() + 1)) {
+					pet.setLevel(pet.getLevel() + 1);
+					c.getPlayer()
+							.getMap()
+							.broadcastMessage(
+									MaplePacketCreator.showPetLevelUp(c
+											.getPlayer(), c.getPlayer()
+											.getPetSlot(pet)));
+				}
+				c.getSession().write(MaplePacketCreator.updatePet(pet));
+			}
+		}
+		c.getPlayer()
+				.getMap()
+				.broadcastMessage(
+						c.getPlayer(),
+						MaplePacketCreator.commandResponse(c.getPlayer()
+								.getId(), petSlot, command, success), true);
+	}
 }

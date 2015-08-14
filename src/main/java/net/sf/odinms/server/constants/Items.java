@@ -22,17 +22,16 @@ package net.sf.odinms.server.constants;
 
 public class Items {
 
-    public static class Cash {
+	public static class Cash {
 
-        public final static int ViciousHammer = 5570000;
+		public final static int ViciousHammer = 5570000;
 
-        public static boolean isPetFood(int itemId) {
-            if (itemId >= 5240000 && itemId <= 5240020) {
-                return true;
-            }
-            return false;
-        }
-    }
-
+		public static boolean isPetFood(int itemId) {
+			if (itemId >= 5240000 && itemId <= 5240020) {
+				return true;
+			}
+			return false;
+		}
+	}
 
 }

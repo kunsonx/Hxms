@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -27,41 +27,41 @@ import net.sf.odinms.client.MapleClient;
 import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 import net.sf.odinms.net.AbstractMaplePacketHandler;
 
-
 public class NoteActionHandler extends AbstractMaplePacketHandler {
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(NoteActionHandler.class);
+	private static final org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(NoteActionHandler.class);
 
-    // Create a new instance
-    public NoteActionHandler() {
-    }
+	// Create a new instance
+	public NoteActionHandler() {
+	}
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
 
-        int action = slea.readByte();
+		int action = slea.readByte();
 
-        if (action == 0) { //send, only in cs
-            String name = slea.readMapleAsciiString();
-            String msg = slea.readMapleAsciiString();
-            int gift = slea.readByte();
-            try {
-                c.getPlayer().sendNote(name, msg);
-            } catch (Exception e) {
-                log.error("SAVING NOTE", e);
-            }
-        } else if (action == 1) { //delete
-            int num = slea.readByte();
-            slea.readByte(); //padding?
-            slea.readByte(); //always 62?
-            for (int i = 0; i < num; i++) {
-                int id = slea.readInt();
-                try {
-                    c.getPlayer().deleteNote(id);
-                } catch (SQLException e) {
-                    log.error("Unable to delete note", e);
-                }
-            }
-        }
-    }
+		if (action == 0) { // send, only in cs
+			String name = slea.readMapleAsciiString();
+			String msg = slea.readMapleAsciiString();
+			int gift = slea.readByte();
+			try {
+				c.getPlayer().sendNote(name, msg);
+			} catch (Exception e) {
+				log.error("SAVING NOTE", e);
+			}
+		} else if (action == 1) { // delete
+			int num = slea.readByte();
+			slea.readByte(); // padding?
+			slea.readByte(); // always 62?
+			for (int i = 0; i < num; i++) {
+				int id = slea.readInt();
+				try {
+					c.getPlayer().deleteNote(id);
+				} catch (SQLException e) {
+					log.error("Unable to delete note", e);
+				}
+			}
+		}
+	}
 }

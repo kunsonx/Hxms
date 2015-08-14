@@ -13,42 +13,41 @@ import java.util.List;
  */
 public class MapleSkillDatabase {
 
-    private int id;
-    private int jobid;
-    private String name;
-    private List<MapleSkillDatabaseInfo> values = new ArrayList<MapleSkillDatabaseInfo>();
+	private int id;
+	private int jobid;
+	private String name;
+	private List<MapleSkillDatabaseInfo> values = new ArrayList<MapleSkillDatabaseInfo>();
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getJobid() {
-        return jobid;
-    }
+	public int getJobid() {
+		return jobid;
+	}
 
-    public void setJobid(int jobid) {
-        this.jobid = jobid;
-    }
+	public void setJobid(int jobid) {
+		this.jobid = jobid;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public List<MapleSkillDatabaseInfo> getValues() {
-        return values;
-    }
+	public List<MapleSkillDatabaseInfo> getValues() {
+		return values;
+	}
 
-    public void setValues(List<MapleSkillDatabaseInfo> values) {
-        this.values = values;
-    }
-    
-    
+	public void setValues(List<MapleSkillDatabaseInfo> values) {
+		this.values = values;
+	}
+
 }

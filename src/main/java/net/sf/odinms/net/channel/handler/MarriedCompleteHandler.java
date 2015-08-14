@@ -15,8 +15,9 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public class MarriedCompleteHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        c.getPlayer().changeMap(c.getChannelServer().getMapFactory().getMap(700000200));
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		c.getPlayer().changeMap(
+				c.getChannelServer().getMapFactory().getMap(700000200));
+	}
 }

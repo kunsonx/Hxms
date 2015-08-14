@@ -35,28 +35,35 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public class ScriptedItemHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        MapleCharacter player = c.getPlayer();
-        MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
-        slea.readInt(); // trash stamp (thx rmzero)
-        byte itemSlot = (byte) slea.readShort(); // item sl0t (thx rmzero)
-        int itemId = slea.readInt(); // itemId
-        int npcId = ii.getScriptedItemNpc(itemId);
-        IItem item = c.getPlayer().getInventory(ii.getInventoryType(itemId)).getItem(itemSlot);
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		MapleCharacter player = c.getPlayer();
+		MapleItemInformationProvider ii = MapleItemInformationProvider
+				.getInstance();
+		slea.readInt(); // trash stamp (thx rmzero)
+		byte itemSlot = (byte) slea.readShort(); // item sl0t (thx rmzero)
+		int itemId = slea.readInt(); // itemId
+		int npcId = ii.getScriptedItemNpc(itemId);
+		IItem item = c.getPlayer().getInventory(ii.getInventoryType(itemId))
+				.getItem(itemSlot);
 
-        if (item == null || item.getItemId() != itemId || item.getQuantity() <= 0 || npcId == 0) {
-            if (player.isGM()) {
-                player.弹窗(String.format("无法执行该脚本物品,物品ID：%d,NPCID：%d", itemId, npcId));
-            }
-            return;
-        }
-        if (player.isGM()) {
-            player.dropMessage(String.format("正在为脚本物品:%d 执行NPC：%d ,如果需要在脚本内获得物品ID, 请在脚本内使用变量：[script_itemid]. 如果无法运行对应NPC,请手动添加NPC文件进行业务处理.", itemId, npcId));
-        }
-        ScriptEngine engine = NPCScriptManager.getInstance().start(c, npcId, -1);
-        if (engine != null) {
-            engine.put("script_itemid", itemId);
-        }
-    }
+		if (item == null || item.getItemId() != itemId
+				|| item.getQuantity() <= 0 || npcId == 0) {
+			if (player.isGM()) {
+				player.弹窗(String.format("无法执行该脚本物品,物品ID：%d,NPCID：%d", itemId,
+						npcId));
+			}
+			return;
+		}
+		if (player.isGM()) {
+			player.dropMessage(String
+					.format("正在为脚本物品:%d 执行NPC：%d ,如果需要在脚本内获得物品ID, 请在脚本内使用变量：[script_itemid]. 如果无法运行对应NPC,请手动添加NPC文件进行业务处理.",
+							itemId, npcId));
+		}
+		ScriptEngine engine = NPCScriptManager.getInstance()
+				.start(c, npcId, -1);
+		if (engine != null) {
+			engine.put("script_itemid", itemId);
+		}
+	}
 }

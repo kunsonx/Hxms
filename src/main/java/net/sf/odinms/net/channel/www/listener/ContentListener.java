@@ -13,12 +13,12 @@ import javax.servlet.http.HttpSessionListener;
  */
 public class ContentListener implements HttpSessionListener {
 
-    @Override
-    public void sessionCreated(HttpSessionEvent hse) {
-    }
+	@Override
+	public void sessionCreated(HttpSessionEvent hse) {
+	}
 
-    @Override
-    public void sessionDestroyed(HttpSessionEvent hse) {
-        
-    }
+	@Override
+	public void sessionDestroyed(HttpSessionEvent hse) {
+
+	}
 }

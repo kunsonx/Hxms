@@ -19,69 +19,75 @@ import org.apache.log4j.Logger;
  */
 public class MapleGameHandler {
 
-    private static Logger log = Logger.getLogger(MapleGameHandler.class);
+	private static Logger log = Logger.getLogger(MapleGameHandler.class);
 
-    /**
-     * 处理狂龙设置快捷键
-     *
-     * @author HXMS
-     */
-    public static class HandlerSetCmd extends AbstractMaplePacketHandler {
+	/**
+	 * 处理狂龙设置快捷键
+	 *
+	 * @author HXMS
+	 */
+	public static class HandlerSetCmd extends AbstractMaplePacketHandler {
 
-        @Override
-        public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-            /**
-             * Packet 107. 3C 01 00 01 4C A2 A4 03
-             */
-            slea.skip(1);
-            int pos = slea.readByte();
-            int skill = slea.readInt();
-            c.getPlayer().getAttribute().getAttribute().put("p_cmd" + pos, String.valueOf(skill));
-            c.getSession().write(MaplePacketCreator.getChangeCmd(pos, skill));
-        }
-    }
+		@Override
+		public void handlePacket(SeekableLittleEndianAccessor slea,
+				MapleClient c) {
+			/**
+			 * Packet 107. 3C 01 00 01 4C A2 A4 03
+			 */
+			slea.skip(1);
+			int pos = slea.readByte();
+			int skill = slea.readInt();
+			c.getPlayer().getAttribute().getAttribute()
+					.put("p_cmd" + pos, String.valueOf(skill));
+			c.getSession().write(MaplePacketCreator.getChangeCmd(pos, skill));
+		}
+	}
 
-    /**
-     * 狂龙技能效果
-     *
-     *
-     * @author hxms
-     */
-    public static class AttackEffectHandler extends AbstractMaplePacketHandler {
+	/**
+	 * 狂龙技能效果
+	 *
+	 *
+	 * @author hxms
+	 */
+	public static class AttackEffectHandler extends AbstractMaplePacketHandler {
 
-        @Override
-        public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-            MapleCharacter player = c.getPlayer();
-            int skillId = 61120007;
-            if (player.getBuffManager().hasBuff(skillId)) {
-                ArrayList<Integer> monsters = new ArrayList<Integer>();
-                int count = slea.readInt();
-                for (int i = 0; i < count; i++) {
-                    int oid = slea.readInt();
-                    if (player.getMap().getCore().contains(oid)) {
-                        monsters.add(oid);
-                    }
-                }
-                if (!monsters.isEmpty()) {
-                    player.getMap().broadcastMessage(MaplePacketCreator.getAttackEffect(c.getPlayer().getId(), skillId, monsters, 2));
-                }
-                player.getBuffManager().cancelSkill(skillId);
-            }
-        }
-    }
+		@Override
+		public void handlePacket(SeekableLittleEndianAccessor slea,
+				MapleClient c) {
+			MapleCharacter player = c.getPlayer();
+			int skillId = 61120007;
+			if (player.getBuffManager().hasBuff(skillId)) {
+				ArrayList<Integer> monsters = new ArrayList<Integer>();
+				int count = slea.readInt();
+				for (int i = 0; i < count; i++) {
+					int oid = slea.readInt();
+					if (player.getMap().getCore().contains(oid)) {
+						monsters.add(oid);
+					}
+				}
+				if (!monsters.isEmpty()) {
+					player.getMap().broadcastMessage(
+							MaplePacketCreator.getAttackEffect(c.getPlayer()
+									.getId(), skillId, monsters, 2));
+				}
+				player.getBuffManager().cancelSkill(skillId);
+			}
+		}
+	}
 
-    /**
-     * 尖兵电力开关
-     */
-    public static class PowerSwitchHandler extends AbstractMaplePacketHandler {
+	/**
+	 * 尖兵电力开关
+	 */
+	public static class PowerSwitchHandler extends AbstractMaplePacketHandler {
 
-        @Override
-        public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-            if (c.getPlayer().getPower() >= 10) {
-                c.getPlayer().setPowerOpen();
-            } else {
-                c.getPlayer().dropMessage("电力不足无法打开电源！");
-            }
-        }
-    }
+		@Override
+		public void handlePacket(SeekableLittleEndianAccessor slea,
+				MapleClient c) {
+			if (c.getPlayer().getPower() >= 10) {
+				c.getPlayer().setPowerOpen();
+			} else {
+				c.getPlayer().dropMessage("电力不足无法打开电源！");
+			}
+		}
+	}
 }

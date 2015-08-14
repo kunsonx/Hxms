@@ -1,6 +1,6 @@
 /*
 	
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -11,23 +11,23 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class ReviveItemHandler extends AbstractMaplePacketHandler {
 
-    private static int item;
-    private static Point position;
+	private static int item;
+	private static Point position;
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        item = slea.readInt();
-        int x = slea.readInt();
-        int y = slea.readInt();
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		item = slea.readInt();
+		int x = slea.readInt();
+		int y = slea.readInt();
 
-        position = new Point(x, y);
-    }
+		position = new Point(x, y);
+	}
 
-    public static int getItemId() {
-        return item;
-    }
+	public static int getItemId() {
+		return item;
+	}
 
-    public static Point getPosition() {
-        return position;
-    }
+	public static Point getPosition() {
+		return position;
+	}
 }

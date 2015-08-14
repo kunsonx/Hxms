@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -32,24 +32,28 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public class MesoDropHandler extends AbstractMaplePacketHandler {
 
-    public MesoDropHandler() {
-    }
+	public MesoDropHandler() {
+	}
 
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        int actionId = slea.readInt();
-        if (actionId <= c.getLastActionId()) {
-            c.getSession().write(MaplePacketCreator.enableActions());
-            return;
-        }
-        c.setLastActionId(actionId);
-        int meso = slea.readInt();
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		int actionId = slea.readInt();
+		if (actionId <= c.getLastActionId()) {
+			c.getSession().write(MaplePacketCreator.enableActions());
+			return;
+		}
+		c.setLastActionId(actionId);
+		int meso = slea.readInt();
 
-        if (!c.getPlayer().isAlive() || (meso < 10 || meso > 50000) || (meso > c.getPlayer().getMeso())) {
-            c.getSession().write(MaplePacketCreator.enableActions());
-            return;
-        }
+		if (!c.getPlayer().isAlive() || (meso < 10 || meso > 50000)
+				|| (meso > c.getPlayer().getMeso())) {
+			c.getSession().write(MaplePacketCreator.enableActions());
+			return;
+		}
 
-        c.getPlayer().gainMeso(-meso, false, true);
-        c.getPlayer().getMap().spawnMesoDrop(meso, c.getPlayer().getPosition(), c.getPlayer(), c.getPlayer(), false);
-    }
+		c.getPlayer().gainMeso(-meso, false, true);
+		c.getPlayer()
+				.getMap()
+				.spawnMesoDrop(meso, c.getPlayer().getPosition(),
+						c.getPlayer(), c.getPlayer(), false);
+	}
 }

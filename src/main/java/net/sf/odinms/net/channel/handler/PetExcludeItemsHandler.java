@@ -9,12 +9,13 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public final class PetExcludeItemsHandler extends AbstractMaplePacketHandler {
 
-    public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        slea.readLong();
-        //捡取过滤列表
-        byte amount = slea.readByte();
-        for (int i = 0; i < amount; i++) {
-            c.getPlayer().addExcluded(slea.readInt());
-        }
-    }
+	public final void handlePacket(SeekableLittleEndianAccessor slea,
+			MapleClient c) {
+		slea.readLong();
+		// 捡取过滤列表
+		byte amount = slea.readByte();
+		for (int i = 0; i < amount; i++) {
+			c.getPlayer().addExcluded(slea.readInt());
+		}
+	}
 }

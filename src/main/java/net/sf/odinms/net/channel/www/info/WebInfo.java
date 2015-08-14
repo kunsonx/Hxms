@@ -10,7 +10,7 @@ package net.sf.odinms.net.channel.www.info;
  */
 public interface WebInfo {
 
-    public void save();
+	public void save();
 
-    public void load();
+	public void load();
 }

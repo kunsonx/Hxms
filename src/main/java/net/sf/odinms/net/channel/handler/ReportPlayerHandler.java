@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -35,77 +35,84 @@ import net.sf.odinms.net.world.remote.WorldChannelInterface;
 import net.sf.odinms.server.ServerExceptionHandler;
 import net.sf.odinms.tools.MaplePacketCreator;
 
-
 public class ReportPlayerHandler extends AbstractMaplePacketHandler {
 
-    public static final String[] reasons = {"Hacking", "Botting", "Scamming", "Fake GM", "Harassment", "Advertising"};
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ReportPlayerHandler.class);
+	public static final String[] reasons = { "Hacking", "Botting", "Scamming",
+			"Fake GM", "Harassment", "Advertising" };
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(ReportPlayerHandler.class);
 
-    public static String getNameById(int id) {
-        try {
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM characters where id = ?");
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getString("name");
-            }
-            rs.close();
-            ps.close();
-            con.close();
-        } catch (SQLException ex) {
-            log.error("Report SQL Error", ex);
-        }
-        return "<Couldn't retreive name, player id is " + id + ">";
-    }
+	public static String getNameById(int id) {
+		try {
+			Connection con = DatabaseConnection.getConnection();
+			PreparedStatement ps = con
+					.prepareStatement("SELECT * FROM characters where id = ?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getString("name");
+			}
+			rs.close();
+			ps.close();
+			con.close();
+		} catch (SQLException ex) {
+			log.error("Report SQL Error", ex);
+		}
+		return "<Couldn't retreive name, player id is " + id + ">";
+	}
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        int reportedCharId = slea.readInt();
-        byte reason = slea.readByte();
-        String chatlog = "No chatlog.";
-        short clogLen = slea.readShort();
-        if (clogLen > 0) {
-            chatlog = slea.readAsciiString(clogLen);
-        }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		int reportedCharId = slea.readInt();
+		byte reason = slea.readByte();
+		String chatlog = "No chatlog.";
+		short clogLen = slea.readShort();
+		if (clogLen > 0) {
+			chatlog = slea.readAsciiString(clogLen);
+		}
 
-        boolean reported = addReportEntry(c.getPlayer().getId(), reportedCharId, reason, chatlog);
-        StringBuilder sb = new StringBuilder();
-        sb.append(c.getPlayer().getName());
-        sb.append(" reported character ");
-        sb.append(getNameById(reportedCharId));
-        sb.append(" for ");
-        sb.append(reasons[reason]);
-        sb.append(".");
-        if (reported) {
-            c.getSession().write(MaplePacketCreator.reportReply((byte) 0));
-        } else {
-            c.getSession().write(MaplePacketCreator.reportReply((byte) 4));
-        }
-        WorldChannelInterface wci = c.getChannelServer().getWorldInterface();
-        try {
-            wci.broadcastGMMessage(null, MaplePacketCreator.serverNotice(5, sb.toString()).getBytes());
-        } catch (RemoteException e) {
-            ServerExceptionHandler.HandlerRemoteException(e);
-            c.getChannelServer().reconnectWorld();
-        }
-    }
+		boolean reported = addReportEntry(c.getPlayer().getId(),
+				reportedCharId, reason, chatlog);
+		StringBuilder sb = new StringBuilder();
+		sb.append(c.getPlayer().getName());
+		sb.append(" reported character ");
+		sb.append(getNameById(reportedCharId));
+		sb.append(" for ");
+		sb.append(reasons[reason]);
+		sb.append(".");
+		if (reported) {
+			c.getSession().write(MaplePacketCreator.reportReply((byte) 0));
+		} else {
+			c.getSession().write(MaplePacketCreator.reportReply((byte) 4));
+		}
+		WorldChannelInterface wci = c.getChannelServer().getWorldInterface();
+		try {
+			wci.broadcastGMMessage(null,
+					MaplePacketCreator.serverNotice(5, sb.toString())
+							.getBytes());
+		} catch (RemoteException e) {
+			ServerExceptionHandler.HandlerRemoteException(e);
+			c.getChannelServer().reconnectWorld();
+		}
+	}
 
-    public boolean addReportEntry(int reporterId, int victimId, byte reason, String chatlog) {
-        try {
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO reports VALUES (NULL, CURRENT_TIMESTAMP, ?, ?, ?, ?, 'UNHANDLED')");
-            ps.setInt(1, reporterId);
-            ps.setInt(2, victimId);
-            ps.setInt(3, reason);
-            ps.setString(4, chatlog);
-            ps.executeUpdate();
-            ps.close();
-            con.close();
-        } catch (Exception ex) {
-            return false;
-        }
+	public boolean addReportEntry(int reporterId, int victimId, byte reason,
+			String chatlog) {
+		try {
+			Connection con = DatabaseConnection.getConnection();
+			PreparedStatement ps = con
+					.prepareStatement("INSERT INTO reports VALUES (NULL, CURRENT_TIMESTAMP, ?, ?, ?, ?, 'UNHANDLED')");
+			ps.setInt(1, reporterId);
+			ps.setInt(2, victimId);
+			ps.setInt(3, reason);
+			ps.setString(4, chatlog);
+			ps.executeUpdate();
+			ps.close();
+			con.close();
+		} catch (Exception ex) {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

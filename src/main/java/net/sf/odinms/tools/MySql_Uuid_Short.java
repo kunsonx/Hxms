@@ -16,9 +16,11 @@ import org.hibernate.id.IdentifierGenerator;
  */
 public class MySql_Uuid_Short implements IdentifierGenerator {
 
-    @Override
-    public Serializable generate(SessionImplementor session, Object object) throws HibernateException {
-        UUID id = UUID.randomUUID();
-        return Randomizer.getInstance().nextInt(2) == 0 ? id.getLeastSignificantBits() : id.getMostSignificantBits();
-    }
+	@Override
+	public Serializable generate(SessionImplementor session, Object object)
+			throws HibernateException {
+		UUID id = UUID.randomUUID();
+		return Randomizer.getInstance().nextInt(2) == 0 ? id
+				.getLeastSignificantBits() : id.getMostSignificantBits();
+	}
 }

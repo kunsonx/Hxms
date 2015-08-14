@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.server;
 
@@ -27,48 +27,48 @@ package net.sf.odinms.server;
  */
 public class MapleShopItem {
 
-    private short buyable; // Use this
-    private int itemId;
-    private int price;
-    private long refreshTime = 0;
-    private short availible;
+	private short buyable; // Use this
+	private int itemId;
+	private int price;
+	private long refreshTime = 0;
+	private short availible;
 
-    /** Creates a new instance of MapleShopItem */
-    public MapleShopItem(short buyable, int itemId, int price) {
-        this.buyable = buyable;
-        this.itemId = itemId;
-        this.price = price;
-    }
+	/** Creates a new instance of MapleShopItem */
+	public MapleShopItem(short buyable, int itemId, int price) {
+		this.buyable = buyable;
+		this.itemId = itemId;
+		this.price = price;
+	}
 
-    public short getBuyable() {
-        return buyable;
-    }
+	public short getBuyable() {
+		return buyable;
+	}
 
-    public short getAvailible() {
-        return availible;
-    }
+	public short getAvailible() {
+		return availible;
+	}
 
-    public void setAvailible(short set) {
-        this.availible = set;
-    }
+	public void setAvailible(short set) {
+		this.availible = set;
+	}
 
-    public void decAvailible() {
-        availible--;
-    }
+	public void decAvailible() {
+		availible--;
+	}
 
-    public void incAvailible() {
-        availible++;
-    }
+	public void incAvailible() {
+		availible++;
+	}
 
-    public int getItemId() {
-        return itemId;
-    }
+	public int getItemId() {
+		return itemId;
+	}
 
-    public int getPrice() {
-        return price;
-    }
+	public int getPrice() {
+		return price;
+	}
 
-    public long getRefresh() {
-        return refreshTime;
-    }
+	public long getRefresh() {
+		return refreshTime;
+	}
 }

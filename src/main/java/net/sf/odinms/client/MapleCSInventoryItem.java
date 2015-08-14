@@ -29,126 +29,128 @@ import net.sf.odinms.server.MapleItemInformationProvider;
  */
 public class MapleCSInventoryItem {
 
-    private long uniqueid;
-    private int itemid;
-    private int sn;
-    private short quantity;
-    private Timestamp expire = null;
-    private boolean gift;
-    private boolean isRing = false;
-    private String sender = "";
-    private String message = "";
-    private IItem baseIItem;
-    private int DBID = 0;
+	private long uniqueid;
+	private int itemid;
+	private int sn;
+	private short quantity;
+	private Timestamp expire = null;
+	private boolean gift;
+	private boolean isRing = false;
+	private String sender = "";
+	private String message = "";
+	private IItem baseIItem;
+	private int DBID = 0;
 
-    public MapleCSInventoryItem(long uniqueid, int itemid, int sn, short quantity, boolean gift) {
-        this.uniqueid = uniqueid;
-        this.itemid = itemid;
-        this.sn = sn;
-        this.quantity = quantity;
-        this.gift = gift;
+	public MapleCSInventoryItem(long uniqueid, int itemid, int sn,
+			short quantity, boolean gift) {
+		this.uniqueid = uniqueid;
+		this.itemid = itemid;
+		this.sn = sn;
+		this.quantity = quantity;
+		this.gift = gift;
 
-        MapleInventoryType type = MapleItemInformationProvider.getInstance().getInventoryType(itemid);
-        if (type.equals(MapleInventoryType.EQUIP)) {
-            baseIItem = new Equip(itemid, (byte) -1);
-            baseIItem.setExpiration(expire);
-            baseIItem.setUniqueId(uniqueid);
-        } else {
-            baseIItem = new Item(itemid, (byte) -1, quantity);
-            baseIItem.setExpiration(expire);
-            baseIItem.setUniqueId(uniqueid);
-        }
-    }
+		MapleInventoryType type = MapleItemInformationProvider.getInstance()
+				.getInventoryType(itemid);
+		if (type.equals(MapleInventoryType.EQUIP)) {
+			baseIItem = new Equip(itemid, (byte) -1);
+			baseIItem.setExpiration(expire);
+			baseIItem.setUniqueId(uniqueid);
+		} else {
+			baseIItem = new Item(itemid, (byte) -1, quantity);
+			baseIItem.setExpiration(expire);
+			baseIItem.setUniqueId(uniqueid);
+		}
+	}
 
-    public MapleCSInventoryItem(IItem item, int sn, boolean gift) {
-        this.baseIItem = item;
-        itemid = baseIItem.getItemId();
-        this.sn = sn;
-        this.quantity = item.getQuantity();
-        this.gift = gift;
-        this.expire = item.getExpiration();
-        this.uniqueid = item.getUniqueid();
-    }
+	public MapleCSInventoryItem(IItem item, int sn, boolean gift) {
+		this.baseIItem = item;
+		itemid = baseIItem.getItemId();
+		this.sn = sn;
+		this.quantity = item.getQuantity();
+		this.gift = gift;
+		this.expire = item.getExpiration();
+		this.uniqueid = item.getUniqueid();
+	}
 
-    public int getDBID() {
-        return DBID;
-    }
+	public int getDBID() {
+		return DBID;
+	}
 
-    public void setDBID(int DBID) {
-        this.DBID = DBID;
-    }
+	public void setDBID(int DBID) {
+		this.DBID = DBID;
+	}
 
-    public boolean isGift() {
-        return gift;
-    }
+	public boolean isGift() {
+		return gift;
+	}
 
-    public int getItemId() {
-        return itemid;
-    }
+	public int getItemId() {
+		return itemid;
+	}
 
-    public boolean isRing() {
-        return isRing;
-    }
+	public boolean isRing() {
+		return isRing;
+	}
 
-    public void setRing(boolean is) {
-        this.isRing = is;
-    }
+	public void setRing(boolean is) {
+		this.isRing = is;
+	}
 
-    public int getSn() {
-        return sn;
-    }
+	public int getSn() {
+		return sn;
+	}
 
-    public short getQuantity() {
-        return quantity;
-    }
+	public short getQuantity() {
+		return quantity;
+	}
 
-    public Timestamp getExpire() {
-        return expire;
-    }
+	public Timestamp getExpire() {
+		return expire;
+	}
 
-    public void setExpire(Timestamp expire) {
-        this.expire = expire;
-        baseIItem.setExpiration(this.expire);
-    }
+	public void setExpire(Timestamp expire) {
+		this.expire = expire;
+		baseIItem.setExpiration(this.expire);
+	}
 
-    public long getUniqueId() {
-        return uniqueid;
-    }
+	public long getUniqueId() {
+		return uniqueid;
+	}
 
-    public void setUniqueid(long uniqueid) {
-        this.uniqueid = uniqueid;
-        baseIItem.setUniqueId(uniqueid);
-    }
+	public void setUniqueid(long uniqueid) {
+		this.uniqueid = uniqueid;
+		baseIItem.setUniqueId(uniqueid);
+	}
 
-    public void setSender(String sendername) {
-        sender = sendername;
-    }
+	public void setSender(String sendername) {
+		sender = sendername;
+	}
 
-    public void setMessage(String msg) {
-        message = msg;
-    }
+	public void setMessage(String msg) {
+		message = msg;
+	}
 
-    public String getSender() {
-        return sender;
-    }
+	public String getSender() {
+		return sender;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public String getMessage() {
+		return message;
+	}
 
-    public void setBaseIItem(IItem baseIItem) {
-        this.baseIItem = baseIItem;
-        this.uniqueid = baseIItem.getUniqueid();
-        this.expire = this.baseIItem.getExpiration();
-    }
+	public void setBaseIItem(IItem baseIItem) {
+		this.baseIItem = baseIItem;
+		this.uniqueid = baseIItem.getUniqueid();
+		this.expire = this.baseIItem.getExpiration();
+	}
 
-    public IItem toItem() {
-        Item item = (Item) baseIItem;
-        item.setSender(sender);
-        item.setMessage(message);
-        item.setExpiration(expire);
-        item.setUniqueId(uniqueid);
-        item.setSN(getSn());
-        return baseIItem;
-    }
+	public IItem toItem() {
+		Item item = (Item) baseIItem;
+		item.setSender(sender);
+		item.setMessage(message);
+		item.setExpiration(expire);
+		item.setUniqueId(uniqueid);
+		item.setSN(getSn());
+		return baseIItem;
+	}
 }

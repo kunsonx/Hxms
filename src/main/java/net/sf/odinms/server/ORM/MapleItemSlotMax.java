@@ -15,43 +15,43 @@ import net.sf.odinms.database.DatabaseConnection;
  */
 public class MapleItemSlotMax {
 
-    private int itemid;
-    private int slotmax;
+	private int itemid;
+	private int slotmax;
 
-    public int getItemid() {
-        return itemid;
-    }
+	public int getItemid() {
+		return itemid;
+	}
 
-    public void setItemid(int itemid) {
-        this.itemid = itemid;
-    }
+	public void setItemid(int itemid) {
+		this.itemid = itemid;
+	}
 
-    public int getSlotmax() {
-        return slotmax;
-    }
+	public int getSlotmax() {
+		return slotmax;
+	}
 
-    public void setSlotmax(int slotmax) {
-        this.slotmax = slotmax;
-    }
+	public void setSlotmax(int slotmax) {
+		this.slotmax = slotmax;
+	}
 
-    public static List<MapleItemSlotMax> list() {
-        List<MapleItemSlotMax> list = new ArrayList<MapleItemSlotMax>();
-        try {
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("select * from wz_ism");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {                
-                MapleItemSlotMax max = new MapleItemSlotMax();
-                max.itemid = rs.getInt("itemid");
-                max.slotmax = rs.getInt("slotmax");
-                list.add(max);
-            }
-            rs.close();
-            ps.close();
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+	public static List<MapleItemSlotMax> list() {
+		List<MapleItemSlotMax> list = new ArrayList<MapleItemSlotMax>();
+		try {
+			Connection con = DatabaseConnection.getConnection();
+			PreparedStatement ps = con.prepareStatement("select * from wz_ism");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				MapleItemSlotMax max = new MapleItemSlotMax();
+				max.itemid = rs.getInt("itemid");
+				max.slotmax = rs.getInt("slotmax");
+				list.add(max);
+			}
+			rs.close();
+			ps.close();
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

@@ -12,5 +12,5 @@ import net.sf.odinms.tools.data.output.LittleEndianWriter;
  */
 public interface UnknownMovementSerialize {
 
-    public void Serialize(LittleEndianWriter lew);
+	public void Serialize(LittleEndianWriter lew);
 }

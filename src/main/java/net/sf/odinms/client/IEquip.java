@@ -4,95 +4,95 @@ import java.sql.Timestamp;
 
 public interface IEquip extends IItem {
 
-    public enum ScrollResult {
+	public enum ScrollResult {
 
-        SUCCESS, FAIL, CURSE
-    }
+		SUCCESS, FAIL, CURSE
+	}
 
-    //潜能
-    public int getPotential_1();
+	// 潜能
+	public int getPotential_1();
 
-    public int getPotential_2();
+	public int getPotential_2();
 
-    public int getPotential_3();
+	public int getPotential_3();
 
-    public byte getIdentify();
+	public byte getIdentify();
 
-    public byte getStarlevel();
+	public byte getStarlevel();
 
-    public byte getIdentified();
+	public byte getIdentified();
 
-    public void setPotential_1(int i);
+	public void setPotential_1(int i);
 
-    public void setPotential_2(int i);
+	public void setPotential_2(int i);
 
-    public void setPotential_3(int i);
+	public void setPotential_3(int i);
 
-    public void setIdentify(byte i);
+	public void setIdentify(byte i);
 
-    public void setStarlevel(byte i);
+	public void setStarlevel(byte i);
 
-    public void setIdentified(byte i);
+	public void setIdentified(byte i);
 
-    public void setUpgradeSlots(int i);
+	public void setUpgradeSlots(int i);
 
-    public void setVicious(int i);
+	public void setVicious(int i);
 
-    public byte getUpgradeSlots();
+	public byte getUpgradeSlots();
 
-    public byte getLevel();
+	public byte getLevel();
 
-    public short getStr();
+	public short getStr();
 
-    public short getDex();
+	public short getDex();
 
-    public short getInt();
+	public short getInt();
 
-    public short getLuk();
+	public short getLuk();
 
-    public short getHp();
+	public short getHp();
 
-    public short getMp();
+	public short getMp();
 
-    public short getWatk();
+	public short getWatk();
 
-    public short getMatk();
+	public short getMatk();
 
-    public short getWdef();
+	public short getWdef();
 
-    public short getMdef();
+	public short getMdef();
 
-    public short getAcc();
+	public short getAcc();
 
-    public short getAvoid();
+	public short getAvoid();
 
-    public short getHands();
+	public short getHands();
 
-    public short getSpeed();
+	public short getSpeed();
 
-    public short getJump();
+	public short getJump();
 
-    public long getPartnerUniqueId();
+	public long getPartnerUniqueId();
 
-    public int getPartnerId();
+	public int getPartnerId();
 
-    public String getPartnerName();
+	public String getPartnerName();
 
-    public short getVicious();
+	public short getVicious();
 
-    public int getItemExp();
+	public int getItemExp();
 
-    public int getItemLevel();
+	public int getItemLevel();
 
-    public int getItemSkill();
+	public int getItemSkill();
 
-    public int getDurability();
+	public int getDurability();
 
-    public int getPvpWatk();
+	public int getPvpWatk();
 
-    public boolean isRing();
+	public boolean isRing();
 
-    public Timestamp getUnlockTime();
+	public Timestamp getUnlockTime();
 
-    public void setUnlockTime(Timestamp time);
+	public void setUnlockTime(Timestamp time);
 }

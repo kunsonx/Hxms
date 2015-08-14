@@ -10,29 +10,29 @@ package net.sf.odinms.server;
  */
 public class CashPackageInfo {
 
-    private long id;
-    private int s_n;
+	private long id;
+	private int s_n;
 
-    private CashPackageInfo() {
-    }
+	private CashPackageInfo() {
+	}
 
-    public CashPackageInfo(int sn) {
-        this.s_n = sn;
-    }
+	public CashPackageInfo(int sn) {
+		this.s_n = sn;
+	}
 
-    public int getSn() {
-        return s_n;
-    }
+	public int getSn() {
+		return s_n;
+	}
 
-    public void setSn(int sn) {
-        this.s_n = sn;
-    }
+	public void setSn(int sn) {
+		this.s_n = sn;
+	}
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 }

@@ -12,17 +12,18 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class ErrorLogHandler implements MaplePacketHandler {
 
-    @Override
-    public boolean validateState(MapleClient c) {
-        return !c.isLoggedIn();
-    }
+	@Override
+	public boolean validateState(MapleClient c) {
+		return !c.isLoggedIn();
+	}
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        String error = slea.readMapleAsciiString();
-        WriteToFile wt = new WriteToFile("客户端错误信息.txt");
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		String error = slea.readMapleAsciiString();
+		WriteToFile wt = new WriteToFile("客户端错误信息.txt");
 
-        wt.WriteFile("记录时间：" + GameConstants.getFormatter().format(new Date()) + "\r\n" + error.toUpperCase());
-        wt.CloseFile();
-    }
+		wt.WriteFile("记录时间：" + GameConstants.getFormatter().format(new Date())
+				+ "\r\n" + error.toUpperCase());
+		wt.CloseFile();
+	}
 }

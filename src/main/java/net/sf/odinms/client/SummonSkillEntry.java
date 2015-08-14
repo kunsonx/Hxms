@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.client;
 
@@ -26,7 +26,7 @@ package net.sf.odinms.client;
  * @author Administrator
  */
 class SummonSkillEntry {
-    public byte type;
-    public byte mobCount;
-    public short attackAfter;
+	public byte type;
+	public byte mobCount;
+	public short attackAfter;
 }

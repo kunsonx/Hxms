@@ -46,220 +46,292 @@ import net.sf.odinms.tools.StringUtil;
 
 public class BanningCommands implements Command {
 
-    @Override
-    public void execute(MapleClient c, MessageCallback mc, String[] splitted) throws Exception {
-        ChannelServer cserv = c.getChannelServer();
-        if (splitted[0].equals("!封") || splitted[0].equals("!ban")) {
-            String playerName = splitted[1];
-            if (splitted.length < 3) {
-                throw new IllegalCommandSyntaxException(3);
-            }
-            MapleCharacter target = null;
-            Collection<ChannelServer> cservs = c.getChannelServers();
-            for (ChannelServer cserver : cservs) {
-                try {
-                    target = cserver.getPlayerStorage().getCharacterById(Integer.parseInt(playerName));
-                    mc.dropMessage("读取为玩家ID。");
-                } catch (Exception e) {
-                    target = cserver.getPlayerStorage().getCharacterByName(playerName);
-                    mc.dropMessage("读取为玩家名字。");
-                }
-                //target = cserver.getPlayerStorage().getCharacterByName(playerName);
-                if (target != null) {
-                    playerName = target.getName();
-                    break;
-                }
-            }
-            String originalReason = StringUtil.joinStringFrom(splitted, 2);
-            String reason = c.getPlayer().getName() + " 使用权限封停 " + playerName + "理由: " + originalReason;
-            if (target != null) {
-                if (target.getGm() <= c.getPlayer().getGm()) {
-                    String readableTargetName = MapleCharacterUtil.makeMapleReadable(target.getName());
-                    String ip = target.getClient().getRemoteAddress().split(":")[0];
-                    reason += " (IP: " + ip + ")";
-                    target.ban(reason);
-                    try {
-                        cserv.getWorldInterface().broadcastMessage(null, MaplePacketCreator.serverNotice(6, "[公告事项]" + readableTargetName + " 由于使用非法程序被永久封停处理。").getBytes());
-                    } catch (RemoteException e) {
-                        ServerExceptionHandler.HandlerRemoteException(e);
-                        cserv.reconnectWorld();
-                    }
-                    mc.dropMessage(readableTargetName + "'连接IP： " + ip + ".");
-                } else {
-                    mc.dropMessage("不可封停的管理员");
-                }
-            } else {
-                int accountid;
-                int status = 0;
-                try {
-                    Connection con = DatabaseConnection.getConnection();
-                    PreparedStatement ps = con.prepareStatement("SELECT accountid, name FROM characters WHERE name = ?");
-                    ps.setString(1, playerName);
-                    ResultSet rs = ps.executeQuery();
-                    if (rs.next()) {
-                        accountid = rs.getInt("accountid");
-                        playerName = rs.getString("name");
-                        PreparedStatement psb = con.prepareStatement("SELECT banned FROM accounts WHERE id = ?");
-                        psb.setInt(1, accountid);
-                        ResultSet rsb = psb.executeQuery();
-                        rsb.next();
-                        if (rsb.getInt("banned") == 1) {
-                            status = 1;
-                        }
-                        rsb.close();
-                        psb.close();
-                    } else {
-                        status = -1;
-                    }
-                    rs.close();
-                    ps.close();
-                    con.close();
-                } catch (SQLException e) {
-                }
-                if (status != 0) {
-                    if (status == 1) {
-                        mc.dropMessage(playerName + "'帐号已成功封停。");
-                    } else if (status == -1) {
-                        mc.dropMessage("玩家： '" + playerName + "' 不存在。");
-                    }
-                    return;
-                }
-                if (MapleCharacter.ban(playerName, reason, false)) {
-                    mc.dropMessage(playerName + "'帐号已成功离线封停。");
-                    try {
-                        cserv.getWorldInterface().broadcastMessage(c.getPlayer().getName(), MaplePacketCreator.serverNotice(6, playerName + " 已被禁止登陆游戏.").getBytes());
-                    } catch (RemoteException e) {
-                        ServerExceptionHandler.HandlerRemoteException(e);
-                        cserv.reconnectWorld();
-                    }
-                }
-            }
-        } else if (splitted[0].equals("!tempban")) {
-            Calendar tempB = Calendar.getInstance();
-            String originalReason = joinAfterString(splitted, ":");
+	@Override
+	public void execute(MapleClient c, MessageCallback mc, String[] splitted)
+			throws Exception {
+		ChannelServer cserv = c.getChannelServer();
+		if (splitted[0].equals("!封") || splitted[0].equals("!ban")) {
+			String playerName = splitted[1];
+			if (splitted.length < 3) {
+				throw new IllegalCommandSyntaxException(3);
+			}
+			MapleCharacter target = null;
+			Collection<ChannelServer> cservs = c.getChannelServers();
+			for (ChannelServer cserver : cservs) {
+				try {
+					target = cserver.getPlayerStorage().getCharacterById(
+							Integer.parseInt(playerName));
+					mc.dropMessage("读取为玩家ID。");
+				} catch (Exception e) {
+					target = cserver.getPlayerStorage().getCharacterByName(
+							playerName);
+					mc.dropMessage("读取为玩家名字。");
+				}
+				// target =
+				// cserver.getPlayerStorage().getCharacterByName(playerName);
+				if (target != null) {
+					playerName = target.getName();
+					break;
+				}
+			}
+			String originalReason = StringUtil.joinStringFrom(splitted, 2);
+			String reason = c.getPlayer().getName() + " 使用权限封停 " + playerName
+					+ "理由: " + originalReason;
+			if (target != null) {
+				if (target.getGm() <= c.getPlayer().getGm()) {
+					String readableTargetName = MapleCharacterUtil
+							.makeMapleReadable(target.getName());
+					String ip = target.getClient().getRemoteAddress()
+							.split(":")[0];
+					reason += " (IP: " + ip + ")";
+					target.ban(reason);
+					try {
+						cserv.getWorldInterface().broadcastMessage(
+								null,
+								MaplePacketCreator.serverNotice(
+										6,
+										"[公告事项]" + readableTargetName
+												+ " 由于使用非法程序被永久封停处理。")
+										.getBytes());
+					} catch (RemoteException e) {
+						ServerExceptionHandler.HandlerRemoteException(e);
+						cserv.reconnectWorld();
+					}
+					mc.dropMessage(readableTargetName + "'连接IP： " + ip + ".");
+				} else {
+					mc.dropMessage("不可封停的管理员");
+				}
+			} else {
+				int accountid;
+				int status = 0;
+				try {
+					Connection con = DatabaseConnection.getConnection();
+					PreparedStatement ps = con
+							.prepareStatement("SELECT accountid, name FROM characters WHERE name = ?");
+					ps.setString(1, playerName);
+					ResultSet rs = ps.executeQuery();
+					if (rs.next()) {
+						accountid = rs.getInt("accountid");
+						playerName = rs.getString("name");
+						PreparedStatement psb = con
+								.prepareStatement("SELECT banned FROM accounts WHERE id = ?");
+						psb.setInt(1, accountid);
+						ResultSet rsb = psb.executeQuery();
+						rsb.next();
+						if (rsb.getInt("banned") == 1) {
+							status = 1;
+						}
+						rsb.close();
+						psb.close();
+					} else {
+						status = -1;
+					}
+					rs.close();
+					ps.close();
+					con.close();
+				} catch (SQLException e) {
+				}
+				if (status != 0) {
+					if (status == 1) {
+						mc.dropMessage(playerName + "'帐号已成功封停。");
+					} else if (status == -1) {
+						mc.dropMessage("玩家： '" + playerName + "' 不存在。");
+					}
+					return;
+				}
+				if (MapleCharacter.ban(playerName, reason, false)) {
+					mc.dropMessage(playerName + "'帐号已成功离线封停。");
+					try {
+						cserv.getWorldInterface().broadcastMessage(
+								c.getPlayer().getName(),
+								MaplePacketCreator.serverNotice(6,
+										playerName + " 已被禁止登陆游戏.").getBytes());
+					} catch (RemoteException e) {
+						ServerExceptionHandler.HandlerRemoteException(e);
+						cserv.reconnectWorld();
+					}
+				}
+			}
+		} else if (splitted[0].equals("!tempban")) {
+			Calendar tempB = Calendar.getInstance();
+			String originalReason = joinAfterString(splitted, ":");
 
-            if (splitted.length < 4 || originalReason == null) {
-                throw new IllegalCommandSyntaxException(4);
-            }
+			if (splitted.length < 4 || originalReason == null) {
+				throw new IllegalCommandSyntaxException(4);
+			}
 
-            int yChange = getNamedIntArg(splitted, 1, "y", 0);
-            int mChange = getNamedIntArg(splitted, 1, "m", 0);
-            int wChange = getNamedIntArg(splitted, 1, "w", 0);
-            int dChange = getNamedIntArg(splitted, 1, "d", 0);
-            int hChange = getNamedIntArg(splitted, 1, "h", 0);
-            int iChange = getNamedIntArg(splitted, 1, "i", 0);
-            int gReason = getNamedIntArg(splitted, 1, "r", 7);
+			int yChange = getNamedIntArg(splitted, 1, "y", 0);
+			int mChange = getNamedIntArg(splitted, 1, "m", 0);
+			int wChange = getNamedIntArg(splitted, 1, "w", 0);
+			int dChange = getNamedIntArg(splitted, 1, "d", 0);
+			int hChange = getNamedIntArg(splitted, 1, "h", 0);
+			int iChange = getNamedIntArg(splitted, 1, "i", 0);
+			int gReason = getNamedIntArg(splitted, 1, "r", 7);
 
-            String reason = c.getPlayer().getName() + " tempbanned " + splitted[1] + ": " + originalReason;
+			String reason = c.getPlayer().getName() + " tempbanned "
+					+ splitted[1] + ": " + originalReason;
 
-            if (gReason > 14) {
-                mc.dropMessage("You have entered an incorrect ban reason ID, please try again.");
-                return;
-            }
+			if (gReason > 14) {
+				mc.dropMessage("You have entered an incorrect ban reason ID, please try again.");
+				return;
+			}
 
-            DateFormat df = DateFormat.getInstance();
-            tempB.set(tempB.get(Calendar.YEAR) + yChange, tempB.get(Calendar.MONTH) + mChange, tempB.get(Calendar.DATE)
-                    + (wChange * 7) + dChange, tempB.get(Calendar.HOUR_OF_DAY) + hChange, tempB.get(Calendar.MINUTE)
-                    + iChange);
+			DateFormat df = DateFormat.getInstance();
+			tempB.set(tempB.get(Calendar.YEAR) + yChange,
+					tempB.get(Calendar.MONTH) + mChange,
+					tempB.get(Calendar.DATE) + (wChange * 7) + dChange,
+					tempB.get(Calendar.HOUR_OF_DAY) + hChange,
+					tempB.get(Calendar.MINUTE) + iChange);
 
-            MapleCharacter victim = cserv.getPlayerStorage().getCharacterByName(splitted[1]);
+			MapleCharacter victim = cserv.getPlayerStorage()
+					.getCharacterByName(splitted[1]);
 
-            if (victim == null) {
-                int accId = MapleClient.getAccIdFromCharName(splitted[1]);
-                if (accId >= 0 && MapleCharacter.tempban(reason, tempB, gReason, accId)) {
-                    cserv.getWorldInterface().broadcastMessage(c.getPlayer().getName(), MaplePacketCreator.serverNotice(6, "The character " + splitted[1] + " has been temporarily banned until " + df.format(tempB.getTime()) + " for: " + originalReason).getBytes());
-                } else {
-                    mc.dropMessage("There was a problem offline banning character " + splitted[1] + ".");
-                }
-            } else {
-                victim.tempban(reason, tempB, gReason);
-                cserv.getWorldInterface().broadcastMessage(c.getPlayer().getName(), MaplePacketCreator.serverNotice(6, "The character " + splitted[1] + " has been temporarily banned until " + df.format(tempB.getTime()) + " for: " + originalReason).getBytes());
-            }
-        } else if (splitted[0].equals("!掉") || splitted[0].equals("!dc")) {
-            MapleCharacter victim;
-            for (ChannelServer cs : c.getChannelServers()) {
-                try {
-                    victim = cs.getPlayerStorage().getCharacterById(Integer.parseInt(splitted[1]));
-                    mc.dropMessage("读取为玩家ID。");
-                } catch (Exception e) {
-                    victim = cs.getPlayerStorage().getCharacterByName(splitted[1]);
-                    mc.dropMessage("读取为玩家名字。");
-                }
-                if (victim == null) {
-                    for (MapleMap mapleMap : cs.getMapFactory().getMaps().values()) {
-                        try {
-                            victim = mapleMap.getCharacterById(Integer.parseInt(splitted[1]));
-                            mc.dropMessage("读取为玩家ID。");
-                        } catch (Exception e) {
-                            victim = mapleMap.getCharacterByName(splitted[1]);
-                            mc.dropMessage("读取为玩家名字。");
-                        }
-                        if (victim != null) {
-                            victim.getMap().removePlayer(victim);
-                            break;
-                        }
-                    }
-                }
-                if (victim != null) {
-                    victim.getClient().disconnect();
-                    if (victim.getMap() != null) {
-                        victim.getMap().removePlayer(victim);
-                    }
-                    if (victim != null) {
-                        cs.removePlayer(victim);
-                    }
-                    return;
-                }
-            }
-            mc.dropMessage("无法读取指定玩家。");
-        } else if (splitted[0].equals("!unban")) {
-            String playerName = splitted[1];
-            int accountid;
-            try {
-                Connection con = DatabaseConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement("SELECT accountid FROM characters WHERE name = ?");
-                ps.setString(1, playerName);
-                ResultSet rs = ps.executeQuery();
-                if (rs.next()) {
-                    accountid = rs.getInt("accountid");
-                    PreparedStatement psb = con.prepareStatement("SELECT banned, tempban FROM accounts WHERE id = ?");
-                    psb.setInt(1, accountid);
-                    ResultSet rsb = psb.executeQuery();
-                    rsb.next();
-                    if (rsb.getInt("banned") != 1 && rsb.getLong("tempban") == 0) {
-                        rsb.close();
-                        psb.close();
-                        mc.dropMessage(playerName + " account is not banned.");
-                        return;
-                    }
-                    rsb.close();
-                    psb.close();
-                    psb = con.prepareStatement("UPDATE accounts SET banned = 0, banreason = null, tempban = '0000-00-00 00:00:00', greason = null WHERE id = ?");
-                    psb.setInt(1, accountid);
-                    psb.executeUpdate();
-                    psb.close();
-                    mc.dropMessage(playerName + "'：帐号已经成功取消封停.");
-                } else {
-                    mc.dropMessage(playerName + " 不存在!");
-                }
-                rs.close();
-                ps.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+			if (victim == null) {
+				int accId = MapleClient.getAccIdFromCharName(splitted[1]);
+				if (accId >= 0
+						&& MapleCharacter
+								.tempban(reason, tempB, gReason, accId)) {
+					cserv.getWorldInterface()
+							.broadcastMessage(
+									c.getPlayer().getName(),
+									MaplePacketCreator
+											.serverNotice(
+													6,
+													"The character "
+															+ splitted[1]
+															+ " has been temporarily banned until "
+															+ df.format(tempB
+																	.getTime())
+															+ " for: "
+															+ originalReason)
+											.getBytes());
+				} else {
+					mc.dropMessage("There was a problem offline banning character "
+							+ splitted[1] + ".");
+				}
+			} else {
+				victim.tempban(reason, tempB, gReason);
+				cserv.getWorldInterface().broadcastMessage(
+						c.getPlayer().getName(),
+						MaplePacketCreator.serverNotice(
+								6,
+								"The character " + splitted[1]
+										+ " has been temporarily banned until "
+										+ df.format(tempB.getTime()) + " for: "
+										+ originalReason).getBytes());
+			}
+		} else if (splitted[0].equals("!掉") || splitted[0].equals("!dc")) {
+			MapleCharacter victim;
+			for (ChannelServer cs : c.getChannelServers()) {
+				try {
+					victim = cs.getPlayerStorage().getCharacterById(
+							Integer.parseInt(splitted[1]));
+					mc.dropMessage("读取为玩家ID。");
+				} catch (Exception e) {
+					victim = cs.getPlayerStorage().getCharacterByName(
+							splitted[1]);
+					mc.dropMessage("读取为玩家名字。");
+				}
+				if (victim == null) {
+					for (MapleMap mapleMap : cs.getMapFactory().getMaps()
+							.values()) {
+						try {
+							victim = mapleMap.getCharacterById(Integer
+									.parseInt(splitted[1]));
+							mc.dropMessage("读取为玩家ID。");
+						} catch (Exception e) {
+							victim = mapleMap.getCharacterByName(splitted[1]);
+							mc.dropMessage("读取为玩家名字。");
+						}
+						if (victim != null) {
+							victim.getMap().removePlayer(victim);
+							break;
+						}
+					}
+				}
+				if (victim != null) {
+					victim.getClient().disconnect();
+					if (victim.getMap() != null) {
+						victim.getMap().removePlayer(victim);
+					}
+					if (victim != null) {
+						cs.removePlayer(victim);
+					}
+					return;
+				}
+			}
+			mc.dropMessage("无法读取指定玩家。");
+		} else if (splitted[0].equals("!unban")) {
+			String playerName = splitted[1];
+			int accountid;
+			try {
+				Connection con = DatabaseConnection.getConnection();
+				PreparedStatement ps = con
+						.prepareStatement("SELECT accountid FROM characters WHERE name = ?");
+				ps.setString(1, playerName);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					accountid = rs.getInt("accountid");
+					PreparedStatement psb = con
+							.prepareStatement("SELECT banned, tempban FROM accounts WHERE id = ?");
+					psb.setInt(1, accountid);
+					ResultSet rsb = psb.executeQuery();
+					rsb.next();
+					if (rsb.getInt("banned") != 1
+							&& rsb.getLong("tempban") == 0) {
+						rsb.close();
+						psb.close();
+						mc.dropMessage(playerName + " account is not banned.");
+						return;
+					}
+					rsb.close();
+					psb.close();
+					psb = con
+							.prepareStatement("UPDATE accounts SET banned = 0, banreason = null, tempban = '0000-00-00 00:00:00', greason = null WHERE id = ?");
+					psb.setInt(1, accountid);
+					psb.executeUpdate();
+					psb.close();
+					mc.dropMessage(playerName + "'：帐号已经成功取消封停.");
+				} else {
+					mc.dropMessage(playerName + " 不存在!");
+				}
+				rs.close();
+				ps.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    @Override
-    public CommandDefinition[] getDefinition() {
-        return new CommandDefinition[]{
-            new CommandDefinition("封", "charname reason", "Permanently ip, mac and account ban the given character", 1),
-            new CommandDefinition("ban", "charname reason", "Permanently ip, mac and account ban the given character", 1),
-            new CommandDefinition("tempban", "<name> [i / m / w / d / h] <amount> [r  [reason id] : Text Reason", "Tempbans the given account", 1),
-            new CommandDefinition("掉", "[-f] name", "Disconnects player matching name provided. Use -f only if player is persistent!", 3),
-            new CommandDefinition("dc", "[-f] name", "Disconnects player matching name provided. Use -f only if player is persistent!", 3),
-            new CommandDefinition("unban", "<character name>", "Unbans the character's account", 50)
-        };
-    }
+	@Override
+	public CommandDefinition[] getDefinition() {
+		return new CommandDefinition[] {
+				new CommandDefinition(
+						"封",
+						"charname reason",
+						"Permanently ip, mac and account ban the given character",
+						1),
+				new CommandDefinition(
+						"ban",
+						"charname reason",
+						"Permanently ip, mac and account ban the given character",
+						1),
+				new CommandDefinition(
+						"tempban",
+						"<name> [i / m / w / d / h] <amount> [r  [reason id] : Text Reason",
+						"Tempbans the given account", 1),
+				new CommandDefinition(
+						"掉",
+						"[-f] name",
+						"Disconnects player matching name provided. Use -f only if player is persistent!",
+						3),
+				new CommandDefinition(
+						"dc",
+						"[-f] name",
+						"Disconnects player matching name provided. Use -f only if player is persistent!",
+						3),
+				new CommandDefinition("unban", "<character name>",
+						"Unbans the character's account", 50) };
+	}
 }

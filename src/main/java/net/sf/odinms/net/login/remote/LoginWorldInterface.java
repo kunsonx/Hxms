@@ -31,11 +31,13 @@ import net.sf.odinms.net.channel.ChannelDescriptor;
  */
 public interface LoginWorldInterface extends Remote {
 
-    public void channelOnline(ChannelDescriptor channel, String ip) throws RemoteException;
+	public void channelOnline(ChannelDescriptor channel, String ip)
+			throws RemoteException;
 
-    public void channelOffline(ChannelDescriptor channel) throws RemoteException;
+	public void channelOffline(ChannelDescriptor channel)
+			throws RemoteException;
 
-    public void shutdown() throws RemoteException;
+	public void shutdown() throws RemoteException;
 
-    public boolean isAvailable() throws RemoteException;
+	public boolean isAvailable() throws RemoteException;
 }

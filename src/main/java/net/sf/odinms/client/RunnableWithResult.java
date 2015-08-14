@@ -22,7 +22,7 @@ package net.sf.odinms.client;
 
 public interface RunnableWithResult extends Runnable {
 
-    Object getResult();
+	Object getResult();
 
-    boolean isDone();
+	boolean isDone();
 }

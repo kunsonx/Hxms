@@ -27,9 +27,9 @@ package net.sf.odinms.scripting.reactor;
 
 public interface ReactorScript {
 
-    public void act();
+	public void act();
 
-    public void touch();
+	public void touch();
 
-    public void untouch();
+	public void untouch();
 }

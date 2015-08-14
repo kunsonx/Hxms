@@ -14,12 +14,13 @@ import net.sf.odinms.net.channel.www.info.WebRankingInfo;
  */
 public class ServerListener implements ServletContextListener {
 
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        sce.getServletContext().setAttribute(WebRankingInfo.KEY, new WebRankingInfo());
-    }
+	@Override
+	public void contextInitialized(ServletContextEvent sce) {
+		sce.getServletContext().setAttribute(WebRankingInfo.KEY,
+				new WebRankingInfo());
+	}
 
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-    }
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
+	}
 }

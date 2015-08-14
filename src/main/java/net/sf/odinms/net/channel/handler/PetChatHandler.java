@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -28,14 +28,19 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class PetChatHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        //[07 01 [00 00 00 00] [A3 15 17 00] [01] [13] 06 00 DF C6 DF C6 DF C6]
-        int petId = slea.readInt();
-        slea.readInt();
-        slea.readByte();
-        int act = slea.readByte();
-        String text = slea.readMapleAsciiString();
-        c.getPlayer().getMap().broadcastMessage(c.getPlayer(), MaplePacketCreator.petChat(c.getPlayer().getId(), petId, act, text), true);
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		// [07 01 [00 00 00 00] [A3 15 17 00] [01] [13] 06 00 DF C6 DF C6 DF C6]
+		int petId = slea.readInt();
+		slea.readInt();
+		slea.readByte();
+		int act = slea.readByte();
+		String text = slea.readMapleAsciiString();
+		c.getPlayer()
+				.getMap()
+				.broadcastMessage(
+						c.getPlayer(),
+						MaplePacketCreator.petChat(c.getPlayer().getId(),
+								petId, act, text), true);
+	}
 }

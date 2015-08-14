@@ -16,65 +16,71 @@ import net.sf.odinms.net.world.remote.WorldLoginInterface;
  *
  * @author Matze
  */
-public class WorldLoginInterfaceImpl extends UnicastRemoteObject implements WorldLoginInterface {
+public class WorldLoginInterfaceImpl extends UnicastRemoteObject implements
+		WorldLoginInterface {
 
-    private static final long serialVersionUID = -4965323089596332908L;
+	private static final long serialVersionUID = -4965323089596332908L;
 
-    public WorldLoginInterfaceImpl() throws RemoteException {
-        super(0, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory());
-    }
+	public WorldLoginInterfaceImpl() throws RemoteException {
+		super(0, new SslRMIClientSocketFactory(),
+				new SslRMIServerSocketFactory());
+	}
 
- 
-    @Override
-    public boolean isAvailable() throws RemoteException {
-        return true;
-    }
+	@Override
+	public boolean isAvailable() throws RemoteException {
+		return true;
+	}
 
-    @Override
-    public ChannelLoadInfo getChannelLoad() throws RemoteException {
-        return new ChannelLoadInfo(WorldRegistryImpl.getInstance().getChannelServerStorage());
-    }
+	@Override
+	public ChannelLoadInfo getChannelLoad() throws RemoteException {
+		return new ChannelLoadInfo(WorldRegistryImpl.getInstance()
+				.getChannelServerStorage());
+	}
 
-    @Override
-    public void deleteGuildCharacter(MapleGuildCharacter mgc) throws RemoteException {
-        WorldRegistryImpl wr = WorldRegistryImpl.getInstance();
+	@Override
+	public void deleteGuildCharacter(MapleGuildCharacter mgc)
+			throws RemoteException {
+		WorldRegistryImpl wr = WorldRegistryImpl.getInstance();
 
-        wr.setGuildMemberOnline(mgc, false, -1);
+		wr.setGuildMemberOnline(mgc, false, -1);
 
-        if (mgc.getGuildRank() > 1) //not leader
-        {
-            wr.leaveGuild(mgc);
-        } else {
-            wr.disbandGuild(mgc.getGuildId());
-        }
-    }
+		if (mgc.getGuildRank() > 1) // not leader
+		{
+			wr.leaveGuild(mgc);
+		} else {
+			wr.disbandGuild(mgc.getGuildId());
+		}
+	}
 
-    @Override
-    public long checkClientIvKey(byte[] ivCheck, String port) throws RemoteException {
-        ChannelDescriptor cd = null;
-     /*   for (Map.Entry<ChannelDescriptor, String> entry : WorldRegistryImpl.getInstance().getChannelServerStorage().getPorts().entrySet()) {
-            if (entry.getValue().equals(port)) {
-                cd = entry.getKey();
-                break;
-            }
-        }*/
-        if (cd != null) {
-            return WorldRegistryImpl.getInstance().getChannel(cd).checkClientIvKey(ivCheck);
-        }
-        return -1;
-    }
+	@Override
+	public long checkClientIvKey(byte[] ivCheck, String port)
+			throws RemoteException {
+		ChannelDescriptor cd = null;
+		/*
+		 * for (Map.Entry<ChannelDescriptor, String> entry :
+		 * WorldRegistryImpl.getInstance
+		 * ().getChannelServerStorage().getPorts().entrySet()) { if
+		 * (entry.getValue().equals(port)) { cd = entry.getKey(); break; } }
+		 */
+		if (cd != null) {
+			return WorldRegistryImpl.getInstance().getChannel(cd)
+					.checkClientIvKey(ivCheck);
+		}
+		return -1;
+	}
 
-    @Override
-    public void disconnectClient(String port, long clientId) throws RemoteException {
-        ChannelDescriptor cd = null;
-       /* for (Map.Entry<ChannelDescriptor, String> entry : WorldRegistryImpl.getInstance().getChannelServerStorage().getPorts().entrySet()) {
-            if (entry.getValue().equals(port)) {
-                cd = entry.getKey();
-                break;
-            }
-        }
-        if (cd != null) {
-            WorldRegistryImpl.getInstance().getChannel(cd).disconnectClient(clientId);
-        }*/
-    }
+	@Override
+	public void disconnectClient(String port, long clientId)
+			throws RemoteException {
+		ChannelDescriptor cd = null;
+		/*
+		 * for (Map.Entry<ChannelDescriptor, String> entry :
+		 * WorldRegistryImpl.getInstance
+		 * ().getChannelServerStorage().getPorts().entrySet()) { if
+		 * (entry.getValue().equals(port)) { cd = entry.getKey(); break; } } if
+		 * (cd != null) {
+		 * WorldRegistryImpl.getInstance().getChannel(cd).disconnectClient
+		 * (clientId); }
+		 */
+	}
 }

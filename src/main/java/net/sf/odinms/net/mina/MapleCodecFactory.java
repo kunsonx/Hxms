@@ -28,38 +28,41 @@ import org.apache.mina.filter.codec.ProtocolEncoder;
 
 public class MapleCodecFactory implements ProtocolCodecFactory {
 
-    private final ProtocolEncoder encoder;
-    private final ProtocolDecoder decoder;
-    private static Pattern pattern = Pattern.compile("(34\\s01)|(84\\s01)|(14\\s00)|(29\\s00)");
-    private static String[] filter = new String[]{};
-    //"0E 01", "3F 00","2B 00"
-//"34 01", "84 01", "14 00", "29 00", "3F 00", "4D 00", "CB 00", "24 01", "67 01"
+	private final ProtocolEncoder encoder;
+	private final ProtocolDecoder decoder;
+	private static Pattern pattern = Pattern
+			.compile("(34\\s01)|(84\\s01)|(14\\s00)|(29\\s00)");
+	private static String[] filter = new String[] {};
 
-    public MapleCodecFactory() {
-        encoder = new MaplePacketEncoder();
-        decoder = new MaplePacketDecoder();
-    }
+	// "0E 01", "3F 00","2B 00"
+	// "34 01", "84 01", "14 00", "29 00", "3F 00", "4D 00", "CB 00", "24 01",
+	// "67 01"
 
-    public static Pattern getPattern() {
-        return pattern;
-    }
+	public MapleCodecFactory() {
+		encoder = new MaplePacketEncoder();
+		decoder = new MaplePacketDecoder();
+	}
 
-    public static boolean isFilter(String arg) {
-        for (String string : filter) {
-            if (arg.startsWith(string)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public static Pattern getPattern() {
+		return pattern;
+	}
 
-    @Override
-    public ProtocolEncoder getEncoder(IoSession is) throws Exception {
-        return encoder;
-    }
+	public static boolean isFilter(String arg) {
+		for (String string : filter) {
+			if (arg.startsWith(string)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public ProtocolDecoder getDecoder(IoSession is) throws Exception {
-        return decoder;
-    }
+	@Override
+	public ProtocolEncoder getEncoder(IoSession is) throws Exception {
+		return encoder;
+	}
+
+	@Override
+	public ProtocolDecoder getDecoder(IoSession is) throws Exception {
+		return decoder;
+	}
 }

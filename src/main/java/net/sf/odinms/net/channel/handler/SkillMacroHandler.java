@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -28,17 +28,18 @@ import net.sf.odinms.net.AbstractMaplePacketHandler;
 
 public class SkillMacroHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        int num = slea.readByte();
-        for (int i = 0; i < num; i++) {
-            String name = slea.readMapleAsciiString();
-            int shout = slea.readByte();
-            int skill1 = slea.readInt();
-            int skill2 = slea.readInt();
-            int skill3 = slea.readInt();
-            SkillMacro macro = new SkillMacro(skill1, skill2, skill3, name, shout);
-            c.getPlayer().updateMacros(i, macro);
-        }
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		int num = slea.readByte();
+		for (int i = 0; i < num; i++) {
+			String name = slea.readMapleAsciiString();
+			int shout = slea.readByte();
+			int skill1 = slea.readInt();
+			int skill2 = slea.readInt();
+			int skill3 = slea.readInt();
+			SkillMacro macro = new SkillMacro(skill1, skill2, skill3, name,
+					shout);
+			c.getPlayer().updateMacros(i, macro);
+		}
+	}
 }

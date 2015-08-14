@@ -16,11 +16,14 @@ import org.hibernate.EntityMode;
  */
 public class InitReactorStatsInterceptor extends EmptyInterceptor {
 
-    @Override
-    public Object instantiate(String entityName, EntityMode entityMode, Serializable id) throws CallbackException {
-        if (entityName.equals("net.sf.odinms.server.maps.MapleReactorStats$StateData") && entityMode.equals(entityMode.POJO)) {
-            return new MapleReactorStats.StateData();
-        }
-        return null;
-    }
+	@Override
+	public Object instantiate(String entityName, EntityMode entityMode,
+			Serializable id) throws CallbackException {
+		if (entityName
+				.equals("net.sf.odinms.server.maps.MapleReactorStats$StateData")
+				&& entityMode.equals(entityMode.POJO)) {
+			return new MapleReactorStats.StateData();
+		}
+		return null;
+	}
 }

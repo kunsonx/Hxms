@@ -10,36 +10,36 @@ package net.sf.odinms.client.skills;
  */
 public class MapleSkillDatabaseInfo {
 
-    private long id;
-    private String path;
-    private String value;
+	private long id;
+	private String path;
+	private String value;
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public String getPath() {
-        return path;
-    }
+	public String getPath() {
+		return path;
+	}
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+	public void setPath(String path) {
+		this.path = path;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    @Override
-    public String toString() {
-        return String.format("路径：【%s】【%s】", getPath(), getValue());
-    }
+	@Override
+	public String toString() {
+		return String.format("路径：【%s】【%s】", getPath(), getValue());
+	}
 }

@@ -34,36 +34,30 @@ import net.sf.odinms.client.messages.MessageCallback;
 
 public class SaveAllCommand implements Command {
 
-    @Override
-    public void execute(MapleClient c, MessageCallback mc, String[] splitted) throws Exception, IllegalCommandSyntaxException {
-        if (splitted[0].equals("!saveall")) {
-            /* Collection<ChannelServer> ccs = ChannelServer.getAllInstances();
-             for (ChannelServer chan : ccs) {
-             mc.dropMessage("Saving characters on channel " + chan.getChannel());
-             if (chan != null) {
-             Collection<MapleCharacter> chars = new LinkedHashSet<MapleCharacter>(Collections.synchronizedCollection(chan.getPlayerStorage().getAllCharacters()));
-             synchronized (chars) {
-             for (MapleCharacter chr : chars) {
-             try {
-             if (chr != null) {
-             chr.saveToDB(true);
-             }
-             } catch (Exception e) {
-             continue;
-             }
-             }
-             }
-             }
-             }
-             mc.dropMessage("All characters have been saved.");*/
-            mc.dropMessage("无需使用此命令。");
-        }
-    }
+	@Override
+	public void execute(MapleClient c, MessageCallback mc, String[] splitted)
+			throws Exception, IllegalCommandSyntaxException {
+		if (splitted[0].equals("!saveall")) {
+			/*
+			 * Collection<ChannelServer> ccs = ChannelServer.getAllInstances();
+			 * for (ChannelServer chan : ccs) {
+			 * mc.dropMessage("Saving characters on channel " +
+			 * chan.getChannel()); if (chan != null) {
+			 * Collection<MapleCharacter> chars = new
+			 * LinkedHashSet<MapleCharacter
+			 * >(Collections.synchronizedCollection(chan
+			 * .getPlayerStorage().getAllCharacters())); synchronized (chars) {
+			 * for (MapleCharacter chr : chars) { try { if (chr != null) {
+			 * chr.saveToDB(true); } } catch (Exception e) { continue; } } } } }
+			 * mc.dropMessage("All characters have been saved.");
+			 */
+			mc.dropMessage("无需使用此命令。");
+		}
+	}
 
-    @Override
-    public CommandDefinition[] getDefinition() {
-        return new CommandDefinition[]{
-            new CommandDefinition("saveall", "", "Saves all characters", 3)
-        };
-    }
+	@Override
+	public CommandDefinition[] getDefinition() {
+		return new CommandDefinition[] { new CommandDefinition("saveall", "",
+				"Saves all characters", 3) };
+	}
 }

@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.scripting.quest;
 
@@ -27,7 +27,7 @@ package net.sf.odinms.scripting.quest;
  */
 public interface QuestScript {
 
-    public void start(byte mode, byte type, int selection);
+	public void start(byte mode, byte type, int selection);
 
-    public void end(byte mode, byte type, int selection);
+	public void end(byte mode, byte type, int selection);
 }

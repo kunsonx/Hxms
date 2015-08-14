@@ -16,12 +16,14 @@ import java.io.ObjectOutputStream;
  */
 public class WebTools {
 
-    public static <T> T CopyObject(T t) throws IOException, ClassNotFoundException {
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(byteOut);
-        out.writeObject(t);
-        ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
-        ObjectInputStream in = new ObjectInputStream(byteIn);
-        return (T) in.readObject();
-    }
+	public static <T> T CopyObject(T t) throws IOException,
+			ClassNotFoundException {
+		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+		ObjectOutputStream out = new ObjectOutputStream(byteOut);
+		out.writeObject(t);
+		ByteArrayInputStream byteIn = new ByteArrayInputStream(
+				byteOut.toByteArray());
+		ObjectInputStream in = new ObjectInputStream(byteIn);
+		return (T) in.readObject();
+	}
 }

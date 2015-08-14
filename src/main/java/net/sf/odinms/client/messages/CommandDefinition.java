@@ -17,54 +17,57 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.client.messages;
 
 public class CommandDefinition {
 
-    private String command;
-    private String parameterDescription;
-    private String help;
-    private int requiredLevel; // gm level
-    
-    /***
-     * 管理员命令认证
-     * @param 命令
-     * @param parameterDescription
-     * @param 帮助
-     * @param 管理员等级
-     */
-    public CommandDefinition(String command, String parameterDescription, String help, int requiredLevel) {
-        this.command = command;
-        this.help = help;
-        this.parameterDescription = parameterDescription;
-        this.requiredLevel = requiredLevel;
-    }
+	private String command;
+	private String parameterDescription;
+	private String help;
+	private int requiredLevel; // gm level
 
-    /****
-     * 管理员命令认证
-     * @param 命令
-     * @param 管理员等级
-     */
-    public CommandDefinition(String command, int requiredLevel) {
-        this.command = command;
-        this.requiredLevel = requiredLevel;
-    }
+	/***
+	 * 管理员命令认证
+	 * 
+	 * @param 命令
+	 * @param parameterDescription
+	 * @param 帮助
+	 * @param 管理员等级
+	 */
+	public CommandDefinition(String command, String parameterDescription,
+			String help, int requiredLevel) {
+		this.command = command;
+		this.help = help;
+		this.parameterDescription = parameterDescription;
+		this.requiredLevel = requiredLevel;
+	}
 
-    public String getCommand() {
-        return command;
-    }
+	/****
+	 * 管理员命令认证
+	 * 
+	 * @param 命令
+	 * @param 管理员等级
+	 */
+	public CommandDefinition(String command, int requiredLevel) {
+		this.command = command;
+		this.requiredLevel = requiredLevel;
+	}
 
-    public String getHelp() {
-        return help;
-    }
+	public String getCommand() {
+		return command;
+	}
 
-    public String getParameterDescription() {
-        return parameterDescription;
-    }
+	public String getHelp() {
+		return help;
+	}
 
-    public int getRequiredLevel() {
-        return requiredLevel;
-    }
+	public String getParameterDescription() {
+		return parameterDescription;
+	}
+
+	public int getRequiredLevel() {
+		return requiredLevel;
+	}
 }

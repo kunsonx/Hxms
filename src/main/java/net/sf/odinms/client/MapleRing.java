@@ -29,107 +29,111 @@ import java.sql.SQLException;
  */
 public class MapleRing extends Equip {
 
-    private int partnerChrId;
-    private String partnerName;
-    private long partnerUniqueId;
-    private boolean equipped;
+	private int partnerChrId;
+	private String partnerName;
+	private long partnerUniqueId;
+	private boolean equipped;
 
-    public MapleRing(int itemid, long partnerUniqueid, int partnerId, String partnername) {
-        super(itemid, (short) 0);
-        this.partnerChrId = partnerId;
-        this.partnerName = partnername;
-        this.partnerUniqueId = partnerUniqueid;
-    }
+	public MapleRing(int itemid, long partnerUniqueid, int partnerId,
+			String partnername) {
+		super(itemid, (short) 0);
+		this.partnerChrId = partnerId;
+		this.partnerName = partnername;
+		this.partnerUniqueId = partnerUniqueid;
+	}
 
-    public static MapleRing loadFromDb(int itemid, short position, long uniqueid, ResultSet rs) {
-        try {
-            MapleRing ring = new MapleRing(itemid, rs.getInt("partnerUniqueid"), rs.getInt("partnerChrId"), rs.getString("partnerName"));
-            ring.setPosition(position);
-            ring.setUniqueId(uniqueid);
-            return ring;
-        } catch (SQLException ex) {
-            logger.error("Error loading ring from DB", ex);
-            return null;
-        }
-    }
+	public static MapleRing loadFromDb(int itemid, short position,
+			long uniqueid, ResultSet rs) {
+		try {
+			MapleRing ring = new MapleRing(itemid,
+					rs.getInt("partnerUniqueid"), rs.getInt("partnerChrId"),
+					rs.getString("partnerName"));
+			ring.setPosition(position);
+			ring.setUniqueId(uniqueid);
+			return ring;
+		} catch (SQLException ex) {
+			logger.error("Error loading ring from DB", ex);
+			return null;
+		}
+	}
 
-    public void setPartnerChrId(int partnerChrId) {
-        this.partnerChrId = partnerChrId;
-    }
+	public void setPartnerChrId(int partnerChrId) {
+		this.partnerChrId = partnerChrId;
+	}
 
-    public long getRingId() {
-        return getUniqueid();
-    }
+	public long getRingId() {
+		return getUniqueid();
+	}
 
-    public MapleRing setRingId(long value) {
-        setUniqueId(value);
-        return this;
-    }
+	public MapleRing setRingId(long value) {
+		setUniqueId(value);
+		return this;
+	}
 
-    public long getPartnerRingId() {
-        return partnerUniqueId;
-    }
+	public long getPartnerRingId() {
+		return partnerUniqueId;
+	}
 
-    public int getPartnerChrId() {
-        return partnerChrId;
-    }
+	public int getPartnerChrId() {
+		return partnerChrId;
+	}
 
-    @Override
-    public String getPartnerName() {
-        return partnerName;
-    }
+	@Override
+	public String getPartnerName() {
+		return partnerName;
+	}
 
-    public boolean isEquipped() {
-        return equipped;
-    }
+	public boolean isEquipped() {
+		return equipped;
+	}
 
-    public void setEquipped(boolean equipped) {
-        this.equipped = equipped;
-    }
+	public void setEquipped(boolean equipped) {
+		this.equipped = equipped;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof MapleRing) {
-            if (((MapleRing) o).getRingId() == getRingId()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof MapleRing) {
+			if (((MapleRing) o).getRingId() == getRingId()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public int hashCode() {
-        return System.identityHashCode(this);
-    }
+	@Override
+	public int hashCode() {
+		return System.identityHashCode(this);
+	}
 
-    @Override
-    public int compareTo(IItem other) {
-        if (other instanceof MapleRing) {
-            MapleRing t = (MapleRing) other;
-            if (getUniqueid() < t.getRingId()) {
-                return -1;
-            } else if (getUniqueid() == t.getRingId()) {
-                return 0;
-            } else {
-                return 1;
-            }
-        }
-        return super.compareTo(other);
-    }
+	@Override
+	public int compareTo(IItem other) {
+		if (other instanceof MapleRing) {
+			MapleRing t = (MapleRing) other;
+			if (getUniqueid() < t.getRingId()) {
+				return -1;
+			} else if (getUniqueid() == t.getRingId()) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
+		return super.compareTo(other);
+	}
 
-    @Override
-    public long getPartnerUniqueId() {
-        return partnerUniqueId;
-    }
+	@Override
+	public long getPartnerUniqueId() {
+		return partnerUniqueId;
+	}
 
-    public void setPartnerUniqueId(long partnerUniqueId) {
-        this.partnerUniqueId = partnerUniqueId;
-    }
+	public void setPartnerUniqueId(long partnerUniqueId) {
+		this.partnerUniqueId = partnerUniqueId;
+	}
 
-    @Override
-    public boolean isRing() {
-        return true;
-    }
+	@Override
+	public boolean isRing() {
+		return true;
+	}
 }

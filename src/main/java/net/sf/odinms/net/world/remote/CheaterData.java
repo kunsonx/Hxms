@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.world.remote;
 
@@ -29,26 +29,26 @@ import java.io.Serializable;
  */
 public class CheaterData implements Serializable, Comparable<CheaterData> {
 
-    private static final long serialVersionUID = -8733673311051249885L;
-    private int points;
-    private String info;
+	private static final long serialVersionUID = -8733673311051249885L;
+	private int points;
+	private String info;
 
-    public CheaterData(int points, String info) {
-        this.points = points;
-        this.info = info;
-    }
+	public CheaterData(int points, String info) {
+		this.points = points;
+		this.info = info;
+	}
 
-    public String getInfo() {
-        return info;
-    }
+	public String getInfo() {
+		return info;
+	}
 
-    public int getPoints() {
-        return points;
-    }
+	public int getPoints() {
+		return points;
+	}
 
-    public int compareTo(CheaterData o) {
-        int thisVal = getPoints();
-        int anotherVal = o.getPoints();
-        return (thisVal < anotherVal ? 1 : (thisVal == anotherVal ? 0 : -1));
-    }
+	public int compareTo(CheaterData o) {
+		int thisVal = getPoints();
+		int anotherVal = o.getPoints();
+		return (thisVal < anotherVal ? 1 : (thisVal == anotherVal ? 0 : -1));
+	}
 }

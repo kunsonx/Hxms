@@ -1,13 +1,10 @@
 package net.sf.odinms.tools;
 
-
 //冒险岛定制加密
 
-
-
 /**
- * Provides MapleStory's custom encryption routines.
- * 提供MapleStory的定制的加密程序
+ * Provides MapleStory's custom encryption routines. 提供MapleStory的定制的加密程序
+ * 
  * @author Frz
  * @since Revision 211
  * @version 1.0
@@ -17,92 +14,55 @@ public class MapleCustomEncryption {
 	/**
 	 * Encrypts <code>data</code> with Maple's encryption routines.
 	 * 将冒险岛的加密程序译成密码
-	 * @param data The data to encrypt.//这data是数据加密
+	 * 
+	 * @param data
+	 *            The data to encrypt.//这data是数据加密
 	 * @return The encrypted data.
 	 */
 	public static byte[] encryptData(byte data[]) {
-       //加密程序
+		// 加密程序
 		/*
-        for (int j = 0; j < 6; j++) {
-			byte remember = 0;
-			byte dataLength = (byte) (data.length & 0xFF);
-			// printByteArray(data);
-			if (j % 2 == 0) {
-				for (int i = 0; i < data.length; i++) {
-					byte cur = data[i];
-					cur = BitTools.rollLeft(cur, 3);
-					cur += dataLength;
-					cur ^= remember;
-					remember = cur;
-					cur = BitTools.rollRight(cur, (int)dataLength & 0xFF);
-					cur = ((byte) ((~cur) & 0xFF));
-					cur += 0x48;
-					dataLength--;
-					data[i] = cur;
-				}
-			} else {
-				for (int i = data.length - 1; i >= 0; i--) {
-					byte cur = data[i];
-					cur = BitTools.rollLeft(cur, 4);
-					cur += dataLength;
-					cur ^= remember;
-					remember = cur;
-					cur ^= 0x13;
-					cur = BitTools.rollRight(cur, 3);
-					dataLength--;
-					data[i] = cur;
-				}
-			}
-			//log.debug("enc after iteration " + j + ": " + HexTool.toString(data) + " al: " + al);
-		}
-          */
+		 * for (int j = 0; j < 6; j++) { byte remember = 0; byte dataLength =
+		 * (byte) (data.length & 0xFF); // printByteArray(data); if (j % 2 == 0)
+		 * { for (int i = 0; i < data.length; i++) { byte cur = data[i]; cur =
+		 * BitTools.rollLeft(cur, 3); cur += dataLength; cur ^= remember;
+		 * remember = cur; cur = BitTools.rollRight(cur, (int)dataLength &
+		 * 0xFF); cur = ((byte) ((~cur) & 0xFF)); cur += 0x48; dataLength--;
+		 * data[i] = cur; } } else { for (int i = data.length - 1; i >= 0; i--)
+		 * { byte cur = data[i]; cur = BitTools.rollLeft(cur, 4); cur +=
+		 * dataLength; cur ^= remember; remember = cur; cur ^= 0x13; cur =
+		 * BitTools.rollRight(cur, 3); dataLength--; data[i] = cur; } }
+		 * //log.debug("enc after iteration " + j + ": " +
+		 * HexTool.toString(data) + " al: " + al); }
+		 */
 		return data;
 	}
 
 	/**
-	 * Decrypts <code>data</code> with Maple's encryption routines.
-	 * 将冒险岛破解密码
-	 * @param data The data to decrypt.
+	 * Decrypts <code>data</code> with Maple's encryption routines. 将冒险岛破解密码
+	 * 
+	 * @param data
+	 *            The data to decrypt.
 	 * @return The decrypted data.
 	 */
 	public static byte[] decryptData(byte data[]) {
-        //解密程序
-	/*	for (int j = 1; j <= 6; j++) {
-			byte remember = 0;
-			byte dataLength = (byte) (data.length & 0xFF);
-			byte nextRemember = 0;
-
-			if (j % 2 == 0) {
-				for (int i = 0; i < data.length; i++) {
-					byte cur = data[i];
-					cur -= 0x48;
-					cur = ((byte) ((~cur) & 0xFF));
-					cur = BitTools.rollLeft(cur, (int)dataLength & 0xFF);
-					nextRemember = cur;
-					cur ^= remember;
-					remember = nextRemember;
-					cur -= dataLength;
-					cur = BitTools.rollRight(cur, 3);
-					data[i] = cur;
-					dataLength--;
-				}
-			} else {
-				for (int i = data.length - 1; i >= 0; i--) {
-					byte cur = data[i];
-					cur = BitTools.rollLeft(cur, 3);
-					cur ^= 0x13;
-					nextRemember = cur;
-					cur ^= remember;
-					remember = nextRemember;
-					cur -= dataLength;
-					cur = BitTools.rollRight(cur, 4);
-					data[i] = cur;
-					dataLength--;
-				}
-			}
-			//log.debug("dec after iteration " + j + ": " + HexTool.toString(data));
-		}
-     * */
+		// 解密程序
+		/*
+		 * for (int j = 1; j <= 6; j++) { byte remember = 0; byte dataLength =
+		 * (byte) (data.length & 0xFF); byte nextRemember = 0;
+		 * 
+		 * if (j % 2 == 0) { for (int i = 0; i < data.length; i++) { byte cur =
+		 * data[i]; cur -= 0x48; cur = ((byte) ((~cur) & 0xFF)); cur =
+		 * BitTools.rollLeft(cur, (int)dataLength & 0xFF); nextRemember = cur;
+		 * cur ^= remember; remember = nextRemember; cur -= dataLength; cur =
+		 * BitTools.rollRight(cur, 3); data[i] = cur; dataLength--; } } else {
+		 * for (int i = data.length - 1; i >= 0; i--) { byte cur = data[i]; cur
+		 * = BitTools.rollLeft(cur, 3); cur ^= 0x13; nextRemember = cur; cur ^=
+		 * remember; remember = nextRemember; cur -= dataLength; cur =
+		 * BitTools.rollRight(cur, 4); data[i] = cur; dataLength--; } }
+		 * //log.debug("dec after iteration " + j + ": " +
+		 * HexTool.toString(data)); }
+		 */
 		return data;
 	}
 }

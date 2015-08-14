@@ -16,11 +16,11 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public class SummonTalkHandler extends AbstractMaplePacketHandler {
 
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        if (c.getPlayer().getJob().getId() == 1000) {
-            NPCScriptManager.getInstance().start(c, 1101008,-1);
-        } else {
-            NPCScriptManager.getInstance().start(c, 1202000,-1);
-        }
-    }
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		if (c.getPlayer().getJob().getId() == 1000) {
+			NPCScriptManager.getInstance().start(c, 1101008, -1);
+		} else {
+			NPCScriptManager.getInstance().start(c, 1202000, -1);
+		}
+	}
 }

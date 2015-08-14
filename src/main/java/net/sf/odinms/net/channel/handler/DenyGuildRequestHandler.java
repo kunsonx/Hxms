@@ -1,6 +1,6 @@
 /*
 	否认工会要求处理
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -17,13 +17,15 @@ import net.sf.odinms.tools.Guild.MapleGuild_Msg;
  */
 public class DenyGuildRequestHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        // [3E 00] [37] [08 00] [4F 75 54 6F 4C 75 43 6B]
-        slea.readByte();
-        MapleCharacter cfrom = c.getChannelServer().getPlayerStorage().getCharacterByName(slea.readMapleAsciiString());
-        if (cfrom != null) {
-            cfrom.getClient().getSession().write(MapleGuild_Msg.拒绝家族邀请(c.getPlayer().getName()));
-        }
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		// [3E 00] [37] [08 00] [4F 75 54 6F 4C 75 43 6B]
+		slea.readByte();
+		MapleCharacter cfrom = c.getChannelServer().getPlayerStorage()
+				.getCharacterByName(slea.readMapleAsciiString());
+		if (cfrom != null) {
+			cfrom.getClient().getSession()
+					.write(MapleGuild_Msg.拒绝家族邀请(c.getPlayer().getName()));
+		}
+	}
 }

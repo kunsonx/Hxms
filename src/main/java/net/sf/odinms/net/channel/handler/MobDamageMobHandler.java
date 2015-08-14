@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.channel.handler;
 
@@ -27,14 +27,16 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 /**
  * Handler for Mobs damaging Mobs.
+ * 
  * @author Jvlaple, small fix by masoud
  */
 public class MobDamageMobHandler extends AbstractMaplePacketHandler {
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MobDamageMobHandler.class);
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(MobDamageMobHandler.class);
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        return;
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		return;
+	}
 }

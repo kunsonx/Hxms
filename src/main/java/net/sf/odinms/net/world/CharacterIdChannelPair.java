@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.world;
 
@@ -32,38 +32,39 @@ import java.io.ObjectOutput;
  */
 public class CharacterIdChannelPair implements Externalizable {
 
-    private int charid;
-    private int channel;
+	private int charid;
+	private int channel;
 
-    /**
-     * only for externalisation
-     */
-    public CharacterIdChannelPair() {
-    }
+	/**
+	 * only for externalisation
+	 */
+	public CharacterIdChannelPair() {
+	}
 
-    public CharacterIdChannelPair(int charid, int channel) {
-        super();
-        this.charid = charid;
-        this.channel = channel;
-    }
+	public CharacterIdChannelPair(int charid, int channel) {
+		super();
+		this.charid = charid;
+		this.channel = channel;
+	}
 
-    public int getCharacterId() {
-        return charid;
-    }
+	public int getCharacterId() {
+		return charid;
+	}
 
-    public int getChannel() {
-        return channel;
-    }
+	public int getChannel() {
+		return channel;
+	}
 
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        charid = in.readInt();
-        channel = in.readByte();
-    }
+	@Override
+	public void readExternal(ObjectInput in) throws IOException,
+			ClassNotFoundException {
+		charid = in.readInt();
+		channel = in.readByte();
+	}
 
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeInt(charid);
-        out.writeByte(channel);
-    }
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeInt(charid);
+		out.writeByte(channel);
+	}
 }

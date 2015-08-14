@@ -14,26 +14,26 @@ import net.sf.odinms.client.SkillMacro;
  */
 public class MapleTest {
 
-    private long id;
-    private List<SkillMacro> macros = new ArrayList<SkillMacro>();
+	private long id;
+	private List<SkillMacro> macros = new ArrayList<SkillMacro>();
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public List<SkillMacro> getMacros() {
-        return macros;
-    }
+	public List<SkillMacro> getMacros() {
+		return macros;
+	}
 
-    public void setMacros(List<SkillMacro> macros) {
-        this.macros = macros;
-    }
+	public void setMacros(List<SkillMacro> macros) {
+		this.macros = macros;
+	}
 
-    public void addMacro(SkillMacro skillMacro) {
-        this.macros.add(skillMacro);
-    }
+	public void addMacro(SkillMacro skillMacro) {
+		this.macros.add(skillMacro);
+	}
 }

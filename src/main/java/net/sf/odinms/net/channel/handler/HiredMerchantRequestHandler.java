@@ -29,20 +29,30 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public class HiredMerchantRequestHandler extends AbstractMaplePacketHandler {
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        //3E 00 00 B2 F8 01 00 00 00 00 00
-        //61 00 00 95 00 00 00 00 00 00 00
-        if (c.getPlayer().getMap().getMapObjectsInRange(c.getPlayer().getPosition(), 23000, Arrays.asList(MapleMapObjectType.HIRED_MERCHANT, MapleMapObjectType.SHOP)).isEmpty()) {
-            if (!c.getPlayer().hasMerchant() && c.getPlayer().tempHasItems()) {
-                c.getSession().write(MaplePacketCreator.hiredMerchantBox(c.getPlayer(), 0x09));
-            } else if (!c.getPlayer().hasMerchant()) {
-                c.getSession().write(MaplePacketCreator.hiredMerchantBox(c.getPlayer(), 0x07));
-            } else {
-                c.getPlayer().dropMessage(1, "你已经开启了一个商店,请关闭后再试");
-            }
-        } else {
-            c.getPlayer().dropMessage(1, "你不能在这里开设商店");
-        }
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		// 3E 00 00 B2 F8 01 00 00 00 00 00
+		// 61 00 00 95 00 00 00 00 00 00 00
+		if (c.getPlayer()
+				.getMap()
+				.getMapObjectsInRange(
+						c.getPlayer().getPosition(),
+						23000,
+						Arrays.asList(MapleMapObjectType.HIRED_MERCHANT,
+								MapleMapObjectType.SHOP)).isEmpty()) {
+			if (!c.getPlayer().hasMerchant() && c.getPlayer().tempHasItems()) {
+				c.getSession()
+						.write(MaplePacketCreator.hiredMerchantBox(
+								c.getPlayer(), 0x09));
+			} else if (!c.getPlayer().hasMerchant()) {
+				c.getSession()
+						.write(MaplePacketCreator.hiredMerchantBox(
+								c.getPlayer(), 0x07));
+			} else {
+				c.getPlayer().dropMessage(1, "你已经开启了一个商店,请关闭后再试");
+			}
+		} else {
+			c.getPlayer().dropMessage(1, "你不能在这里开设商店");
+		}
+	}
 }

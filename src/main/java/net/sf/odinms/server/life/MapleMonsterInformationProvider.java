@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.server.life;
 
@@ -36,93 +36,96 @@ import net.sf.odinms.database.DatabaseConnection;
  */
 public class MapleMonsterInformationProvider {
 
-    public static class DropEntry {
+	public static class DropEntry {
 
-        public int itemid;
-        public int chance;
-        public int questid;
-        public int assignedRangeStart;
-        public int assignedRangeLength;
+		public int itemid;
+		public int chance;
+		public int questid;
+		public int assignedRangeStart;
+		public int assignedRangeLength;
 
-        public DropEntry(int itemid, int chance, int questid) {
-            this.itemid = itemid;
-            this.chance = chance;
-            this.questid = questid;
-        }
+		public DropEntry(int itemid, int chance, int questid) {
+			this.itemid = itemid;
+			this.chance = chance;
+			this.questid = questid;
+		}
 
-        public DropEntry(int itemid, int chance) {
-            this.itemid = itemid;
-            this.chance = chance;
-            this.questid = 0;
-        }
+		public DropEntry(int itemid, int chance) {
+			this.itemid = itemid;
+			this.chance = chance;
+			this.questid = 0;
+		}
 
-        @Override
-        public String toString() {
-            return itemid + " chance: " + chance;
-        }
-    }
-    public static final int APPROX_FADE_DELAY = 90;
-    private static MapleMonsterInformationProvider instance = null;
-    private Map<Integer, List<DropEntry>> drops = new HashMap<Integer, List<DropEntry>>();
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MapleMonsterInformationProvider.class);
+		@Override
+		public String toString() {
+			return itemid + " chance: " + chance;
+		}
+	}
 
-    private MapleMonsterInformationProvider() {
-    }
+	public static final int APPROX_FADE_DELAY = 90;
+	private static MapleMonsterInformationProvider instance = null;
+	private Map<Integer, List<DropEntry>> drops = new HashMap<Integer, List<DropEntry>>();
+	private static final org.apache.log4j.Logger log = org.apache.log4j.Logger
+			.getLogger(MapleMonsterInformationProvider.class);
 
-    public static MapleMonsterInformationProvider getInstance() {
-        if (instance == null) {
-            instance = new MapleMonsterInformationProvider();
-        }
-        return instance;
-    }
+	private MapleMonsterInformationProvider() {
+	}
 
-    public List<DropEntry> retrieveDropChances(int monsterid) {
-        if (drops.containsKey(monsterid)) {
-            return drops.get(monsterid);
-        }
-        List<DropEntry> ret = new LinkedList<DropEntry>();
-        if (monsterid > 9300183 && monsterid < 9300216) {
-            for (int i = 2022359; i < 2022367; i++) {
-                ret.add(new DropEntry(i, 10));
-            }
-            drops.put(monsterid, ret);
-            return ret;
-        } else if (monsterid > 9300215 && monsterid < 9300269) {
-            for (int i = 2022430; i < 2022434; i++) {
-                ret.add(new DropEntry(i, 3));
-            }
-            drops.put(monsterid, ret);
-            return ret;
-        }
-        try {
-            Connection con = DatabaseConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT itemid, chance, monsterid, questid FROM monsterdrops WHERE monsterid = ?");
-            ps.setInt(1, monsterid);
-            ResultSet rs = ps.executeQuery();
-            MapleMonster theMonster = null;
-            while (rs.next()) {
-                int rowmonsterid = rs.getInt("monsterid");
-                int chance = rs.getInt("chance");
-                int questid = rs.getInt("questid");
-                if (rowmonsterid != monsterid && rowmonsterid != 0) {
-                    if (theMonster == null) {
-                        theMonster = MapleLifeFactory.getMonster(monsterid);
-                    }
-                    chance += theMonster.getLevel() * rowmonsterid;
-                }
-                ret.add(new DropEntry(rs.getInt("itemid"), chance, questid));
-            }
-            rs.close();
-            ps.close();
-            con.close();
-        } catch (Exception e) {
-            log.error("Error retrieving drop", e);
-        }
-        drops.put(monsterid, ret);
-        return ret;
-    }
+	public static MapleMonsterInformationProvider getInstance() {
+		if (instance == null) {
+			instance = new MapleMonsterInformationProvider();
+		}
+		return instance;
+	}
 
-    public void clearDrops() {
-        drops.clear();
-    }
+	public List<DropEntry> retrieveDropChances(int monsterid) {
+		if (drops.containsKey(monsterid)) {
+			return drops.get(monsterid);
+		}
+		List<DropEntry> ret = new LinkedList<DropEntry>();
+		if (monsterid > 9300183 && monsterid < 9300216) {
+			for (int i = 2022359; i < 2022367; i++) {
+				ret.add(new DropEntry(i, 10));
+			}
+			drops.put(monsterid, ret);
+			return ret;
+		} else if (monsterid > 9300215 && monsterid < 9300269) {
+			for (int i = 2022430; i < 2022434; i++) {
+				ret.add(new DropEntry(i, 3));
+			}
+			drops.put(monsterid, ret);
+			return ret;
+		}
+		try {
+			Connection con = DatabaseConnection.getConnection();
+			PreparedStatement ps = con
+					.prepareStatement("SELECT itemid, chance, monsterid, questid FROM monsterdrops WHERE monsterid = ?");
+			ps.setInt(1, monsterid);
+			ResultSet rs = ps.executeQuery();
+			MapleMonster theMonster = null;
+			while (rs.next()) {
+				int rowmonsterid = rs.getInt("monsterid");
+				int chance = rs.getInt("chance");
+				int questid = rs.getInt("questid");
+				if (rowmonsterid != monsterid && rowmonsterid != 0) {
+					if (theMonster == null) {
+						theMonster = MapleLifeFactory.getMonster(monsterid);
+					}
+					chance += theMonster.getLevel() * rowmonsterid;
+				}
+				ret.add(new DropEntry(rs.getInt("itemid"), chance, questid));
+			}
+			rs.close();
+			ps.close();
+			con.close();
+		} catch (Exception e) {
+			log.error("Error retrieving drop", e);
+		}
+		drops.put(monsterid, ret);
+		return ret;
+	}
+
+	public void clearDrops() {
+		drops.clear();
+	}
 }

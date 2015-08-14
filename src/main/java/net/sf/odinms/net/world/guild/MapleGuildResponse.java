@@ -17,7 +17,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package net.sf.odinms.net.world.guild;
 
@@ -26,20 +26,19 @@ import net.sf.odinms.tools.Guild.MapleGuild_Msg;
 
 public enum MapleGuildResponse {
 
-    NOT_IN_CHANNEL(0x30),
-    ALREADY_IN_GUILD(0x2E),//094
-    NOT_IN_GUILD(0x2d);
-    private int value;
+	NOT_IN_CHANNEL(0x30), ALREADY_IN_GUILD(0x2E), // 094
+	NOT_IN_GUILD(0x2d);
+	private int value;
 
-    private MapleGuildResponse(int val) {
-        value = val;
-    }
+	private MapleGuildResponse(int val) {
+		value = val;
+	}
 
-    public int getValue() {
-        return value;
-    }
+	public int getValue() {
+		return value;
+	}
 
-    public MaplePacket getPacket() {
-        return MapleGuild_Msg.genericGuildMessage((byte) value);
-    }
+	public MaplePacket getPacket() {
+		return MapleGuild_Msg.genericGuildMessage((byte) value);
+	}
 }

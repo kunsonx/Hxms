@@ -18,26 +18,31 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
  */
 public class UseReturnScrollHandler extends AbstractMaplePacketHandler {
 
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        if (!c.getPlayer().isAlive()) {
-            c.getSession().write(MaplePacketCreator.enableActions());
-            return;
-        }
-        slea.readInt();
-        byte slot = (byte) slea.readShort();
-        int itemId = slea.readInt();//回城卷ID
-        MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
-        IItem toUse = c.getPlayer().getInventory(MapleInventoryType.USE).getItem(slot);
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		if (!c.getPlayer().isAlive()) {
+			c.getSession().write(MaplePacketCreator.enableActions());
+			return;
+		}
+		slea.readInt();
+		byte slot = (byte) slea.readShort();
+		int itemId = slea.readInt();// 回城卷ID
+		MapleItemInformationProvider ii = MapleItemInformationProvider
+				.getInstance();
+		IItem toUse = c.getPlayer().getInventory(MapleInventoryType.USE)
+				.getItem(slot);
 
-        if (toUse == null || toUse.getQuantity() < 1 || toUse.getItemId() != itemId) {
-            c.getPlayer().dropMessage(1, "使用回城卷错误,我日!");
-            return;
-        }
+		if (toUse == null || toUse.getQuantity() < 1
+				|| toUse.getItemId() != itemId) {
+			c.getPlayer().dropMessage(1, "使用回城卷错误,我日!");
+			return;
+		}
 
-        if (ii.getItemEffect(toUse.getItemId()).applyReturnScroll(c.getPlayer())) {
-            MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.USE, slot, (short) 1, false);
-        } else {
-            c.getSession().write(MaplePacketCreator.enableActions());
-        }
-    }
+		if (ii.getItemEffect(toUse.getItemId())
+				.applyReturnScroll(c.getPlayer())) {
+			MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.USE,
+					slot, (short) 1, false);
+		} else {
+			c.getSession().write(MaplePacketCreator.enableActions());
+		}
+	}
 }

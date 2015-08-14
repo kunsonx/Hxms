@@ -1,6 +1,6 @@
 /*
 	
-*/
+ */
 
 package net.sf.odinms.net.handler;
 
@@ -10,23 +10,23 @@ import net.sf.odinms.tools.data.input.SeekableLittleEndianAccessor;
 
 public final class LoginRequiringNoOpHandler implements MaplePacketHandler {
 
-    private static LoginRequiringNoOpHandler instance = new LoginRequiringNoOpHandler();
+	private static LoginRequiringNoOpHandler instance = new LoginRequiringNoOpHandler();
 
-    private LoginRequiringNoOpHandler() {
-        // singleton
-    }
+	private LoginRequiringNoOpHandler() {
+		// singleton
+	}
 
-    public static LoginRequiringNoOpHandler getInstance() {
-        return instance;
-    }
+	public static LoginRequiringNoOpHandler getInstance() {
+		return instance;
+	}
 
-    @Override
-    public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        // no op
-    }
+	@Override
+	public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+		// no op
+	}
 
-    @Override
-    public boolean validateState(MapleClient c) {
-        return c.isLoggedIn();
-    }
+	@Override
+	public boolean validateState(MapleClient c) {
+		return c.isLoggedIn();
+	}
 }
