@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.maps.MapleMapCreateLifeInfo" table="wz_maplifeinfo">
+        <id name="d_id" type="long">
+            <generator class="net.sf.odinms.tools.MySql_Uuid_Short"></generator>
+        </id>
+        <property name="id" not-null="true"/>
+        <property name="mapid" not-null="true"/>
+        <property name="type" not-null="true"/>
+        <property name="cy" not-null="true"/>
+        <property name="f" not-null="true"/>
+        <property name="fh" not-null="true"/>
+        <property name="rx0" not-null="true"/>
+        <property name="rx1" not-null="true"/>
+        <property name="hide" not-null="true"/>
+        <property name="position" not-null="true"/>
+        <property name="mobtime"/>
+    </class>
+</hibernate-mapping>

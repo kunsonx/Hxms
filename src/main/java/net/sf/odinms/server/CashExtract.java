@@ -32,7 +32,7 @@ public class CashExtract {
         int pricex;
         int priorityx;
         int snx;
-        for (Iterator<?> i$ = cash.getChildren().iterator(); i$.hasNext(); writer.println((new StringBuilder()).append("(").append(child.getName()).append(",").append(snx).append(",").append(itemx).append(",").append(countx).append(",").append(pricex).append(",").append(periodx).append(",").append(priorityx).append(",").append(genderx).append(",").append(onsalex).append(")").append(",").toString())) {
+        for (Iterator i$ = cash.getChildren().iterator(); i$.hasNext(); writer.println((new StringBuilder()).append("(").append(child.getName()).append(",").append(snx).append(",").append(itemx).append(",").append(countx).append(",").append(pricex).append(",").append(periodx).append(",").append(priorityx).append(",").append(genderx).append(",").append(onsalex).append(")").append(",").toString())) {
             child = (MapleData) i$.next();
             MapleData countData = child.getChildByPath("Count");
             MapleData genderData = child.getChildByPath("Gender");

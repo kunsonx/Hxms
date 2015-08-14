@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.client.ItemOptionEffect" table="wz_ioe">
+        <id name="id" column="id" type="long">
+            <generator class="net.sf.odinms.tools.MySql_Uuid_Short"></generator>
+        </id>
+        <property name="incSTR"/>
+        <property name="incDEX"/>
+        <property name="incINT"/>
+        <property name="incLUK"/>
+        <property name="incMHP"/>
+        <property name="incMMP"/>
+        <property name="incACC"/>
+        <property name="incEVA"/>
+        <property name="incSpeed"/>
+        <property name="incJump"/>
+        
+        <property name="incPAD"/>
+        <property name="incMAD"/>
+        <property name="incPDD"/>
+        <property name="incMDD"/>
+        <property name="incSTRr"/>
+        <property name="incDEXr"/>
+        <property name="incINTr"/>
+        <property name="incLUKr"/>
+        <property name="incMHPr"/>
+        <property name="incMMPr"/>
+        
+        <property name="incACCr"/>
+        <property name="incEVAr"/>
+        <property name="incPADr"/>
+        <property name="incMADr"/>
+        <property name="incPDDr"/>
+        <property name="incMDDr"/>
+        <property name="incCr"/>
+        <property name="incDAMr"/>
+        <property name="RecoveryHP"/>
+        <property name="RecoveryMP"/>
+        
+        <property name="HP"/>
+        <property name="MP"/>
+        <property name="attackType"/>
+        <property name="level"/>
+        <property name="ignoreTargetDEF"/>
+        <property name="ignoreDAM"/>
+        <property name="DAMreflect"/>
+        <property name="mpconReduce"/>
+        <property name="mpRestore"/>
+        <property name="incMesoProp"/>
+
+        <property name="incRewardProp"/>
+        <property name="incAllskill"/>
+        <property name="RecoveryUP"/>
+        <property name="boss"/>
+        <property name="face"/>
+        <property name="prop"/>
+        <property name="time"/>
+    </class>
+</hibernate-mapping>

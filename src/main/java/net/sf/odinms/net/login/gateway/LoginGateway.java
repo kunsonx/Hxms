@@ -174,7 +174,7 @@ public class LoginGateway {
 
     public void run() throws Exception {
         if (start) {
-            SimpleIoProcessorPool<NioSession> simpleIoProcessorPool = new SimpleIoProcessorPool<NioSession>(NioProcessor.class, LoginServer.ExecutorService);
+            SimpleIoProcessorPool<NioSession> simpleIoProcessorPool = new SimpleIoProcessorPool(NioProcessor.class, LoginServer.ExecutorService);
             acceptor = new NioSocketAcceptor(LoginServer.ExecutorService, simpleIoProcessorPool);
             acceptor.getSessionConfig().setTcpNoDelay(true);
             acceptor.getFilterChain().addLast("ThreadPool", new ExecutorFilter(LoginServer.ExecutorService));

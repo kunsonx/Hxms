@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.ORM.MapleAndroidInfo" table="wz_ai">
+        <id name="id" type="int">
+            <generator class="assigned"></generator>
+        </id>
+        <bag name="faces" table="wz_aif" cascade="all" lazy="false">
+            <key column="a_id" not-null="true"/>
+            <one-to-many class="net.sf.odinms.server.ORM.MapleAndroidInfoFace"/>
+        </bag>
+        <bag name="hairs" table="wz_aih" cascade="all" lazy="false">
+            <key column="a_id" not-null="true"/>
+            <one-to-many class="net.sf.odinms.server.ORM.MapleAndroidInfoHair"/>
+        </bag>
+    </class>
+    <sql-query name="allai">
+        <return alias="s" class="net.sf.odinms.server.ORM.MapleAndroidInfo"/>
+       <![CDATA[
+       select {s.*}  from wz_ai s
+     ]]>
+    </sql-query>
+</hibernate-mapping>

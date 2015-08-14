@@ -8,7 +8,6 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
-
 import net.sf.odinms.client.*;
 import net.sf.odinms.client.IEquip.ScrollResult;
 import net.sf.odinms.client.skills.*;
@@ -3430,13 +3429,13 @@ public class MaplePacketCreator {
         mplew.writeLong(0);//107
         MapleInventory iv = chr.getInventory(MapleInventoryType.SETUP);
         MapleInventory iv2 = chr.getInventory(MapleInventoryType.EQUIP);
-        List<Item> chairItems = new ArrayList<Item>();
+        List<Item> chairItems = new ArrayList();
         for (IItem item : iv.list()) {
             if (item.getItemId() >= 3010000 && item.getItemId() <= 3020001) {
                 chairItems.add((Item) item);
             }
         }
-        List<Item> medalItems = new ArrayList<Item>();
+        List<Item> medalItems = new ArrayList();
         for (IItem item : iv2.list()) {
             if (item.getItemId() >= 1142000 && item.getItemId() < 1152000) {
                 medalItems.add((Item) item);

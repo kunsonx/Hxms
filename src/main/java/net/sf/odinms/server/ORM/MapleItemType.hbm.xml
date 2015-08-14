@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.ORM.MapleItemType" table="wz_it">
+        <id name="itemid" column="itemid" type="int">
+            <generator class="assigned"></generator>
+        </id>
+        <property name="type"/>
+    </class>
+    <sql-query name="allit">
+        <return alias="s" class="net.sf.odinms.server.ORM.MapleItemType"/>
+       <![CDATA[
+       select {s.*}  from wz_it s
+     ]]>
+    </sql-query>
+</hibernate-mapping>

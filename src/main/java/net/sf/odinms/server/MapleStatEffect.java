@@ -7,7 +7,6 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
-
 import net.sf.odinms.client.*;
 import net.sf.odinms.client.skills.*;
 import net.sf.odinms.client.status.MapleMonsterStat;
@@ -18,10 +17,11 @@ import net.sf.odinms.provider.MapleDataTool;
 import net.sf.odinms.server.life.MapleMonster;
 import net.sf.odinms.server.maps.*;
 import net.sf.odinms.server.skill.*;
+import net.sf.odinms.server.skill.MapleForeignBuffSkill;
+import net.sf.odinms.server.skill.MapleForeignBuffStat;
 import net.sf.odinms.tools.MaplePacketCreator;
 import net.sf.odinms.tools.Pair;
 import net.sf.odinms.tools.data.output.MaplePacketLittleEndianWriter;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -477,7 +477,7 @@ public class MapleStatEffect implements Serializable {
             addBuffStatPairToListIfNotZero(statups, MapleBuffStat.SPEED, Integer.valueOf(ret.speed));
             addBuffStatPairToListIfNotZero(statups, MapleBuffStat.JUMP, Integer.valueOf(ret.jump));
         }
-        List<MapleDisease> cure = new ArrayList<MapleDisease>(5);
+        List cure = new ArrayList(5);
         if (MapleDataTool.getInt("poison", source, 0) > 0) {
             cure.add(MapleDisease.POISON);
         }
@@ -508,7 +508,7 @@ public class MapleStatEffect implements Serializable {
             ret.overTime = overTime;
         }
         ret.moveTo = MapleDataTool.getInt("moveTo", source, -1);
-        Map<MapleMonsterStat, Integer> monsterStatus = new HashMap<MapleMonsterStat, Integer>();
+        Map monsterStatus = new HashMap();
         //Map<MonsterStatus, Integer> monsterStatus = new ArrayMap<MonsterStatus, Integer>();
         if (ret.skill) { // hack because we can't get from the datafile...无法从数据文件获取的技能列表
             switch (sourceid) {
@@ -1452,7 +1452,7 @@ public class MapleStatEffect implements Serializable {
         ret.avoid = (short) MapleDataTool.getInt("eva", source, 0);
         ret.speed = (short) MapleDataTool.getInt("speed", source, 0);
         ret.jump = (short) MapleDataTool.getInt("jump", source, 0);
-        List<MapleDisease> cure = new ArrayList<MapleDisease>(5);
+        List cure = new ArrayList(5);
         if (MapleDataTool.getInt("poison", source, 0) > 0) {
             cure.add(MapleDisease.POISON);
         }
@@ -1500,7 +1500,7 @@ public class MapleStatEffect implements Serializable {
         ret.itemCon = MapleDataTool.getInt("itemCon", source, 0);
         ret.itemConNo = MapleDataTool.getInt("itemConNo", source, 0);
         ret.moveTo = MapleDataTool.getInt("moveTo", source, -1);
-        Map monsterStatus = new HashMap<Object, Object>();
+        Map monsterStatus = new HashMap();
         if (skill) {
             switch (sourceid) {
                 case 9001008://gm神圣之火
@@ -1618,10 +1618,10 @@ public class MapleStatEffect implements Serializable {
         }
 
         if (ret.isMorph()) {
-            statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.MORPH, Integer.valueOf(ret.getMorph())));
+            statups.add(new Pair(MapleBuffStat.MORPH, Integer.valueOf(ret.getMorph())));
         }
         if ((ret.isGhost) && (!skill)) {
-            statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.GHOST_MORPH, Integer.valueOf(1)));
+            statups.add(new Pair(MapleBuffStat.GHOST_MORPH, Integer.valueOf(1)));
         }
         ret.monsterStatus = monsterStatus;
         statups.trimToSize();

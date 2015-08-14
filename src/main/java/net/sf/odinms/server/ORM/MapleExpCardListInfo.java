@@ -27,7 +27,7 @@ public class MapleExpCardListInfo {
     }
 
     public Set<MapleExpCardInfo> getAll() {
-        Set<MapleExpCardInfo> set = new HashSet<MapleExpCardInfo>();
+        Set set = new HashSet();
         for (MapleExpCardInfo mapleExpCardInfo : all) {
             if (mapleExpCardInfo != null) {
                 set.add(mapleExpCardInfo);

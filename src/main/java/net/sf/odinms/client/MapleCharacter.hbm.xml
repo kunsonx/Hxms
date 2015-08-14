@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.client.MapleCharacter" table="characters" entity-name="MainPlayer">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <property name="equipSlots"/>
+        <property name="useSlots"/>
+        <property name="setupSlots"/>
+        <property name="etcSlots"/>
+        <property name="cashSlots"/>
+        <property name="name"/>
+        <property name="level"/>
+        <property name="vip"/>
+        <property name="fs"/>
+        <property name="jh"/>
+        <property name="ZhongJi"/>
+        <property name="ShuoHua"/>
+        <property name="reborns"/>
+        <property name="SD"/>
+        <property name="fame"/>
+        <property name="str_" column="str"/>
+        <property name="dex_" column="dex"/>
+        <property name="int_" column="`int`"/>
+        <property name="luk_" column="luk"/>
+        <property name="exp"/>
+        <property name="hp_" column="hp"/>
+        <property name="maxhp_" column="maxhp"/>
+        <property name="mp_" column="mp"/>
+        <property name="maxmp_" column="maxmp"/>
+        <property name="hpApUsed"/>
+        <property name="mpApUsed"/>
+        <property name="remainingAp" column="ap"/>
+        <property name="sp"/>
+        <property name="meso"/>
+        <property name="gm"/>
+        <property name="skincolor"/>
+        <property name="gender"/>
+        <property name="jobid" column="job"/>
+        <property name="beans"/>
+        <property name="merchantmesos" update="false"/>
+        <property name="charisma" />
+        <property name="sense" />
+        <property name="insight" />
+        <property name="volition" />
+        <property name="hands" />
+        <property name="charm" />
+        <property name="TDS_charisma" />
+        <property name="TDS_sense" />
+        <property name="TDS_insight" />
+        <property name="TDS_volition" />
+        <property name="TDS_hands" />
+        <property name="TDS_charm" />
+        <property name="pkLevel" />
+        <property name="battlePoint" />
+        <property name="battleExp" />
+        <property name="canTalk" column="cantalk" />
+        <property name="marryid" />
+        <property name="partnerid" />
+        <property name="partnerName" />
+        <property name="marriageQuestLevel" column="marriagequest"/>
+        <property name="zakumLvl"/>
+        <property name="hair" />
+        <property name="face" />
+        <property name="finishedDojoTutorial" />
+        <property name="dojoPoints" />
+        <property name="lastDojoStage"/>
+        <property name="vanquisherKills"/>
+        <property name="vanquisherStage"/>
+        <property name="accountid" update="false" />
+        <property name="mapId" column="map" />
+        <property name="initialSpawnPoint" column="spawnpoint"/>
+        <property name="world"/>
+        <property name="rank" />
+        <property name="rankMove" />
+        <property name="jobRank" />
+        <property name="jobRankMove" />
+        <property name="familyId" />
+        <property name="guildid"/>
+        <property name="guildrank"/>
+        <property name="alliancerank" />
+        <property name="Warning" />
+        <property name="buddyCapacity" />
+        <property name="autoHpPot" />
+        <property name="autoMpPot" />
+        <property name="bossPoints" column="bosspoints"/>
+        <property name="bossQuestRepeats" column="bossrepeats"/>
+        <property name="nextBQ" />
+        <property name="muted" />
+        <property name="playerNpc" column="playerNPC"/>
+        <property name="face_Adorn" column="face_Adorn"/>
+        <property name="Necklace_Expansion" column="necklace_expansion"/>
+        <property name="unmutetime"/>
+        <property name="PartyId" column="party" />
+        <property name="messenger_" column="messengerid"/>
+        <property name="MessengerPosition" column="messengerposition" />
+    </class>
+</hibernate-mapping>

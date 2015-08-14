@@ -29,6 +29,7 @@ public class Skill implements ISkill {
         this.id = id;
     }
 
+    @Override
     public int getId() {
         return id;
     }
@@ -41,6 +42,7 @@ public class Skill implements ISkill {
         this.name = name;
     }
 
+    @Override
     public MapleStatEffect getEffect(int level) {
         if (level > getMaxLevel()) {
             return this.effects.get(getMaxLevel() - 1);
@@ -48,10 +50,12 @@ public class Skill implements ISkill {
         return this.effects.get(Math.max(0, level - 1));
     }
 
+    @Override
     public int getMaxLevel() {
         return effects.size();
     }
 
+    @Override
     public boolean canBeLearnedBy(MapleJob job) {
         int jid = job.getId();
         int skillForJob = id / 10000;
@@ -67,14 +71,17 @@ public class Skill implements ISkill {
         return true;
     }
 
+    @Override
     public Element getElement() {
         return element;
     }
 
+    @Override
     public int getAnimationTime() {
         return animationTime;
     }
 
+    @Override
     public boolean isBeginnerSkill() {
         boolean output = false;
         String idString = String.valueOf(id);
@@ -84,6 +91,7 @@ public class Skill implements ISkill {
         return output;
     }
 
+    @Override
     public boolean hasCharge() {
         if (((infos.containsKey("knockbackLimit")
                 || infos.containsKey("chargingSkill")
@@ -97,6 +105,7 @@ public class Skill implements ISkill {
         //return charge;
     }
 
+    @Override
     public boolean getisCommon() {
         return isCommon;
     }
@@ -113,6 +122,7 @@ public class Skill implements ISkill {
         }
     }
 
+    @Override
     public boolean hasMastery() {
         return getMasterLevel() > 0 || IsSuper();
 
@@ -174,6 +184,7 @@ public class Skill implements ISkill {
         //   return false;
     }
 
+    @Override
     public int getMasterLevel() {
         switch (id) {
             //幽灵一击
@@ -243,6 +254,7 @@ public class Skill implements ISkill {
         return ((id / 10000) % 10) == 2;
     }
 
+    @Override
     public boolean isEvanFourthJob() {
         boolean flage = false;
         switch (id) {

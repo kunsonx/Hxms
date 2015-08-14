@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.MapleItemInventryType" table="wz_iit">
+        <id name="id" column="id" type="int">
+            <generator class="assigned"></generator>
+        </id>
+        <property name="typevalue" not-null="true"/>
+    </class>
+    <sql-query name="alliit">
+        <return alias="s" class="net.sf.odinms.server.MapleItemInventryType"/>
+       <![CDATA[
+       select {s.*}  from wz_iit s
+     ]]>
+    </sql-query>
+</hibernate-mapping>

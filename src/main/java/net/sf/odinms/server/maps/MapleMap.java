@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import net.sf.odinms.client.*;
 import net.sf.odinms.client.anticheat.CheatingOffense;
 import net.sf.odinms.client.messages.MessageCallback;
@@ -25,7 +24,6 @@ import net.sf.odinms.server.life.MapleNPC;
 import net.sf.odinms.server.life.SpawnPoint;
 import net.sf.odinms.tools.MaplePacketCreator;
 import net.sf.odinms.tools.Randomizer;
-
 import org.apache.log4j.Logger;
 
 public class MapleMap {
@@ -2424,7 +2422,7 @@ public class MapleMap {
     }
 
     public int playerCount() {
-        List<?> players = getMapObjectsInRange(new java.awt.Point(0, 0), (1.0D / 0.0D), Arrays.asList(new MapleMapObjectType[]{MapleMapObjectType.PLAYER}));
+        List players = getMapObjectsInRange(new java.awt.Point(0, 0), (1.0D / 0.0D), Arrays.asList(new MapleMapObjectType[]{MapleMapObjectType.PLAYER}));
         int count = players.size();
         return count;
     }
@@ -2448,7 +2446,7 @@ public class MapleMap {
     }
 
     public Collection<MapleCharacter> getNearestPvpChar(Point attacker, double maxRange, double maxHeight, Collection<MapleCharacter> chr) {
-        Collection<MapleCharacter> character = new LinkedList<MapleCharacter>();
+        Collection character = new LinkedList();
         for (MapleCharacter a : this.core.GetMapPlayers()) {
             if (chr.contains(a.getClient().getPlayer())) {
                 Point attackedPlayer = a.getPosition();

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.tools.test.MapleTest" table="mt">
+        <id name="id" type="long">
+            <generator class="net.sf.odinms.tools.MySql_Uuid_Short"></generator>
+        </id>
+        <bag name="macros" cascade="all-delete-orphan">
+            <key column="test_id" not-null="true"/>
+            <one-to-many class="net.sf.odinms.client.SkillMacro"/>
+        </bag>
+    </class>
+</hibernate-mapping>

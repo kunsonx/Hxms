@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ListIterator;
 import java.util.Stack;
-
 import net.sf.odinms.provider.wz.MapleDataType;
 
 public class MapleDataTool {
@@ -189,7 +188,7 @@ public class MapleDataTool {
           */
         public double getResult(){
                 String postfix = getPostfix();
-                Stack<String> stk  =new Stack<String>();
+                Stack stk  =new Stack();
                 //   log.debug(postfix);
                 String parts[] = postfix.split(" +");
                 double result = 0;
@@ -246,7 +245,7 @@ public class MapleDataTool {
           *   @returnthe   postfix   as   a   string
           */
         private   String   getPostfix()   {
-                Stack<String>   stk   =   new   Stack<String>();
+                Stack   stk   =   new   Stack();
                 String   postfix   =   new   String();
                 char   op;
                 int   i   =   0;
@@ -295,7 +294,7 @@ public class MapleDataTool {
                                 }
                         }
                 }
-                ListIterator<String>   it   =   stk.listIterator(stk.size());
+                ListIterator   it   =   stk.listIterator(stk.size());
                 while   (it.hasPrevious())
                         postfix   +=   it.previous()   +   " ";
                 return   postfix.trim().replaceAll( " +\\.",   ".");

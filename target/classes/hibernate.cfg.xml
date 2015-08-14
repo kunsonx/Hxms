@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <!-- Database connection settings -->
+    <property name="hibernate.connection.provider_class">
+            org.hibernate.connection.ProxoolConnectionProvider
+        </property>
+    <property name="hibernate.proxool.pool_alias">odinms</property>
+    <property name="hibernate.proxool.xml">/db.xml</property>
+    <!-- show_sql指定是否打印SQL语句 -->
+    <property name="show_sql">false</property>
+    <!-- 自动创建表选项 -->
+    <!-- property name="hbm2ddl.auto">update</property -->
+    <!-- SQL dialect -->
+    <property name="dialect">net.sf.odinms.tools.MyDialect</property>
+    <!-- 开启二级缓存 -->
+    <property name="hibernate.cache.use_second_level_cache">true</property>
+    <!-- 开启查询缓存 -->
+    <property name="hibernate.cache.use_query_cache">true</property>
+    <!-- 二级缓存区域名的前缀 -->
+    <property name="hibernate.cache.region_prefix">h3test</property>
+    <!-- 高速缓存提供程序 -->
+    <property name="hibernate.cache.region.factory_class">
+            org.hibernate.cache.ehcache.EhCacheRegionFactory
+        </property>
+    <!-- 指定缓存配置文件位置 -->
+    <property name="hibernate.cache.provider_configuration_file_resource_path">
+            ehcache.xml
+        </property>
+    <!-- 强制Hibernate以更人性化的格式将数据存入二级缓存 -->
+    <property name="hibernate.cache.use_structured_entries">true</property>
+    <!-- Hibernate将收集有助于性能调节的统计数据 -->
+    <property name="hibernate.generate_statistics">true</property>
+    <mapping resource="net/sf/odinms/server/CashItemInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/CashPackageInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/CashPackageList.hbm.xml"/>
+    <mapping resource="net/sf/odinms/client/Item.hbm.xml"/>
+    <mapping resource="net/sf/odinms/client/MapleCharacter.hbm.xml"/>
+    <mapping resource="net/sf/odinms/client/ItemOption.hbm.xml"/>
+    <mapping resource="net/sf/odinms/client/ItemOptionEffect.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/MapleItemInventryType.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleScriptedItemNpc.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleExpCardInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleExpCardListInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleItemSlotMax.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleItemMeso.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleItemWholePrice.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleItemType.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleItemPrice.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleEquipStats.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleEquipStatsInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleAndroidInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleAndroidInfoFace.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleAndroidInfoHair.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/life/MapleAndroid.hbm.xml"/>
+    <mapping resource="net/sf/odinms/client/skills/MapleSkillDatabaseInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/client/skills/MapleSkillDatabase.hbm.xml"/>
+    <mapping resource="net/sf/odinms/test/TestMain.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MapleNodeInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MyRectangle.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MaplePlatform.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MonsterPoint.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MobsToSpawn.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/GuardiansToSpawn.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MapleFlags.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/DirectionInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MapleNodes.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/MaplePortal.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MapleFoothold.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/life/MapleMonsterStats.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/life/MapleMonsterSkill.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/life/MapleNPCStats.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MapleMapCreateLifeInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/StateData.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MapleReactorStats.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MapleMapCreateReactorInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/maps/MapleMapInfo.hbm.xml"/>
+    <mapping resource="net/sf/odinms/client/MapleCharAttribute.hbm.xml"/>
+    <mapping resource="net/sf/odinms/server/ORM/MapleItemName.hbm.xml"/>
+    <!-- mapping resource="net/sf/odinms/test/hibernate/FarmModel.hbm.xml"/ -->
+    <class-cache class="net.sf.odinms.client.MapleCharAttribute" include="all" usage="read-write"/>
+    <collection-cache collection="net.sf.odinms.client.MapleCharAttribute.attribute" usage="read-write"/>
+  </session-factory>
+</hibernate-configuration>

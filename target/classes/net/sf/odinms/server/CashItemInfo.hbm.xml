@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.CashItemInfo" table="wz_commodity">
+        <id name="SN" column="SN">
+            <generator class="assigned"></generator>
+        </id>
+        <property name="itemId" not-null="true"/>
+        <property name="count" not-null="true"/>
+        <property name="price" not-null="true"/>
+        <property name="period" not-null="true"/>
+        <property name="gender" not-null="true"/>
+        <property name="onSale" not-null="true"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.maps.MaplePlatform" table="WZ_PLATFORM">
+        <id name="id">
+            <generator class="net.sf.odinms.tools.MySql_Uuid_Short"></generator>
+        </id>
+        <idbag name="SN" table="WZ_MAPLEPLATFORM_SN" cascade="all-delete-orphan">
+            <collection-id column="SN_id" type="long">
+                <generator class="net.sf.odinms.tools.MySql_Uuid_Short"></generator>
+            </collection-id>
+            <key column="f_id" foreign-key="id"/>
+            <element column="sn" type="int" not-null = "true"/>
+        </idbag>
+        <property name="name"/>
+        <property name="y2"/>
+        <property name="start"/>
+        <property name="speed"/>
+        <property name="x1"/>
+        <property name="y1"/>
+        <property name="x2"/>
+        <property name="r"/>
+    </class>
+</hibernate-mapping>

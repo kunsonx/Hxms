@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.client.ItemOption" table="wz_io">
+        <id name="id" column="id" type="int">
+            <generator class="assigned"></generator>
+        </id>
+        <property name="optionType" />
+        <property name="reqLevel" />
+        <property name="string"/>
+        <bag name="effects" table="wz_ioe" cascade="all">
+            <key column="o_id" not-null="true"/>
+            <one-to-many class="net.sf.odinms.client.ItemOptionEffect"/>
+        </bag>
+    </class>
+</hibernate-mapping>

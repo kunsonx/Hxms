@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.client.Item" table="i_s">
+        <id name="dbid">
+            <generator class="uuid.hex">
+                
+            </generator>
+        </id>
+        <property column="itemid" name="itemId"/>
+        <property name="position"/>
+        <property name="quantity"/>
+        <property name="owner"/>
+        <property name="sender"/>
+        <property name="message"/>
+        <property name="flag"/>
+        <property name="expiration"/>
+        <property name="uniqueid"/>
+        <joined-subclass name="net.sf.odinms.client.Equip" table="i_s_e">
+            <key column="dbid"/>
+            <property name="upgradeSlots"/>
+            <joined-subclass name="net.sf.odinms.client.MapleRing" table="i_s_e_r">
+                <key column="dbid"/>
+                <property name="partnerChrId"/>
+            </joined-subclass>
+        </joined-subclass>
+    </class>
+</hibernate-mapping>

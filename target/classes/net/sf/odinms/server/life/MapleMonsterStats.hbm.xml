@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.life.MapleMonsterStats" table="wz_monsterstats">
+        <id name="id">
+            <generator class="assigned"></generator>
+        </id>
+        <property name="exp" not-null="true"/>
+        <property name="hp" not-null="true"/>
+        <property name="mp" not-null="true"/>
+        <property name="level" not-null="true"/>
+        <property name="removeAfter" not-null="true"/>
+        <property name="dropPeriod" not-null="true"/>
+        <property name="boss" not-null="true"/>
+        <property name="undead" not-null="true"/>
+        <property name="ffaLoot" not-null="true"/>
+        <property name="name" not-null="true"/>
+        <map name="animationTimes" table="wz_monsterstats_animationtimes"  lazy="false">        
+            <key column="m_id" />  
+            <index column="a_key" type="java.lang.String"/>  
+            <element column="a_value" type="int" not-null="true"></element>
+        </map>  
+        <property name="resistance" not-null="true"/>
+        <idbag name="revives" table="wz_monsterstats_revives"  lazy="false">
+            <collection-id column="revives_id" type="long">
+                <generator class="net.sf.odinms.tools.MySql_Uuid_Short"></generator>
+            </collection-id>
+            <key column="id" />
+            <element column="revives_name" not-null="true" type="int"/>
+        </idbag>
+        <property name="tagColor" not-null="true"/>
+        <property name="tagBgColor" not-null="true"/>
+        <bag name="skills" table="wz_monsterskill" cascade="all" lazy="false" >
+            <key column="m_id" not-null="true"/>
+            <one-to-many class="net.sf.odinms.server.life.MapleMonsterSkill"/>
+        </bag>
+        <property name="firstAttack" not-null="true"/>
+        <property name="buffToGive" not-null="true"/>
+        <property name="explosive" not-null="true"/>
+        <component name="banish">
+            <property name="map"/>
+            <property name="portal"/>
+            <property name="msg"/>
+        </component>
+    </class>
+</hibernate-mapping>

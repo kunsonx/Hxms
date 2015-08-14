@@ -441,7 +441,7 @@ public final class MapleGuild implements java.io.Serializable {
                 if (list == null) {
                     servers = ChannelManager.getChannelServers(world);
                 }
-                Iterator<?> it = (servers != null ? servers.iterator() : list.getChannelDescriptors().iterator());
+                Iterator it = (servers != null ? servers.iterator() : list.getChannelDescriptors().iterator());
                 for (; it.hasNext();) {
                     Object next = it.next();
                     ChannelDescriptor descriptor = (next instanceof ChannelServer ? ((ChannelServer) next).getDescriptor() : (ChannelDescriptor) next);

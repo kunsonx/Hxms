@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.maps.MapleReactorStats" table="wz_reactorstats">
+        <id name="id">
+            <generator class="assigned"/>
+        </id>
+        <property name="tl"/>
+        <property name="br"/>
+        <map name="stateInfo" sort="unsorted" cascade="all-delete-orphan" lazy="false">
+            <key column="reactor_id" />
+            <index column="stateno" type="java.lang.Byte" />
+            <one-to-many class="net.sf.odinms.server.maps.MapleReactorStats$StateData" />
+        </map>
+    </class>
+</hibernate-mapping>

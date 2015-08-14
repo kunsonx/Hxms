@@ -26,10 +26,10 @@ public class MaplePlayerBuffManager {
 
         private MapleStatEffect effect;
         private long startTime;
-        private ScheduledFuture<?> scheduledFuture;
+        private ScheduledFuture scheduledFuture;
         private List<MapleBuffEffect> buffEffects;
 
-        public MapleBuff(MapleStatEffect effect, long startTime, ScheduledFuture<?> scheduledFuture) {
+        public MapleBuff(MapleStatEffect effect, long startTime, ScheduledFuture scheduledFuture) {
             this.effect = effect;
             this.startTime = startTime;
             this.scheduledFuture = scheduledFuture;
@@ -47,7 +47,7 @@ public class MaplePlayerBuffManager {
             return startTime;
         }
 
-        public ScheduledFuture<?> getScheduledFuture() {
+        public ScheduledFuture getScheduledFuture() {
             return scheduledFuture;
         }
 

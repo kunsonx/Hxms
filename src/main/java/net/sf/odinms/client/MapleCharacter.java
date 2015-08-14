@@ -12,7 +12,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 import net.sf.odinms.client.anticheat.CheatTracker;
 import net.sf.odinms.client.skills.*;
 import net.sf.odinms.database.DatabaseConnection;
@@ -44,7 +43,6 @@ import net.sf.odinms.tools.Guild.MapleGuild_Msg;
 import net.sf.odinms.tools.MaplePacketCreator;
 import net.sf.odinms.tools.Pair;
 import net.sf.odinms.tools.Randomizer;
-
 import org.apache.log4j.Logger;
 import org.hibernate.LockMode;
 import org.hibernate.Session;
@@ -207,7 +205,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements
     private long loggedInTimer = 0;
     private int currentPage = 0, currentType = 0, currentTab = 1;
     // private int energybar = 0;
-    ScheduledFuture<?> energyDecrease = null;
+    ScheduledFuture energyDecrease = null;
     private int hppot = 0;
     private int mppot = 0;
     private int bossPoints;
@@ -7336,7 +7334,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements
     }
 
     public void cancelSavedBuffs() {
-        Set<Long> keys = buffsToCancel.keySet();
+        Set keys = buffsToCancel.keySet();
         Object[] keysarray = keys.toArray();
         long key = 0;
         for (Object o : keysarray) {
@@ -7509,7 +7507,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject implements
         }
     }
 
-    public List<String> getBlockedPortals() {
+    public List getBlockedPortals() {
         return blockedPortals;
     }
 

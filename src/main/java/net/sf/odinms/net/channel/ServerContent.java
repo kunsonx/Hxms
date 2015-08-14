@@ -160,7 +160,7 @@ public class ServerContent extends javax.swing.JFrame {
                 false, false
             };
 
-            public Class<?> getColumnClass(int columnIndex) {
+            public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
 
@@ -361,7 +361,7 @@ public class ServerContent extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
 
-        DefaultListModel<ChannelDescriptor> model = (DefaultListModel<ChannelDescriptor>) list_servers.getModel();
+        DefaultListModel model = (DefaultListModel) list_servers.getModel();
         for (ChannelServer cs : ChannelManager.getAllChannelServers()) {
             model.addElement(cs.getDescriptor());
         }
@@ -398,7 +398,7 @@ public class ServerContent extends javax.swing.JFrame {
             return;
         }
 
-        ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel<ChannelDescriptor>) list_servers.getModel()).getElementAt(index);
+        ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers.getModel()).getElementAt(index);
         ChannelServer cs = ChannelManager.getChannelServer(descriptor);
         if (cs != null) {
             cs.setExpRate(exp);
@@ -424,7 +424,7 @@ public class ServerContent extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "请输入广播内容。", "错误.", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel<ChannelDescriptor>) list_servers.getModel()).getElementAt(index);
+        ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers.getModel()).getElementAt(index);
         ChannelServer cs = ChannelManager.getChannelServer(descriptor);
         if (cs != null) {
             cs.broadcastPacket(MaplePacketCreator.serverNotice(1, ":" + message));
@@ -447,7 +447,7 @@ public class ServerContent extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "请输入广播内容。", "错误.", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel<ChannelDescriptor>) list_servers.getModel()).getElementAt(index);
+        ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers.getModel()).getElementAt(index);
         ChannelServer cs = ChannelManager.getChannelServer(descriptor);
         if (cs != null) {
             try {
@@ -466,7 +466,7 @@ public class ServerContent extends javax.swing.JFrame {
         // TODO add your handling code here:
         int index = list_servers.getSelectedIndex();
         if (index != -1) {
-            ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel<ChannelDescriptor>) list_servers.getModel()).getElementAt(index);
+            ChannelDescriptor descriptor = (ChannelDescriptor) ((DefaultListModel) list_servers.getModel()).getElementAt(index);
             ChannelServer cs = ChannelManager.getChannelServer(descriptor);
             text_exprate.setText(new Integer(cs.getExpRate()).toString());
             text_mesorate.setText(new Integer(cs.getMesoRate()).toString());

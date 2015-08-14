@@ -144,7 +144,7 @@ public class ChannelServer extends GeneralServer implements Runnable, ChannelSer
             ServerExceptionHandler.HandlerException(e);
         }
 
-        SimpleIoProcessorPool<NioSession> simpleIoProcessorPool = new SimpleIoProcessorPool<NioSession>(NioProcessor.class, ExecutorService);
+        SimpleIoProcessorPool<NioSession> simpleIoProcessorPool = new SimpleIoProcessorPool(NioProcessor.class, ExecutorService);
         acceptor = new NioSocketAcceptor(ExecutorService, simpleIoProcessorPool);
         acceptor.getSessionConfig().setTcpNoDelay(true);
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new MapleCodecFactory()));
@@ -577,7 +577,7 @@ public class ChannelServer extends GeneralServer implements Runnable, ChannelSer
                 getMaxiNumPoolSize(GeneralServerType.CHANNEL),
                 2,
                 TimeUnit.MINUTES,
-                new SynchronousQueue<Runnable>(true),
+                new SynchronousQueue(true),
                 new ThreadFactory() {
             private final AtomicInteger threadNumber = new AtomicInteger(1);
 

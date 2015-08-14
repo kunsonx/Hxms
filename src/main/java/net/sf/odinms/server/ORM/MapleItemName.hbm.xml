@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.ORM.MapleItemName" table="wz_in">
+        <id name="id"  type="int">
+            <generator class="assigned"></generator>
+        </id>
+        <property name="name" not-null="true"/>
+    </class>
+</hibernate-mapping>

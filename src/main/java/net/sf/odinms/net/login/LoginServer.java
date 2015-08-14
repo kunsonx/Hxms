@@ -167,7 +167,7 @@ public class LoginServer extends GeneralServer implements Runnable, LoginServerM
         } catch (Exception e) {
             throw new RuntimeException("Could not connect to world server.", e);
         }
-        SimpleIoProcessorPool<NioSession> simpleIoProcessorPool = new SimpleIoProcessorPool<NioSession>(NioProcessor.class, ExecutorService);
+        SimpleIoProcessorPool<NioSession> simpleIoProcessorPool = new SimpleIoProcessorPool(NioProcessor.class, ExecutorService);
         acceptor = new NioSocketAcceptor(ExecutorService, simpleIoProcessorPool);
         acceptor.getSessionConfig().setTcpNoDelay(true);
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new MapleCodecFactory()));
@@ -222,7 +222,7 @@ public class LoginServer extends GeneralServer implements Runnable, LoginServerM
                     LoginServer.getInstance().getMaxiNumPoolSize(),
                     2,
                     TimeUnit.MINUTES,
-                    new SynchronousQueue<Runnable>(true),
+                    new SynchronousQueue(true),
                     new ThreadFactory() {
                 private final AtomicInteger threadNumber = new AtomicInteger(1);
 

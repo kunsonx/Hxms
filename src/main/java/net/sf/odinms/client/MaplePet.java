@@ -47,7 +47,7 @@ public class MaplePet extends Item {
     private Point pos;
     private int stance;
     private int slot = -1;
-    private ScheduledFuture<?> fullnessSchedule = null;
+    private ScheduledFuture fullnessSchedule = null;
     private int hunger = 0;
 
     private MaplePet(int id, short position, long uniqueid) {

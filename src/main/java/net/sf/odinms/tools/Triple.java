@@ -78,7 +78,7 @@ public class Triple<E, F, G> implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Triple<?, ?, ?> other = (Triple<?, ?, ?>) obj;
+        final Triple other = (Triple) obj;
         if (left == null) {
             if (other.left != null) {
                 return false;

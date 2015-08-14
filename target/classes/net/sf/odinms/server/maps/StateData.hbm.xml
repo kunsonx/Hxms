@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class  name="net.sf.odinms.server.maps.MapleReactorStats$StateData" table="wz_r_statedata">
+        <id name ="id">
+            <generator class="net.sf.odinms.tools.MySql_Uuid_Short"></generator>
+        </id>
+        <property name="type"/>
+        <property name="reactItems"/>
+        <property name="nextState"/>
+    </class>
+</hibernate-mapping>

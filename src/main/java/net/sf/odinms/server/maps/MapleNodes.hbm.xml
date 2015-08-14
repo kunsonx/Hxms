@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class  name="net.sf.odinms.server.maps.MapleNodes" table="WZ_NODES" lazy="false">
+        <id name="mapid">
+            <generator class="assigned"/>
+        </id>
+        <property name="nodeStart" not-null="true"/>
+        <property name="firstHighest" not-null="true"/>
+        <map name="nodes" sort="unsorted" cascade="all-delete-orphan">
+            <key column="node_id" />
+            <index column="indexno" type="java.lang.Integer" />
+            <one-to-many class="net.sf.odinms.server.maps.MapleNodeInfo" />
+        </map>
+        <bag name="areas" cascade="all-delete-orphan" >
+            <key column="mapid" />
+            <one-to-many class="net.sf.odinms.server.maps.MyRectangle" />
+        </bag>
+        <bag name="platforms" cascade="all-delete-orphan" >
+            <key column="mapid" />
+            <one-to-many class="net.sf.odinms.server.maps.MaplePlatform" />
+        </bag>
+        <idbag name="skillIds" table="WZ_MAPSKILLIDS" cascade="all-delete-orphan">
+            <collection-id column="skillId_id" type="long">
+                <generator class="net.sf.odinms.tools.MySql_Uuid_Short"></generator>
+            </collection-id>
+            <key column="id" />
+            <element column="skillId" type="int" not-null = "true"/>
+        </idbag>
+        <bag name="directionInfo" cascade="all-delete-orphan" >
+            <key column="mapid" />
+            <one-to-many class="net.sf.odinms.server.maps.DirectionInfo" />
+        </bag>
+        <bag name="monsterPoints" cascade="all-delete-orphan" >
+            <key column="mapid" />
+            <one-to-many class="net.sf.odinms.server.maps.MonsterPoint" />
+        </bag>
+        <bag name="mobsToSpawn" cascade="all-delete-orphan" >
+            <key column="mapid" />
+            <one-to-many class="net.sf.odinms.server.maps.MobsToSpawn" />
+        </bag>
+        <bag name="guardiansToSpawn" cascade="all-delete-orphan" >
+            <key column="mapid" />
+            <one-to-many class="net.sf.odinms.server.maps.GuardiansToSpawn" />
+        </bag>
+        <bag name="flags" cascade="all-delete-orphan" >
+            <key column="mapid" />
+            <one-to-many class="net.sf.odinms.server.maps.MapleFlags" />
+        </bag>
+    </class>
+</hibernate-mapping>

@@ -8,13 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpSession;
-
 import net.sf.odinms.client.LoginCrypto;
 import net.sf.odinms.client.LoginCryptoLegacy;
 import net.sf.odinms.database.DatabaseConnection;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -78,7 +75,7 @@ public class WebUser implements java.io.Serializable {
      *
      * @return 返回1 用户名或密码错误。 2表示账号被封 0 登录成功
      */
-    public String Login(Map<String, Object> session) {
+    public String Login(Map session) {
         String result = "1";
         try {
             Connection con = DatabaseConnection.getConnection();

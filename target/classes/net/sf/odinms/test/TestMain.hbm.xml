@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="net.sf.odinms.test.TestMain" table="tm">
+    <id name="id">
+      <generator class="net.sf.odinms.tools.MySql_Uuid_Short"/>
+    </id>
+    <idbag name="contacts" table="Contact">
+      <collection-id column="contact_id" type="long">
+        <generator class="net.sf.odinms.tools.MySql_Uuid_Short"/>
+      </collection-id>
+      <key column="id"/>
+      <element column="contact_name" not-null="true" type="string"/>
+    </idbag>
+  </class>
+</hibernate-mapping>

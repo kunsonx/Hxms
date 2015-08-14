@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.sf.odinms.server.maps.MapleMapInfo" table="wz_mapinfo" lazy="false">
+        <id name="mapid">
+            <generator class="assigned"></generator>
+        </id>
+        <property name="returnMapId"/>
+        <property name="timeMobId"/>
+        <property name="bossid"/>
+        <property name="partyBonusRate"/>
+        <property name="decHP"/>
+        <property name="HPDecProtect"/>
+        <property name="forcedReturnMap"/>
+        <property name="fl"/>
+        <property name="timeLimit"/>
+        <property name="fieldType"/>
+        
+        <property name="monsterRate"/>
+        <property name="FirstUserEnter"/>
+        <property name="UserEnter"/>
+        <property name="timeMobMessage"/>
+        <property name="msg"/>
+        
+        <bag name="portals" table="wz_portal" cascade="all"  lazy="false">
+            <key column="m_id" not-null="true"/>
+            <one-to-many class="net.sf.odinms.server.MaplePortal"/>
+        </bag>
+        
+        <bag name="allFootholds" table="wz_foothold" cascade="all"  lazy="false">
+            <key column="m_id" not-null="true"/>
+            <one-to-many class="net.sf.odinms.server.maps.MapleFoothold"/>
+        </bag>
+        
+        <property name="lBound"/>
+        <property name="uBound"/>
+        
+        <bag name="lifeInfos" table="wz_maplifeinfo" cascade="all"  lazy="false">
+            <key column="m_id" not-null="true"/>
+            <one-to-many class="net.sf.odinms.server.maps.MapleMapCreateLifeInfo"/>
+        </bag>
+        <bag name="reactorInfos" table="wz_mapreactorinfo" cascade="all"  lazy="false">
+            <key column="m_id" not-null="true"/>
+            <one-to-many class="net.sf.odinms.server.maps.MapleMapCreateReactorInfo"/>
+        </bag>
+        
+        <one-to-one name="nodes" class="net.sf.odinms.server.maps.MapleNodes" cascade="all"  lazy="false"/>  
+        
+        <property name="mapName"/>
+        <property name="streetName"/>
+        <property name="hasClock"/>
+        <property name="everlast"/>
+        <property name="isTown"/>
+        <property name="allowShops"/>
+        <property name="hasBoat"/>
+        
+    </class>
+</hibernate-mapping>

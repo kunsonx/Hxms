@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class dynamic-insert="false" dynamic-update="false" mutable="true" name="net.sf.odinms.server.maps.MyRectangle" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table = "WZ_RECTANGLE">
+        <id name ="id">
+            <generator class="net.sf.odinms.tools.MySql_Uuid_Short"></generator>
+        </id>
+        <property name="_X"/>
+        <property name="_Y"/>
+        <property name="_Width"/>
+        <property name="_Height"/>
+    </class>
+</hibernate-mapping>

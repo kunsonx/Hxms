@@ -18,9 +18,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Properties;
-
 import javax.swing.JTextArea;
-
 import net.sf.odinms.database.DatabaseConnection;
 
 public class InactiveAccountDeleterWindow extends javax.swing.JFrame {
@@ -364,13 +362,13 @@ public class InactiveAccountDeleterWindow extends javax.swing.JFrame {
             }
         });
     }
-    private javax.swing.JComboBox<Integer> Day;
+    private javax.swing.JComboBox Day;
     private javax.swing.JButton DeleteStart;
-    private javax.swing.JComboBox<Integer> Hour;
-    private javax.swing.JComboBox<Integer> Minute;
+    private javax.swing.JComboBox Hour;
+    private javax.swing.JComboBox Minute;
     private javax.swing.JComboBox Month;
-    private javax.swing.JComboBox<Integer> Second;
-    private javax.swing.JComboBox<Integer> Year;
+    private javax.swing.JComboBox Second;
+    private javax.swing.JComboBox Year;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -399,7 +397,7 @@ class TextAreaOutputStream extends OutputStream {
 
     private JTextArea textArea;
     private int maxLines;
-    private LinkedList<Integer> lineLengths;
+    private LinkedList lineLengths;
     private int curLength;
     private byte[] oneByte;
 
@@ -413,13 +411,13 @@ class TextAreaOutputStream extends OutputStream {
         }
         textArea = ta;
         maxLines = ml;
-        lineLengths = new LinkedList<Integer>();
+        lineLengths = new LinkedList();
         curLength = 0;
         oneByte = new byte[1];
     }
 
     public synchronized void clear() {
-        lineLengths = new LinkedList<Integer>();
+        lineLengths = new LinkedList();
         curLength = 0;
         textArea.setText("");
     }
